@@ -1,14 +1,17 @@
 import 'package:bureau_couple/data/repository/repo/matches_repo.dart';
+import 'package:bureau_couple/data/repository/repo/models/attributes_model.dart';
+import 'package:bureau_couple/data/repository/repo/models/basic_info_model.dart';
+import 'package:bureau_couple/data/repository/repo/models/career_info_model.dart';
+import 'package:bureau_couple/data/repository/repo/models/education_info_model.dart';
+import 'package:bureau_couple/data/repository/repo/models/images_model.dart';
+import 'package:bureau_couple/data/repository/repo/models/other_person_details_models.dart';
+import 'package:bureau_couple/data/repository/repo/models/preference_model.dart';
+import 'package:bureau_couple/data/repository/repo/models/profie_model.dart';
 import 'package:bureau_couple/data/repository/repo/profile_repo.dart';
 
-import 'package:bureau_couple/src/models/basic_info_model.dart';
-import 'package:bureau_couple/src/models/career_info_model.dart';
-import 'package:bureau_couple/src/models/education_info_model.dart';
-import 'package:bureau_couple/src/models/images_model.dart';
-import 'package:bureau_couple/src/models/other_person_details_models.dart';
+
 // import 'package:bureau_couple/src/models/other_person_details_models.dart';
-import 'package:bureau_couple/src/models/preference_model.dart';
-import 'package:bureau_couple/src/models/profie_model.dart';
+
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:get/get.dart';
 
@@ -207,11 +210,11 @@ class ProfileController extends GetxController implements GetxService {
     return _basicInfo;
   }
 
-  PhysicalAttr? _physicalAttributes;
-  PhysicalAttr? get physicalAttributes => _physicalAttributes;
+  PhysicalAttributes? _physicalAttributes;
+  PhysicalAttributes? get physicalAttributes => _physicalAttributes;
 
 
-  Future<PhysicalAttr?> getPhysicalAttributesApi() async {
+  Future<PhysicalAttributes?> getPhysicalAttributesApi() async {
     _isLoading = true;
     _physicalAttributes = null;
     update();
@@ -221,7 +224,7 @@ class ProfileController extends GetxController implements GetxService {
         var responseData = response.body['data']['user']['physical_attributes'];
 
         if (responseData != null) {
-          _physicalAttributes = PhysicalAttr.fromJson(responseData);
+          _physicalAttributes = PhysicalAttributes.fromJson(responseData);
         } else {
           print("Error: Basic info data is null");
           _isLoading = false;

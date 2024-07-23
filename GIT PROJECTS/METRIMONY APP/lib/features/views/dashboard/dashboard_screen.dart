@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:bureau_couple/controllers/auth_controller.dart';
 import 'package:bureau_couple/controllers/profile_controller.dart';
-import 'package:bureau_couple/src/views/home/connect/connections.dart';
 import 'package:bureau_couple/features/views/proflle/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bureau_couple/utils/assets.dart';
@@ -9,7 +8,7 @@ import 'package:bureau_couple/utils/dimensions.dart';
 import 'package:bureau_couple/utils/styles.dart';
 import 'package:bureau_couple/features/views/home/home_screen.dart';
 import 'package:get/get.dart';
-import '../../../src/views/home/matches/matches_screen.dart';
+import '../home/matches_screen.dart';
 
 bool isClick = false;
 class DashboardScreen extends StatefulWidget {
@@ -82,7 +81,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         body: [
           HomeScreen(),
           MatchesScreen(appbar: false,),
-          ConnectionScreen(),
+          // ConnectionScreen(),
           ProfileScreen()
         ][index],
         bottomNavigationBar: bottomBar(),
