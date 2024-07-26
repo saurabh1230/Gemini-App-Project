@@ -41,4 +41,14 @@ class AuthRepo {
     return sharedPreferences.getString(AppConstants.token) ?? "";
   }
 
+  Future<Response> logOutApi() async {
+    return await apiClient.postData(AppConstants.logOut,{});
+  }
+
+  Future<bool> clearSharedData() async {
+    await sharedPreferences.remove(AppConstants.token);
+    await sharedPreferences.remove(AppConstants.userAddress);
+    return true;
+  }
+
 }

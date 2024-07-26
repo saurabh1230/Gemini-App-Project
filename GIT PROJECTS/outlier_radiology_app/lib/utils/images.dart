@@ -9,4 +9,5 @@ class Images {
   static const String icDoubleArrowRight = 'assets/icons/ic_double_arror_right.png';
   static const String icDoubleArrowBack = 'assets/icons/ic_double_arrow_back.png';
   static const String placeholder = 'assets/images/placeholder.png';
+  static const String emptyDataImage = 'assets/images/img_empty_data.png';
 }

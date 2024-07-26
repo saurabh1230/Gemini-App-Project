@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:outlier_radiology_app/utils/dimensions.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:outlier_radiology_app/utils/images.dart';
 class CustomNetworkImageWidget extends StatelessWidget {
   final String image;
   final double? height;

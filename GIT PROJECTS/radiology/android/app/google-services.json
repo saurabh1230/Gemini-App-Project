@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "608770434427",
+    "project_id": "radiology-fef8b",
+    "storage_bucket": "radiology-fef8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608770434427:android:fb623b28e70792dd0509de",
+        "android_client_info": {
+          "package_name": "com.radiology.radiology"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "608770434427-vub54tmmalq3hbhci7ghpv9vd09ul0gc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.radiology.radiology",
+            "certificate_hash": "04a55dd4f4d4dda842069aec874203625d2d9e7f"
+          }
+        },
+        {
+          "client_id": "608770434427-i2mkkrausbgcl2avq75f0qkqlimsdo9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0hu-oVHGj3HEBuwlRjL9nt1t2JOVxfVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "608770434427-i2mkkrausbgcl2avq75f0qkqlimsdo9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

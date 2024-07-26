@@ -20,7 +20,7 @@ class NotesViewComponent extends StatelessWidget {
         children: [
           sizedBox10(),
           Text(title,
-          style: poppinsMedium.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).cardColor),),
+          style: poppinsBold.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).cardColor),),
           // sizedBox10(),
           // Row(crossAxisAlignment: CrossAxisAlignment.start,
           //   children: [
@@ -59,8 +59,12 @@ class NotesViewComponent extends StatelessWidget {
           // HtmlWidget(details,textStyle: nunitoSansLight,)
           // HtmlWidget(question,
           //   textStyle: poppinsRegular.copyWith(fontSize: Dimensions.fontSize14,color: Theme.of(context).cardColor),)
-          Text(removePTags(question.toString()),
-          style: poppinsRegular.copyWith(fontSize: Dimensions.fontSize14,color: Theme.of(context).cardColor),)
+          Expanded(
+            child: Text(removePTags(question.toString()),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 100,
+            style: poppinsRegular.copyWith(fontSize: Dimensions.fontSize12,color: Theme.of(context).cardColor),),
+          )
         ],
       ),
     );

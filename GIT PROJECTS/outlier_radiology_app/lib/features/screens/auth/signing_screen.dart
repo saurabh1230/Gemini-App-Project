@@ -71,7 +71,7 @@ class SignInScreen extends StatelessWidget {
                          }
                          return null;
                        },
-                      hintText: 'E-mail/Phone Number',
+                      hintText: 'E-mail',
                       prefixIcon: Icons.email,
                     ),
                     sizedBox12(),

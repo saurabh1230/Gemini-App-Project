@@ -5,6 +5,7 @@ import 'package:outlier_radiology_app/controllers/spotters_controller.dart';
 import 'package:outlier_radiology_app/features/screens/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:outlier_radiology_app/features/screens/spotters/components/spotters_content_section.dart';
+import 'package:outlier_radiology_app/features/widgets/custom_loading_widget.dart';
 import 'package:outlier_radiology_app/utils/dimensions.dart';
 import 'package:outlier_radiology_app/utils/sizeboxes.dart';
 import 'package:outlier_radiology_app/utils/styles.dart';
@@ -25,8 +26,8 @@ class SpottersScreen extends StatelessWidget {
       ),
         body:
           GetBuilder<SpottersController>(builder: (spottersControl) {
-        return  spottersControl.isSpottersLoading ?
-            const Center(child: CircularProgressIndicator()) :
+        return  spottersControl.isSpottersLoading  || spottersControl.spottersList == null ?
+            const Center(child: LoaderWidget()) :
           PageView.builder(
           scrollDirection: Axis.vertical,
           controller: spottersControl.pageController,

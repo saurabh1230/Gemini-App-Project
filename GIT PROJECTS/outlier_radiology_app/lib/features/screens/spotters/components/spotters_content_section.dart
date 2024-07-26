@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:outlier_radiology_app/features/widgets/custom_network_image_widget.dart';
+import 'package:outlier_radiology_app/utils/app_constants.dart';
 import 'package:outlier_radiology_app/utils/dimensions.dart';
 import 'package:outlier_radiology_app/utils/images.dart';
 import 'package:outlier_radiology_app/utils/sizeboxes.dart';
@@ -36,7 +38,7 @@ class SpotterContentWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius5)
             ),
-            child: Image.asset(spotterImg,fit: BoxFit.cover,),
+            child: CustomNetworkImageWidget(image: '${AppConstants.spottersImageUrl}${spotterImg}',)
           ),
           sizedBoxDefault(),
           Padding(

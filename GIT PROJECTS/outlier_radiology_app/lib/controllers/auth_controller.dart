@@ -24,6 +24,8 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
+
+
   Future<void> onBackPressed() {
     return Get.dialog(
       AlertDialog(
@@ -63,6 +65,10 @@ class AuthController extends GetxController implements GetxService {
     );
   }
 
+  bool isLoggedIn() {
+    return authRepo.isLoggedIn();
+  }
+
   ///################ Apis ########################
 
   bool _isLoading = false;
@@ -98,7 +104,7 @@ class AuthController extends GetxController implements GetxService {
   bool _isLoginLoading = false;
   bool get isLoginLoading => _isLoginLoading;
   Future<void> loginApi(username,password) async {
-    _isLoading = true;
+    _isLoginLoading = true;
     update();
 
     Response response = await authRepo.login(username, password);
@@ -106,7 +112,7 @@ class AuthController extends GetxController implements GetxService {
     if(response.statusCode == 200) {
       var responseData = response.body;
       if(responseData["status"]  == "error") {
-        _isLoading = false;
+        _isLoginLoading = false;
         update();
         return showCustomSnackBar('Login Failed Check Your Login Credentials', isError: true);
       } else {
@@ -114,19 +120,51 @@ class AuthController extends GetxController implements GetxService {
         Get.offAllNamed(RouteHelper.getHomeRoute());
       }
       showCustomSnackBar('Account Created Successfully', isError: false);
-      _isLoading = false;
+      _isLoginLoading = false;
       update();
     }else {
-
-      _isLoading = false;
+      _isLoginLoading = false;
       update();
     }
-    _isLoading = false;
+    _isLoginLoading = false;
     update();
   }
+
+  Future<void> logoutApi() async {
+    // _isLoginLoading = true;
+    update();
+    Response response = await authRepo.logOutApi();
+    if(response.statusCode == 200) {
+      var responseData = response.body;
+      if(responseData["status"]  == "ok") {
+        Get.offAllNamed(RouteHelper.getSignInRoute());
+        Get.delete();
+        // _isLoginLoading = false;
+        update();
+        return showCustomSnackBar('Logout Successfully', isError: false);
+      } else {
+        Get.offAllNamed(RouteHelper.getSignInRoute());
+      }
+      // showCustomSnackBar('Account Created Successfully', isError: false);
+      // _isLoginLoading = false;
+      update();
+    }else {
+      Get.offAllNamed(RouteHelper.getSignInRoute());
+      // _isLoginLoading = false;
+      update();
+    }
+    // _isLoginLoading = false;
+    update();
+  }
+
+
   String removePTags(String htmlString) {
     var document = htmlParser.parse(htmlString);
     return document.body!.text;
+  }
+
+  Future<bool> clearSharedData() async {
+    return await authRepo.clearSharedData();
   }
 
 }
