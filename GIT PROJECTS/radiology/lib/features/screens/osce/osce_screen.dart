@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:radiology/controllers/bookmark_controller.dart';
 import 'package:radiology/controllers/spotters_controller.dart';
+import 'package:radiology/data/repo/spotters_repo.dart';
 import 'package:radiology/features/screens/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:radiology/features/widgets/custom_loading_widget.dart';
@@ -21,6 +22,7 @@ class OsceScreen extends StatelessWidget {
   OsceScreen({super.key});
 
   final ScrollController scrollController = ScrollController();
+  final SpottersRepo spottersRp = Get.put(SpottersRepo(apiClient: Get.find()));
 
   @override
   Widget build(BuildContext context) {

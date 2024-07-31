@@ -50,7 +50,7 @@ class SavedNoteScreen extends StatelessWidget {
       final isListEmpty = spottersList == null || spottersList.isEmpty;
       return
         Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: Theme.of(context).cardColor,
             bottomNavigationBar: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
@@ -87,8 +87,8 @@ class SavedNoteScreen extends StatelessWidget {
               children: [
                 isListEmpty && !spottersControl.isSavedNotesLoading ? Padding(
                   padding: const EdgeInsets.only(top: Dimensions.paddingSize100),
-                  child: Center(child: EmptyDataWidget(image: Images.emptyDataImage,
-                    fontColor:  Theme.of(context).cardColor, text: 'No Saved Notes Yet',)),
+                  child: Center(child: EmptyDataWidget(image: Images.emptyDataBlackImage,
+                    fontColor:  Theme.of(context).disabledColor, text: 'No Saved Notes Yet',)),
                 ) :
                 // isListEmpty
                 //   ? const Center(child: LoaderWidget()) :

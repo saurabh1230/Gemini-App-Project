@@ -11,6 +11,7 @@ import 'package:radiology/utils/dimensions.dart';
 import 'package:radiology/utils/images.dart';
 import 'package:get/get.dart';
 import 'package:radiology/utils/sizeboxes.dart';
+import 'package:radiology/utils/strings.dart';
 import 'package:radiology/utils/styles.dart';
 class HomeScreen extends StatelessWidget {
    HomeScreen({super.key});
@@ -151,7 +152,7 @@ class HomeScreen extends StatelessWidget {
                           Lottie.asset('assets/images/osce.json', height: 200),
                           Positioned(
                             child: Text(
-                              'OSCE',
+                              AppStrings.osce,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w700, // Adjust according to your needs

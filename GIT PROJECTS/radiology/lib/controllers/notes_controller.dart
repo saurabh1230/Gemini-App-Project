@@ -262,4 +262,11 @@ class NotesController extends GetxController {
   currentIndex = index;
   update();
  }
+
+ Map<int, bool> expandedItems = {};
+
+ void toggleExpanded(int id) {
+  expandedItems[id] = !(expandedItems[id] ?? false);
+  update();
+ }
 }

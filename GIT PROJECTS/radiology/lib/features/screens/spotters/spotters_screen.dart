@@ -13,11 +13,14 @@ import 'package:radiology/utils/styles.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 import 'package:radiology/utils/themes/light_theme.dart';
 
+import '../../../data/repo/spotters_repo.dart';
+
 
 class SpottersScreen extends StatelessWidget {
   SpottersScreen({super.key});
 
   final ScrollController scrollController = ScrollController();
+  final SpottersRepo spottersRp = Get.put(SpottersRepo(apiClient: Get.find()));
 
   @override
   Widget build(BuildContext context) {
@@ -46,31 +49,31 @@ class SpottersScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
-      bottomNavigationBar: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Slide Right for next ',
-                    style: poppinsRegular.copyWith(
-                      fontSize: Dimensions.fontSize14,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  Image.asset(
-                    Images.icdoubleArrowRight,
-                    height: 18,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      // bottomNavigationBar: SingleChildScrollView(
+      //   child: Padding(
+      //     padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+      //     child: Column(
+      //       children: [
+      //         Row(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: [
+      //             Text(
+      //               'Slide Right for next ',
+      //               style: poppinsRegular.copyWith(
+      //                 fontSize: Dimensions.fontSize14,
+      //                 color: Theme.of(context).primaryColor,
+      //               ),
+      //             ),
+      //             Image.asset(
+      //               Images.icdoubleArrowRight,
+      //               height: 18,
+      //             ),
+      //           ],
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       appBar: const CustomAppBar(
         title: "Spotters",
         isBackButtonExist: true,
@@ -109,7 +112,7 @@ class SpottersScreen extends StatelessWidget {
                         categoryTitle: spottersList[index].title.toString(),
                         categoryContent: spottersList[index].content.toString(),
                         onBookMarkTap: () {
-                          isBookmarked ?
+                          isBookmarked  ?
                           bookmarkControl.removeFromBookMarkList(spottersList[index].id) :
                           bookmarkControl.addToSpotterList('',spottersList[index]);
                         },

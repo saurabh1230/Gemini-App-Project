@@ -31,6 +31,7 @@ class NotesDashboard extends StatelessWidget {
 
       return SafeArea(
         child: Scaffold(
+          backgroundColor: Theme.of(context).cardColor,
           appBar: CustomAppBar(
             title: categoryName ?? 'Notes',
             isBackButtonExist: true,
@@ -102,7 +103,8 @@ class NotesDashboard extends StatelessWidget {
                       vertical: Dimensions.paddingSize12,
                       horizontal: Dimensions.paddingSize8,
                     ),
-                    color: Theme.of(context).hintColor.withOpacity(0.60),
+                    color: Theme.of(context).canvasColor,
+                    // color: Theme.of(context).hintColor.withOpacity(0.60),
                     child: Row(
                       children: [
                         Text(
@@ -116,9 +118,10 @@ class NotesDashboard extends StatelessWidget {
                     ),
                   ),
                   isListEmpty && !noteControl.isCategoryNoteLoading
-                      ? const Padding(
-                    padding: EdgeInsets.only(top: Dimensions.paddingSize100),
-                    child: Center(child: EmptyDataWidget(text: 'No Notes Yet', image: Images.emptyDataImage,)),
+                      ?  Padding(
+                    padding: const EdgeInsets.only(top: Dimensions.paddingSize100),
+                    child: Center(child: EmptyDataWidget(text: 'No Notes Yet', image: Images.emptyDataBlackImage,
+                    fontColor: Theme.of(context).disabledColor,)),
                   )
                       : Expanded(
                     child: PageView.builder(
