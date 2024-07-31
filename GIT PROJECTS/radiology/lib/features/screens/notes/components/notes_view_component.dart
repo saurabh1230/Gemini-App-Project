@@ -8,6 +8,8 @@ import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
 import 'package:radiology/utils/themes/light_theme.dart';
 import 'package:html/parser.dart' as htmlParser;
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+
 class NotesViewComponent extends StatelessWidget {
   final String title;
   final String question;
@@ -25,8 +27,12 @@ class NotesViewComponent extends StatelessWidget {
             // sizedBox10(),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title,
-                style: poppinsBold.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).cardColor),),
+                Expanded(
+                  child: Text(title,
+                  // maxLines: 2,
+                  // overflow: TextOverflow.ellipsis,
+                  style: poppinsSemiBold.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).cardColor),),
+                ),
                 InkWell(
                   onTap: saveNote,
                   child: Container(
@@ -43,8 +49,14 @@ class NotesViewComponent extends StatelessWidget {
                 )
               ],
             ),
-            Text(removePTags(question.toString()),
-            style: poppinsRegular.copyWith(fontSize: Dimensions.fontSize12,color: Theme.of(context).cardColor),),
+            sizedBoxDefault(),
+            HtmlWidget(question,textStyle: poppinsRegular.copyWith(
+              fontSize: Dimensions.fontSize12,
+              fontWeight: FontWeight.w100,
+              color: Theme.of(context).cardColor,
+            ),),
+            // Text(removePTags(question.toString()),
+            // style: poppinsRegular.copyWith(fontSize: Dimensions.fontSize12,color: Theme.of(context).cardColor),),
             Align(alignment: Alignment.centerLeft,
               child: Text('Slide Right For More ....',
                 textAlign: TextAlign.left,

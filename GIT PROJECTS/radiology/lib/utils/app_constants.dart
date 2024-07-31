@@ -18,14 +18,18 @@ class AppConstants {
   static const String saveBookMarkUrl = 'spotters/change-bookmark-status';
   static const String bookMarkListUrl = 'spotters/get-bookmark';
   static const String savedNotesListUrl = 'note/get-note-bookmark';
+  static const String savedOsceListUrl = 'osce/get-osce-bookmark';
   static const String savedNoteUrl = 'note/change-note-bookmark-status';
+  static const String savedOsceUrl = 'osce/change-osce-bookmark';
   static const String userData= "user-data";
+  static const String osceUrl= "osce/list";
 
 
 
 
   /// Image Url ///
   static const String spottersImageUrl = 'https://lab2.invoidea.in/outlier/assets/admin/images/spotters/';
+  static const String osceImageUrl = 'https://lab2.invoidea.in/outlier/assets/admin/images/osce/';
 
 
 

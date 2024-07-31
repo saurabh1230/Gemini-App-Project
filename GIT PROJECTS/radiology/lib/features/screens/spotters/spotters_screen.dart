@@ -88,7 +88,7 @@ class SpottersScreen extends StatelessWidget {
                 ? const Center(child: LoaderWidget())
                 : LoopPageView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: spottersList!.length,
+              itemCount: spottersList.length,
               itemBuilder: (context, index) {
                 return GetBuilder<BookmarkController>(
                     builder: (bookmarkControl) {
@@ -111,11 +111,10 @@ class SpottersScreen extends StatelessWidget {
                         onBookMarkTap: () {
                           isBookmarked ?
                           bookmarkControl.removeFromBookMarkList(spottersList[index].id) :
-                          // bookmarkControl.addToSpotterList('',spottersList[index]) :
-                          // bookmarkControl.removeFromBookMarkList(int.parse(spottersList[index].id.toString())):
                           bookmarkControl.addToSpotterList('',spottersList[index]);
                         },
-                        bookmarkIconColor: isBookmarked
+                        bookmarkIconColor:
+                        isBookmarked || spottersList[index].bookmarkStatus == 1
                             ? Theme.of(context).cardColor
                             : Theme.of(context).cardColor.withOpacity(0.60),
                       );

@@ -110,8 +110,9 @@ class SavedNoteScreen extends StatelessWidget {
 
                               // bookmarkControl.addNoteBookMarkList('',spottersList[i]);
                             },
-                            saveNoteColor: isBookmarked ? Theme.of(context).cardColor
-                                : Theme.of(context).cardColor.withOpacity(0.60),
+                            saveNoteColor: /*isBookmarked ?
+                            */Theme.of(context).cardColor
+                                /*: Theme.of(context).cardColor.withOpacity(0.60)*/,
                           );
                         });
                   },

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:radiology/controllers/auth_controller.dart';
 import 'package:radiology/data/model/response/category_note_list_model.dart';
+import 'package:radiology/data/model/response/osce_model.dart';
 import 'package:radiology/data/model/response/spotters_list_model.dart';
 import 'package:radiology/data/repo/spotters_repo.dart';
 import 'package:radiology/features/widgets/custom_snackbar_widget.dart';
@@ -149,6 +150,36 @@ class BookmarkController extends GetxController implements GetxService {
   }
 
 
+  List<OsceModel?>? _osceBookmarkList = [];
+  List<OsceModel?>? get osceBookmarkList => _osceBookmarkList;
+
+  List<int?> _osceBookmarkIdList = [];
+  List<int?> get osceBookmarkIdList => _osceBookmarkIdList;
+
+
+  void addOsceBookmark(String? userId,OsceModel? osceModel) async {
+    Response response = await spottersRepo.saveOsce(Get.find<AuthController>().profileData!.id.toString(),osceModel!.id.toString(),);
+    if (response.statusCode == 200) {
+      _osceBookmarkList!.add(osceModel);
+      _osceBookmarkIdList.add(osceModel.id);
+      showCustomSnackBar('Osce Saved', isError: false);
+    }
+    update();
+  }
+
+  void removeOsceBookmark(int? id,) async {
+    Response response = await spottersRepo.saveOsce(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+    if (response.statusCode == 200) {
+      int idIndex = -1;
+      idIndex = _osceBookmarkIdList.indexOf(id);
+      _osceBookmarkIdList.removeAt(idIndex);
+      _osceBookmarkList!.removeAt(idIndex);
+      getSavedOscePaginatedList('1');
+      showCustomSnackBar('Osce Unsaved', isError: false);
+    }
+    update();
+  }
+
 
 
   bool _isSavedNotesLoading = false;
@@ -209,6 +240,63 @@ class BookmarkController extends GetxController implements GetxService {
     } catch (e) {
       print('Error fetching list: $e');
       _isSavedNotesLoading = false;
+      update();
+    }
+  }
+
+
+  bool _isSavedOsceLoading = false;
+
+  bool get isSavedOsceLoading => _isSavedOsceLoading;
+
+  List<OsceModel>? _savedOsceList;
+
+  List<OsceModel>? get savedOsceList => _savedOsceList;
+  Future<void> getSavedOscePaginatedList(String page) async {
+    _isSavedOsceLoading = true;
+    try {
+      if (page == '1') {
+        _pageList = []; // Reset page list for new search
+        _offset = 1;
+        _savedOsceList = []; // Reset product list for first page
+        update();
+      }
+
+      if (!_pageList.contains(page)) {
+        _pageList.add(page);
+
+        Response response = await spottersRepo.getOsceList(page,Get.find<AuthController>().profileData!.id.toString());
+
+        if (response.statusCode == 200) {
+          // Adjust the parsing to match the response structure
+          Map<String, dynamic> responseData = response.body['data']['list'];
+          List<dynamic> dataList = responseData['data'];
+          List<OsceModel> newDataList = dataList.map((json) =>
+              OsceModel.fromJson(json)).toList();
+
+          if (page == '1') {
+            // Reset product list for first page
+            _savedOsceList = newDataList;
+          } else {
+            // Append data for subsequent pages
+            _savedOsceList!.addAll(newDataList);
+          }
+
+          _isSavedOsceLoading = false;
+          update();
+        } else {
+          // ApiChecker.checkApi(response);
+        }
+      } else {
+        // Page already loaded or in process, handle loading state
+        if (_isSavedOsceLoading) {
+          _isSavedOsceLoading = false;
+          update();
+        }
+      }
+    } catch (e) {
+      print('Error fetching saved osce list: $e');
+      _isSavedOsceLoading = false;
       update();
     }
   }

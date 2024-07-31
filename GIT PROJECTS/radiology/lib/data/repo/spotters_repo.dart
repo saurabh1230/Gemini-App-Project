@@ -26,8 +26,14 @@ class SpottersRepo {
     return await apiClient.getData('${AppConstants.bookMarkListUrl}?page=$page&user_id=$userId');
   }
 
+
+
   Future<Response> getSavedNoteList(page,userId) async {
     return await apiClient.getData('${AppConstants.savedNotesListUrl}?page=$page&user_id=$userId');
+  }
+
+  Future<Response> getOsceList(page,userId) async {
+    return await apiClient.getData('${AppConstants.savedOsceListUrl}?page=$page&user_id=$userId');
   }
 
   Future<Response> saveNote(String? userId,String? noteId,) async {
@@ -37,5 +43,15 @@ class SpottersRepo {
   Future<Response> unSaveNote(String? id,) async {
     return await apiClient.postData(AppConstants.savedNoteUrl, {"id": id, "status" : '0'});
   }
+
+  Future<Response> getOscePaginatedList(page) {
+    return apiClient.getData('${AppConstants.osceUrl}?page=$page');
+  }
+
+  Future<Response> saveOsce(String? userId,String? osceId,) async {
+    return await apiClient.postData(AppConstants.savedOsceUrl, {"user_id": userId, "osce_id" : osceId});
+  }
+
+
 
 }

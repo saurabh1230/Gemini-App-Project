@@ -120,9 +120,9 @@ class BookmarkScreen extends StatelessWidget {
                             // Get.find<BookmarkController>().getSavedSpottersPaginatedList('1');
 
                           },
-                          bookmarkIconColor: isBookmarked
-                              ? Theme.of(context).cardColor
-                              : Theme.of(context).cardColor.withOpacity(0.60),
+                          bookmarkIconColor: /*isBookmarked
+                              ? */Theme.of(context).cardColor
+                             /* : Theme.of(context).cardColor.withOpacity(0.60),*/
                         );
                       });
                 },

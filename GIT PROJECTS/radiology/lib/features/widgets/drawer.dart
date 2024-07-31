@@ -56,6 +56,11 @@ class CustomDrawer extends StatelessWidget {
 
                         }),
                         Divider(color: Theme.of(context).cardColor,),
+                        buildContainer(context,"Saved OSCE",tap : () {
+                          Get.toNamed(RouteHelper.getSavedOsceScreen());
+
+                        }),
+                        Divider(color: Theme.of(context).cardColor,),
                         buildContainer(context,"Logout",tap : () {
                           Get.dialog(ConfirmationDialog(
                             icon: Images.icLogout,

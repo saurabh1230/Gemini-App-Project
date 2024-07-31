@@ -83,22 +83,75 @@ class HomeScreen extends StatelessWidget {
                     Text("Make a choice",style: poppinsRegular.copyWith(fontSize: Dimensions.fontSize14,
                         color: Theme.of(context).cardColor.withOpacity(0.50)),),
                     sizedBox40(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: (){
+                              Get.toNamed(RouteHelper.getSpottersRoute());
+                            },
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Lottie.asset('assets/images/Blue circle 2.json', height: 200),
+                                // Image.asset(
+                                //   Images.imgSpotter,
+                                //   height: 160,
+                                //   fit: BoxFit.cover,
+                                // ),
+                                Positioned(
+                                  child: Text(
+                                    'SPOTTERS',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w700, // Adjust according to your needs
+                                      fontSize: Dimensions.fontSizeDefault,
+                                      color: Theme.of(context).cardColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        sizedBox40(),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: (){
+                              Get.toNamed(RouteHelper.getNotesRoute());
+                            },
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Lottie.asset('assets/images/Green circle.json', height: 200),
+                                Positioned(
+                                  child: Text(
+                                    'NOTES',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w700, // Adjust according to your needs
+                                      fontSize: Dimensions.fontSizeDefault,
+                                      color: Theme.of(context).cardColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     GestureDetector(
                       onTap: (){
-                        Get.toNamed(RouteHelper.getSpottersRoute());
+                        Get.toNamed(RouteHelper.getOsceScreen());
                       },
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Lottie.asset('assets/images/Blue circle 2.json', height: 200),
-                          // Image.asset(
-                          //   Images.imgSpotter,
-                          //   height: 160,
-                          //   fit: BoxFit.cover,
-                          // ),
+                          Lottie.asset('assets/images/osce.json', height: 200),
                           Positioned(
                             child: Text(
-                              'SPOTTERS',
+                              'OSCE',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w700, // Adjust according to your needs
@@ -110,29 +163,7 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    sizedBox40(),
-                    GestureDetector(
-                      onTap: (){
-                        Get.toNamed(RouteHelper.getNotesRoute());
-                      },
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Lottie.asset('assets/images/Green circle.json', height: 200),
-                          Positioned(
-                            child: Text(
-                              'NOTES',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w700, // Adjust according to your needs
-                                fontSize: Dimensions.fontSizeDefault,
-                                color: Theme.of(context).cardColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const Spacer(),
                     Container(width: Get.size.width,
                         child: Image.asset(Images.homeBg,fit: BoxFit.cover,),)
 

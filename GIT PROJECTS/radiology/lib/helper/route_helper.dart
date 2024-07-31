@@ -4,9 +4,11 @@ import 'package:radiology/features/screens/auth/signing_screen.dart';
 import 'package:radiology/features/screens/auth/signup_screen.dart';
 import 'package:radiology/features/screens/bookmark/bookmark_screen.dart';
 import 'package:radiology/features/screens/bookmark/saved_notes_screen.dart';
+import 'package:radiology/features/screens/bookmark/saved_osce_screen.dart';
 import 'package:radiology/features/screens/home/home_screen.dart';
 import 'package:radiology/features/screens/notes/notes_pages_dashboard/notes_pages_dashboard.dart';
 import 'package:radiology/features/screens/notes/notes_screen.dart';
+import 'package:radiology/features/screens/osce/osce_screen.dart';
 import 'package:radiology/features/screens/splash/splash_screen.dart';
 import 'package:radiology/features/screens/spotters/spotters_category_screen.dart';
 import 'package:radiology/features/screens/spotters/spotters_details_screen.dart';
@@ -26,6 +28,8 @@ class RouteHelper {
   static const String spottersDetails = '/spotters-details';
   static const String bookmark = '/bookmark';
   static const String savedNoteScreen = '/saved-note-screen';
+  static const String osce = '/osce';
+  static const String savedOsce = '/saved-osce';
   // static const String spottersCategory = '/spotters-category';
 
 
@@ -42,6 +46,8 @@ class RouteHelper {
   static String getSpottersDetailsRoute(String? id,String? title,) => '$spottersDetails?spottersID=$id&title=$title';
   static String getBookmarkRoute() => bookmark;
   static String getSavedNoteScreen() => savedNoteScreen;
+  static String getOsceScreen() => osce;
+  static String getSavedOsceScreen() => savedOsce;
 
 
 
@@ -59,6 +65,8 @@ class RouteHelper {
     GetPage(name: spottersDetails, page: () =>  SpottersDetailsScreen(spottersId: Get.parameters['spottersID'],title:  Get.parameters['title'],)),
     GetPage(name: bookmark, page: () =>  BookmarkScreen()),
     GetPage(name: savedNoteScreen, page: () =>  SavedNoteScreen()),
+    GetPage(name: osce, page: () =>  OsceScreen()),
+    GetPage(name: savedOsce, page: () =>  SavedOsceScreen()),
 
 
 

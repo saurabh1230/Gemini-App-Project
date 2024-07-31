@@ -1,5 +1,6 @@
 
 import 'dart:ui';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class SpotterContentWidget extends StatelessWidget {
       //   ),
       // ),
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 0),
           child: Column(
@@ -76,10 +77,12 @@ class SpotterContentWidget extends StatelessWidget {
                       width: Get.size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(0),
+                        color: Theme.of(context).disabledColor,
                       ),
                       child: CustomNetworkImageWidget(
                         radius: 0,
                         image: '${AppConstants.spottersImageUrl}$spotterImg',
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   ),
@@ -113,33 +116,37 @@ class SpotterContentWidget extends StatelessWidget {
                           blurRadius: 8, spreadRadius: 8,
                         )],
                       ),
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "$categoryTitle : ",
-                                style: poppinsBold.copyWith(
-                                  fontSize: Dimensions.fontSizeDefault,
-                                  color: Theme.of(context).disabledColor,
-                                ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "$categoryTitle : ",
+                              style: poppinsBold.copyWith(
+                                fontSize: Dimensions.fontSizeDefault,
+                                color: Theme.of(context).disabledColor,
                               ),
-                              Text(
-                                removePTags(categoryContent),
-                                style: poppinsRegular.copyWith(
-                                  fontSize: Dimensions.fontSize12,
-                                  fontWeight: FontWeight.w100,
-                                  color: Theme.of(context).disabledColor,
-                                ),
-                              ),
-                              // sizedBox20(),
-                              Text('Slide Right For More ....',style: poppinsRegular.copyWith(fontSize: Dimensions.fontSize12,
-                              color: Theme.of(context).primaryColor),),
-                              const SizedBox(height: 500,),
-                            ],
-                          ),
+                            ),
+                            HtmlWidget(categoryContent,textStyle: poppinsRegular.copyWith(
+                              fontSize: Dimensions.fontSize12,
+                              fontWeight: FontWeight.w100,
+                              color: Theme.of(context).disabledColor,
+                            ),),
+
+                            // Text(
+                            //   removePTags(categoryContent),
+                            //   style: poppinsRegular.copyWith(
+                            //     fontSize: Dimensions.fontSize12,
+                            //     fontWeight: FontWeight.w100,
+                            //     color: Theme.of(context).disabledColor,
+                            //   ),
+                            // ),
+                            // sizedBox20(),
+                            Text('Slide Right For More ....',style: poppinsRegular.copyWith(fontSize: Dimensions.fontSize12,
+                            color: Theme.of(context).primaryColor),),
+                            // const SizedBox(height: 500,),
+                          ],
                         ),
                       ),
                     ),

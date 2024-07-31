@@ -5,6 +5,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get.dart';
 import 'package:radiology/data/model/response/note_list_model.dart';
+import 'package:radiology/data/model/response/osce_model.dart';
 import 'package:radiology/data/model/response/spotters_details_model.dart';
 import 'package:radiology/data/model/response/spotters_list_model.dart';
 import 'package:radiology/data/repo/spotters_repo.dart';
@@ -155,8 +156,59 @@ class SpottersController extends GetxController implements GetxService {
     update();
     return _spottersDetails;
   }
+  bool _isOsceLoading = false;
+  bool get isOsceLoading => _isOsceLoading;
 
+  List<OsceModel>? _osceList;
+  List<OsceModel>? get osceList => _osceList;
 
+  Future<void> getOscePaginatedList(String page) async {
+    _isOsceLoading = true;
+    try {
+      if (page == '1') {
+        _pageList = []; // Reset page list for new search
+        _offset = 1;
+        _osceList = []; // Reset product list for first page
+        update();
+      }
+
+      if (!_pageList.contains(page)) {
+        _pageList.add(page);
+
+        Response response = await spottersRepo.getOscePaginatedList(page);
+
+        if (response.statusCode == 200) {
+          // Adjust the parsing to match the response structure
+          Map<String, dynamic> responseData = response.body['data']['datalist'];
+          List<dynamic> dataList = responseData['data'];
+          List<OsceModel> newDataList = dataList.map((json) => OsceModel.fromJson(json)).toList();
+
+          if (page == '1') {
+            // Reset product list for first page
+            _osceList = newDataList;
+          } else {
+            // Append data for subsequent pages
+            _osceList!.addAll(newDataList);
+          }
+
+          _isOsceLoading = false;
+          update();
+        } else {
+          // ApiChecker.checkApi(response);
+        }
+      } else {
+        // Page already loaded or in process, handle loading state
+        if (_isOsceLoading) {
+          _isOsceLoading = false;
+          update();
+        }
+      }
+    } catch (e) {
+      print('Error fetching osce  list: $e');
+      _isOsceLoading = false;
+      update();
+    }
+  }
 
 
 

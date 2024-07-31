@@ -36,8 +36,8 @@ class NotesDashboard extends StatelessWidget {
             isBackButtonExist: true,
             backGroundColor: Colors.black,
           ),
-          bottomNavigationBar: isListEmpty
-              ? SizedBox.shrink()
+          bottomNavigationBar: isListEmpty|| noteControl.currentIndex == (noteList.length ?? 0) - 1
+              ? const SizedBox.shrink()
               : SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.all(Dimensions.paddingSize10),

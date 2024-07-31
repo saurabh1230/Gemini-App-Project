@@ -10,7 +10,6 @@ ThemeData light = ThemeData(
   hintColor:  const Color(0xff282D41).withOpacity(0.40),
   cardColor: Colors.white,
   canvasColor: const Color(0xff282D41),
-  backgroundColor: const Color(0xff1B1E27),
   scaffoldBackgroundColor: const Color(0xff1b1e27),
     checkboxTheme: CheckboxThemeData(
       checkColor: MaterialStateProperty.all(Colors.white),
@@ -21,7 +20,7 @@ ThemeData light = ThemeData(
           width: 1,
         ),
       )),
-  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: const Color(0xFF126E97))), colorScheme: const ColorScheme.light(primary: Color(0xFF126E97), secondary: Color(0xFF126E97)).copyWith(error: const Color(0xFF126E97)),
+  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: const Color(0xFF126E97))), colorScheme: const ColorScheme.light(primary: Color(0xFF126E97), secondary: Color(0xFF126E97)).copyWith(error: const Color(0xFF126E97)).copyWith(background: const Color(0xff1B1E27)),
 );
 
 const Color redColor = Color(0xffB43642);
