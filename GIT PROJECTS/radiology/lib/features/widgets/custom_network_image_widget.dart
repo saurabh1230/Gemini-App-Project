@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:radiology/utils/dimensions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:radiology/utils/images.dart';
+import 'package:shimmer/shimmer.dart';
 class CustomNetworkImageWidget extends StatelessWidget {
   final String image;
   final double? height;
@@ -23,8 +24,19 @@ class CustomNetworkImageWidget extends StatelessWidget {
       ),
       child: CachedNetworkImage(
         imageUrl: image, height: height, width: width, fit: fit,
-        placeholder: (context, url) => Image.asset(placeholder.isNotEmpty ? placeholder: Images.placeholder, fit: fit),
-        errorWidget: (context, url, error) => Image.asset(placeholder.isNotEmpty ? placeholder  : Images.placeholder, fit: fit),
+        placeholder: (context, url) => _buildShimmer(),
+        errorWidget: (context, url, error) => Image.asset(placeholder.isNotEmpty ? placeholder  : Images.placeholder,height: 120,width: 120,),
+      ),
+    );
+  }
+  Widget _buildShimmer() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        height: height ?? 200,
+        width: width ?? Get.size.width,
+        color: Colors.white,
       ),
     );
   }

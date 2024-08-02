@@ -154,6 +154,8 @@ class NotesController extends GetxController {
  List<NoteListModel>? _noteList;
  List<NoteListModel>? get noteList => _noteList;
 
+ RxInt currentPageIndex = 0.obs;
+
  Future<void> getNoteList() async {
   _isNoteLoading = true;
   update();
@@ -180,37 +182,99 @@ class NotesController extends GetxController {
  bool _isCategoryNoteLoading = false;
  bool get isCategoryNoteLoading => _isCategoryNoteLoading;
 
+ int _offset = 1;
+ int get offset => _offset;
+ List<String> _pageList = [];
+ int? _pageSize;
+ int? get pageSize => _pageSize;
+
+ void setOffset(int offset) {
+  _offset= offset;
+ }
+ void showBottomLoader () {
+  _isCategoryNoteLoading = true;
+  update();
+ }
  List<CategoryNoteListModel>? _categoryNoteList;
  List<CategoryNoteListModel>? get categoryNoteList => _categoryNoteList;
 
- Future<void> getCategoryNoteList(categoryId) async {
+
+ Future<void> getNotesPaginatedList(String page,String categoryId) async {
   _isCategoryNoteLoading = true;
-  _categoryNoteList = [];
-  _categoryNoteList = null;
-  update();
   try {
-   Response response = await noteRepo.getCategoryNoteList(categoryId);
-   if (response.statusCode == 200) {
-    var responseData = response.body;
-    if (responseData["status"] == "success") {
-     List<dynamic> responseData = response.body['data']['notes'];
-     _categoryNoteList = responseData.map((json) => CategoryNoteListModel.fromJson(json)).toList();
+   if (page == '1') {
+    _pageList = [];
+    _offset = 1;
+    _categoryNoteList = [];
+    update();
+   }
+
+   if (!_pageList.contains(page)) {
+    _pageList.add(page);
+
+    Response response = await noteRepo.getCategoryNoteList(page,categoryId);
+
+    if (response.statusCode == 200) {
+     // Adjust the parsing to match the response structure
+     Map<String, dynamic> responseData = response.body['data']['notes'];
+     List<dynamic> dataList = responseData['data'];
+     List<CategoryNoteListModel> newDataList = dataList.map((json) => CategoryNoteListModel.fromJson(json)).toList();
+
+     if (page == '1') {
+      // Reset product list for first page
+      _categoryNoteList = newDataList;
+     } else {
+      // Append data for subsequent pages
+      _categoryNoteList!.addAll(newDataList);
+     }
+
+     _isCategoryNoteLoading = false;
+     update();
     } else {
-     print("Error while fetching Note list: ");
+     // ApiChecker.checkApi(response);
     }
    } else {
-    print("Error while fetching Data Error list: ");
+    // Page already loaded or in process, handle loading state
+    if (_isCategoryNoteLoading) {
+     _isCategoryNoteLoading = false;
+     update();
+    }
    }
-  } catch (error) {
-   print("Error while fetching Note list: ");
+  } catch (e) {
+   print('Error Notes  list: $e');
+   _isCategoryNoteLoading = false;
+   update();
   }
-  _isCategoryNoteLoading = false;
-  currentIndex = 0;
-  if (pageController.hasClients) {
-   pageController.jumpToPage(0); // Reset to the first page
-  }
-  update();
  }
+
+ // Future<void> getCategoryNoteList(categoryId) async {
+ //  _isCategoryNoteLoading = true;
+ //  _categoryNoteList = [];
+ //  _categoryNoteList = null;
+ //  update();
+ //  try {
+ //   Response response = await noteRepo.getCategoryNoteList(categoryId);
+ //   if (response.statusCode == 200) {
+ //    var responseData = response.body;
+ //    if (responseData["status"] == "success") {
+ //     List<dynamic> responseData = response.body['data']['notes'];
+ //     _categoryNoteList = responseData.map((json) => CategoryNoteListModel.fromJson(json)).toList();
+ //    } else {
+ //     print("Error while fetching Note list: ");
+ //    }
+ //   } else {
+ //    print("Error while fetching Data Error list: ");
+ //   }
+ //  } catch (error) {
+ //   print("Error while fetching Note list: ");
+ //  }
+ //  _isCategoryNoteLoading = false;
+ //  currentIndex = 0;
+ //  if (pageController.hasClients) {
+ //   pageController.jumpToPage(0); // Reset to the first page
+ //  }
+ //  update();
+ // }
 
  List<String> notesCategory = ['PHYSICS','CNS','CVS','CHEST','GUT','GIT','HEPATOBILIARY','HEAD AND NECK','MSK','BREAST','RECENT ADVANCES'];
  List<Color> randomColors = [

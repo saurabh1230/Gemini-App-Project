@@ -51,33 +51,33 @@ class SavedNoteScreen extends StatelessWidget {
       return
         Scaffold(
             backgroundColor: Theme.of(context).cardColor,
-            bottomNavigationBar: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                child: Column(
-                  children: [
-                    isListEmpty && !spottersControl.isSavedNotesLoading ?
-                        const SizedBox() :
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Slide Right for next ',
-                          style: poppinsRegular.copyWith(
-                            fontSize: Dimensions.fontSize14,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                        Image.asset(
-                          Images.icdoubleArrowRight,
-                          height: 18,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // bottomNavigationBar: SingleChildScrollView(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+            //     child: Column(
+            //       children: [
+            //         isListEmpty && !spottersControl.isSavedNotesLoading ?
+            //             const SizedBox() :
+            //         Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Text(
+            //               'Slide Right for next ',
+            //               style: poppinsRegular.copyWith(
+            //                 fontSize: Dimensions.fontSize14,
+            //                 color: Theme.of(context).primaryColor,
+            //               ),
+            //             ),
+            //             Image.asset(
+            //               Images.icdoubleArrowRight,
+            //               height: 18,
+            //             ),
+            //           ],
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             appBar: const CustomAppBar(
               title: "Saved Notes",
               isBackButtonExist: true,

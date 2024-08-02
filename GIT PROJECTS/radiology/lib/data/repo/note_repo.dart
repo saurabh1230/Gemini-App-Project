@@ -10,8 +10,8 @@ class NoteRepo {
     return apiClient.getData(AppConstants.noteListUrl);
   }
 
-  Future<Response> getCategoryNoteList(categoryId) {
-    return apiClient.getData('${AppConstants.categoryNoteUrl}?category=$categoryId');
+  Future<Response> getCategoryNoteList(page,categoryId) {
+    return apiClient.getData('${AppConstants.categoryNoteUrl}?page=$page&category=$categoryId');
   }
 
   Future<Response> getSpottersList() {

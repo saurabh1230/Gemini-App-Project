@@ -14,8 +14,7 @@ import 'package:radiology/features/widgets/empty_data_widget.dart';
 import 'package:radiology/utils/app_constants.dart';
 import 'package:radiology/utils/dimensions.dart';
 import 'package:radiology/utils/images.dart';
-import 'package:radiology/utils/sizeboxes.dart';
-import 'package:radiology/utils/styles.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 
 class SavedOsceScreen extends StatelessWidget {
@@ -54,33 +53,33 @@ class SavedOsceScreen extends StatelessWidget {
       final isListEmpty = list == null || list.isEmpty;
       return Scaffold(
         backgroundColor: Theme.of(context).cardColor,
-        bottomNavigationBar: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-            child: Column(
-              children: [
-                isListEmpty && !spottersControl.isSavedSpottersLoading
-                    ? const SizedBox()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Slide Right for next ',
-                            style: poppinsRegular.copyWith(
-                              fontSize: Dimensions.fontSize14,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                          Image.asset(
-                            Images.icdoubleArrowRight,
-                            height: 18,
-                          ),
-                        ],
-                      ),
-              ],
-            ),
-          ),
-        ),
+        // bottomNavigationBar: SingleChildScrollView(
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+        //     child: Column(
+        //       children: [
+        //         isListEmpty && !spottersControl.isSavedSpottersLoading
+        //             ? const SizedBox()
+        //             : Row(
+        //                 mainAxisAlignment: MainAxisAlignment.center,
+        //                 children: [
+        //                   Text(
+        //                     'Slide Right for next ',
+        //                     style: poppinsRegular.copyWith(
+        //                       fontSize: Dimensions.fontSize14,
+        //                       color: Theme.of(context).primaryColor,
+        //                     ),
+        //                   ),
+        //                   Image.asset(
+        //                     Images.icdoubleArrowRight,
+        //                     height: 18,
+        //                   ),
+        //                 ],
+        //               ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
         appBar: const CustomAppBar(
           title: "Saved Osce",
           isBackButtonExist: true,
@@ -124,6 +123,14 @@ class SavedOsceScreen extends StatelessWidget {
                          questionCount: list[i].question?.length ?? 0,
                          questions: list[i].question!.map((q) => q.question.toString()).toList(),
                          answers: list[i].question!.map((q) => q.answer.toString()).toList(),
+                         imgClick: () { showImageViewer(
+                           context,
+                           Image.network(
+                             '${AppConstants.spottersImageUrl}${list[i].image}',
+                           ).image,
+                           swipeDismissible: true,
+                           doubleTapZoomable: true,
+                         ); },
                        );
                       });
                     },

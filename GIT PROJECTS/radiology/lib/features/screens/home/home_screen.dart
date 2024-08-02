@@ -165,7 +165,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Container(width: Get.size.width,
+                    SizedBox(width: Get.size.width,
                         child: Image.asset(Images.homeBg,fit: BoxFit.cover,),)
 
 

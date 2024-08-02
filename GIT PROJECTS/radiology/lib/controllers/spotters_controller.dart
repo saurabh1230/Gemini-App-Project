@@ -14,7 +14,7 @@ import 'package:radiology/features/widgets/custom_snackbar_widget.dart';
 class SpottersController extends GetxController implements GetxService {
   final SpottersRepo spottersRepo;
   SpottersController({required this.spottersRepo});
-
+  RxInt currentPageIndex = 0.obs;
   final pageController = PageController();
 
   void goToPage(int pageIndex) {
@@ -64,6 +64,8 @@ class SpottersController extends GetxController implements GetxService {
   //   update();
   // }
 
+  bool _isSpotterPageLoading = false;
+  bool get isSpotterPageLoading => _isSpotterPageLoading;
 
   void showBottomLoader () {
     _isSpottersLoading = true;
@@ -73,9 +75,9 @@ class SpottersController extends GetxController implements GetxService {
     _isSpottersLoading = true;
     try {
       if (page == '1') {
-        _pageList = []; // Reset page list for new search
+        _pageList = [];
         _offset = 1;
-        _spottersList = []; // Reset product list for first page
+        _spottersList = [];
         update();
       }
 

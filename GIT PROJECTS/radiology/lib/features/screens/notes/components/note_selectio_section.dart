@@ -12,16 +12,13 @@ class NotesSelectionSelection extends StatelessWidget {
   final Function() tap;
   final String title;
   final String colorString;
-  final String childColorString;
-  final NoteListModel? noteListModel;
+
 
   const NotesSelectionSelection({
     super.key,
     required this.tap,
     required this.title,
     required this.colorString,
-    this.noteListModel,
-    required this.childColorString,
   });
 
   Color _parseColor(String colorString) {
@@ -34,8 +31,8 @@ class NotesSelectionSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<NotesController>(builder: (noteControl) {
       final color = _parseColor(colorString);
-      final childColor = _parseColor(childColorString);
-      final isExpanded = noteControl.expandedItems[noteListModel!.id!] ?? false;
+
+      // final isExpanded = noteControl.expandedItems[noteListModel!.id!] ?? false;
 
       return Column(
         children: [
@@ -59,48 +56,45 @@ class NotesSelectionSelection extends StatelessWidget {
             ),
           ),
 
-          if (isExpanded && noteListModel!.child != null && noteListModel!.child!.isNotEmpty)
-            Column(
-              children: [
-                sizedBoxDefault(),
-                Container(
-                  // color: Theme.of(context).cardColor,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSize10),
-                    itemCount: noteListModel!.child!.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, i) {
-                      final child = noteListModel!.child![i];
-                      return InkWell(
-                        onTap: () {
-                          Get.toNamed(RouteHelper.getNotesDashboardRoute(
-                            noteListModel!.child![i].id.toString(),
-                            noteListModel!.child![i].name.toString(),
-                          ));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSize12,horizontal:Dimensions.paddingSize12),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(Dimensions.radius5),
-                          ),
-                          child: Center(
-                            child: Text(
-                              child.name.toString(),
-                              style: poppinsRegular.copyWith(
-                                fontSize: Dimensions.fontSize13,
-                                color: Theme.of(context).disabledColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    }, separatorBuilder: (BuildContext context, int index) => sizedBoxDefault(),
-                  ),
-                ),
-              ],
-            ),
+          // if (isExpanded && noteListModel!.child != null && noteListModel!.child!.isNotEmpty)
+          //   Column(
+          //     children: [
+          //       sizedBoxDefault(),
+          //       ListView.separated(
+          //         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSize10),
+          //         itemCount: noteListModel!.child!.length,
+          //         shrinkWrap: true,
+          //         physics: const NeverScrollableScrollPhysics(),
+          //         itemBuilder: (context, i) {
+          //           final child = noteListModel!.child![i];
+          //           return InkWell(
+          //             onTap: () {
+          //               Get.toNamed(RouteHelper.getNotesDashboardRoute(
+          //                 noteListModel!.child![i].id.toString(),
+          //                 noteListModel!.child![i].name.toString(),
+          //               ));
+          //             },
+          //             child: Container(
+          //               padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSize12,horizontal:Dimensions.paddingSize12),
+          //               decoration: BoxDecoration(
+          //                 color: Theme.of(context).cardColor,
+          //                 borderRadius: BorderRadius.circular(Dimensions.radius5),
+          //               ),
+          //               child: Center(
+          //                 child: Text(
+          //                   child.name.toString(),
+          //                   style: poppinsRegular.copyWith(
+          //                     fontSize: Dimensions.fontSize13,
+          //                     color: Theme.of(context).disabledColor,
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           );
+          //         }, separatorBuilder: (BuildContext context, int index) => sizedBoxDefault(),
+          //       ),
+          //     ],
+          //   ),
         ],
       );
     });

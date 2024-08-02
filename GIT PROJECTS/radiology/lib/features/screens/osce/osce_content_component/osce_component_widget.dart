@@ -5,6 +5,7 @@ import 'package:radiology/features/widgets/custom_network_image_widget.dart';
 import 'package:radiology/utils/dimensions.dart';
 import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
+import 'package:radiology/utils/themes/light_theme.dart';
 
 class OsceComponentWidget extends StatelessWidget {
   final String imageUrl;
@@ -14,6 +15,7 @@ class OsceComponentWidget extends StatelessWidget {
   final List<String> answers; // List of answers
   final Color bookmarkColor;
   final VoidCallback onBookmarkTap;
+  final VoidCallback imgClick;
 
   const OsceComponentWidget({
     Key? key,
@@ -23,7 +25,7 @@ class OsceComponentWidget extends StatelessWidget {
     required this.onBookmarkTap,
     required this.questionCount,
     required this.questions,
-    required this.answers,
+    required this.answers, required this.imgClick,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class OsceComponentWidget extends StatelessWidget {
           Stack(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: imgClick,
                 child: Container(
                   height: 400,
                   clipBehavior: Clip.hardEdge,
@@ -74,56 +76,78 @@ class OsceComponentWidget extends StatelessWidget {
                   ),
                 ),
                 sizedBox10(),
-                Text(
-                  "Questions: ",
-                  style: poppinsSemiBold.copyWith(
-                    fontSize: Dimensions.fontSizeDefault,
-                    color: Theme.of(context).primaryColor,
+                Container(
+                  padding: const EdgeInsets.all(Dimensions.radius10),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 0.5,color: Theme.of(context).disabledColor.withOpacity(0.60)),
+                    borderRadius: BorderRadius.circular(Dimensions.radius15)
+                  ),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Questions: ",
+                        style: poppinsSemiBold.copyWith(
+                          fontSize: Dimensions.fontSizeDefault,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      sizedBox10(),
+                      ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: questionCount,
+                        itemBuilder: (context, index) {
+                          return Text(
+                            questions[index],
+                            style: poppinsRegular.copyWith(
+                              fontSize: Dimensions.fontSize14,
+                              fontWeight: FontWeight.w100,
+                              color: Theme.of(context).disabledColor,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            sizedBox10(),
+                      ),
+                    ],
                   ),
                 ),
-                sizedBox10(),
-                ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: questionCount,
-                  itemBuilder: (context, index) {
-                    return Text(
-                      questions[index],
-                      style: poppinsRegular.copyWith(
-                        fontSize: Dimensions.fontSize14,
-                        fontWeight: FontWeight.w100,
-                        color: Theme.of(context).disabledColor,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      sizedBox10(),
-                ),
-                sizedBoxDefault(),
-                Text(
-                  "Answers: ",
-                  style: poppinsSemiBold.copyWith(
-                    fontSize: Dimensions.fontSizeDefault,
-                    color: Theme.of(context).primaryColor,
+                sizedBox40(),
+                Container(
+                  padding: const EdgeInsets.all(Dimensions.radius10),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5,color: Theme.of(context).disabledColor.withOpacity(0.60)),
+                      borderRadius: BorderRadius.circular(Dimensions.radius15)
                   ),
-                ),
-                sizedBox10(),
-                ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: questionCount,
-                  itemBuilder: (context, index) {
-                    return Text(
-                      answers[index],
-                      style: poppinsRegular.copyWith(
-                        fontSize: Dimensions.fontSize14,
-                        fontWeight: FontWeight.w100,
-                        color: Theme.of(context).disabledColor,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Answers: ",
+                        style: poppinsSemiBold.copyWith(
+                          fontSize: Dimensions.fontSizeDefault,
+                          color: greenColor,
+                        ),
                       ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
                       sizedBox10(),
+                      ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: questionCount,
+                        itemBuilder: (context, index) {
+                          return Text(
+                            answers[index],
+                            style: poppinsRegular.copyWith(
+                              fontSize: Dimensions.fontSize14,
+                              fontWeight: FontWeight.w100,
+                              color: Theme.of(context).disabledColor,
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            sizedBox10(),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
