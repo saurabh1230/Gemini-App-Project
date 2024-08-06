@@ -24,7 +24,6 @@ class SpottersDetailsScreen extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Get.find<SpottersController>().getSpottersDetailsApi(spottersId);
     });
-
     return Scaffold(
       appBar: CustomAppBar(
         title: title,
@@ -77,7 +76,6 @@ class SpottersDetailsScreen extends StatelessWidget {
                             ),
                             Text(
                               removePTags(spottersDetails.content.toString()),
-                              // overflow: TextOverflow.ellipsis,
                               style: poppinsRegular.copyWith(
                                 fontSize: Dimensions.fontSize12,
                                 fontWeight: FontWeight.w100,

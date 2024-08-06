@@ -30,130 +30,135 @@ class OsceComponentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InkWell(
-                onTap: imgClick,
-                child: Container(
-                  height: 400,
-                  clipBehavior: Clip.hardEdge,
-                  width: Get.size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                    color: Theme.of(context).disabledColor,
+              Stack(
+                children: [
+                  InkWell(
+                    onTap: imgClick,
+                    child: Container(
+                      height: 400,
+                      clipBehavior: Clip.hardEdge,
+                      width: Get.size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(0),
+                        color: Theme.of(context).disabledColor,
+                      ),
+                      child: CustomNetworkImageWidget(
+                        radius: 0,
+                        image: imageUrl,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
                   ),
-                  child: CustomNetworkImageWidget(
-                    radius: 0,
-                    image: imageUrl,
-                    fit: BoxFit.fitWidth,
+                  Positioned(
+                    top: 0,
+                    right: Dimensions.paddingSizeDefault,
+                    child: BookMarkButton(
+                      tap: onBookmarkTap,
+                      color: bookmarkColor,
+                    ),
                   ),
-                ),
+                ],
               ),
-              Positioned(
-                top: 0,
-                right: Dimensions.paddingSizeDefault,
-                child: BookMarkButton(
-                  tap: onBookmarkTap,
-                  color: bookmarkColor,
+              Padding(
+                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: poppinsBold.copyWith(
+                        fontSize: Dimensions.fontSize20,
+                        color: Theme.of(context).disabledColor,
+                      ),
+                    ),
+                    sizedBox10(),
+                    Container(
+                      padding: const EdgeInsets.all(Dimensions.radius10),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.5,color: Theme.of(context).disabledColor.withOpacity(0.60)),
+                          borderRadius: BorderRadius.circular(Dimensions.radius15)
+                      ),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Questions: ",
+                            style: poppinsSemiBold.copyWith(
+                              fontSize: Dimensions.fontSizeDefault,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          sizedBox10(),
+                          ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: questionCount,
+                            itemBuilder: (context, index) {
+                              return Text(
+                                questions[index],
+                                style: poppinsRegular.copyWith(
+                                  fontSize: Dimensions.fontSize14,
+                                  fontWeight: FontWeight.w100,
+                                  color: Theme.of(context).disabledColor,
+                                ),
+                              );
+                            },
+                            separatorBuilder: (BuildContext context, int index) =>
+                                sizedBox10(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    sizedBox40(),
+                    Container(
+                      padding: const EdgeInsets.all(Dimensions.radius10),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0.5,color: Theme.of(context).disabledColor.withOpacity(0.60)),
+                          borderRadius: BorderRadius.circular(Dimensions.radius15)
+                      ),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Answers: ",
+                            style: poppinsSemiBold.copyWith(
+                              fontSize: Dimensions.fontSizeDefault,
+                              color: greenColor,
+                            ),
+                          ),
+                          sizedBox10(),
+                          ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: questionCount,
+                            itemBuilder: (context, index) {
+                              return Text(
+                                answers[index],
+                                style: poppinsRegular.copyWith(
+                                  fontSize: Dimensions.fontSize14,
+                                  fontWeight: FontWeight.w100,
+                                  color: Theme.of(context).disabledColor,
+                                ),
+                              );
+                            },
+                            separatorBuilder: (BuildContext context, int index) =>
+                                sizedBox10(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: poppinsBold.copyWith(
-                    fontSize: Dimensions.fontSize20,
-                    color: Theme.of(context).disabledColor,
-                  ),
-                ),
-                sizedBox10(),
-                Container(
-                  padding: const EdgeInsets.all(Dimensions.radius10),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 0.5,color: Theme.of(context).disabledColor.withOpacity(0.60)),
-                    borderRadius: BorderRadius.circular(Dimensions.radius15)
-                  ),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Questions: ",
-                        style: poppinsSemiBold.copyWith(
-                          fontSize: Dimensions.fontSizeDefault,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                      sizedBox10(),
-                      ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: questionCount,
-                        itemBuilder: (context, index) {
-                          return Text(
-                            questions[index],
-                            style: poppinsRegular.copyWith(
-                              fontSize: Dimensions.fontSize14,
-                              fontWeight: FontWeight.w100,
-                              color: Theme.of(context).disabledColor,
-                            ),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            sizedBox10(),
-                      ),
-                    ],
-                  ),
-                ),
-                sizedBox40(),
-                Container(
-                  padding: const EdgeInsets.all(Dimensions.radius10),
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 0.5,color: Theme.of(context).disabledColor.withOpacity(0.60)),
-                      borderRadius: BorderRadius.circular(Dimensions.radius15)
-                  ),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Answers: ",
-                        style: poppinsSemiBold.copyWith(
-                          fontSize: Dimensions.fontSizeDefault,
-                          color: greenColor,
-                        ),
-                      ),
-                      sizedBox10(),
-                      ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: questionCount,
-                        itemBuilder: (context, index) {
-                          return Text(
-                            answers[index],
-                            style: poppinsRegular.copyWith(
-                              fontSize: Dimensions.fontSize14,
-                              fontWeight: FontWeight.w100,
-                              color: Theme.of(context).disabledColor,
-                            ),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            sizedBox10(),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
+
     );
   }
 }

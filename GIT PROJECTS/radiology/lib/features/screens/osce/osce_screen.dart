@@ -10,6 +10,7 @@ import 'package:radiology/utils/dimensions.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 import 'osce_content_component/osce_component_widget.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
+
 class OsceScreen extends StatelessWidget {
   OsceScreen({super.key});
 
@@ -37,6 +38,7 @@ class OsceScreen extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
+
       if (pageIndex == spottersController.osceList!.length - 1 &&
           !spottersController.isOsceLoading) {
         if (spottersController.offset < 10) { // Adjust your max page limit
@@ -52,11 +54,13 @@ class OsceScreen extends StatelessWidget {
     return GetBuilder<SpottersController>(builder: (spottersControl) {
       final list = spottersControl.osceList;
       final isListEmpty = list == null || list.isEmpty;
+      final isLoading = spottersControl.isOsceLoading; // Get loading state
+
       return SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).cardColor,
           appBar: const CustomAppBar(
-            title: "OSCE",
+            title: "ONCE",
             isBackButtonExist: true,
             backGroundColor: Colors.black,
           ),
@@ -110,44 +114,47 @@ class OsceScreen extends StatelessWidget {
           ),
           body: Stack(
             children: [
-              isListEmpty
-                  ? const Center(child: LoaderWidget())
-                  : LoopPageView.builder(
-                controller: _loopPageController,
-                scrollDirection: Axis.horizontal,
-                itemCount: list.length,
-                itemBuilder: (context, i) {
-                  return GetBuilder<BookmarkController>(
-                      builder: (bookmarkControl) {
-                        bool isBookmarked = bookmarkControl.osceBookmarkIdList.contains(list[i].id);
-                        return OsceComponentWidget(
-                          imageUrl: '${AppConstants.osceImageUrl}${list[i].image}',
-                          title: '${list[i].title}',
-                          bookmarkColor: isBookmarked
-                              ? Theme.of(context).cardColor
-                              : Theme.of(context).cardColor.withOpacity(0.60),
-                          onBookmarkTap: () {
-                            isBookmarked
-                                ? bookmarkControl.removeOsceBookmark(list[i].id)
-                                : bookmarkControl.addOsceBookmark('', list[i]);
-                          },
-                          questionCount: list[i].question?.length ?? 0,
-                          questions: list[i].question!.map((q) => q.question.toString()).toList(),
-                          answers: list[i].question!.map((q) => q.answer.toString()).toList(),
-                          imgClick: () {
-                            showImageViewer(
-                              context,
-                              Image.network(
-                                '${AppConstants.osceImageUrl}${list[i].image}',
-                              ).image,
-                              swipeDismissible: true,
-                              doubleTapZoomable: true,
-                            );
-                          },
-                        );
-                      });
-                },
-              ),
+              if (isListEmpty && !isLoading)
+                const Center(child: LoaderWidget())
+              else if (!isListEmpty)
+                LoopPageView.builder(
+                  controller: _loopPageController,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: list.length,
+                  itemBuilder: (context, i) {
+                    return GetBuilder<BookmarkController>(
+                        builder: (bookmarkControl) {
+                          bool isBookmarked = bookmarkControl.osceBookmarkIdList.contains(list[i].id);
+                          return OsceComponentWidget(
+                            imageUrl: '${AppConstants.osceImageUrl}${list[i].image}',
+                            title: '${list[i].title}',
+                            bookmarkColor: isBookmarked
+                                ? Theme.of(context).cardColor
+                                : Theme.of(context).cardColor.withOpacity(0.60),
+                            onBookmarkTap: () {
+                              isBookmarked
+                                  ? bookmarkControl.removeOsceBookmark(list[i].id)
+                                  : bookmarkControl.addOsceBookmark('', list[i]);
+                            },
+                            questionCount: list[i].question?.length ?? 0,
+                            questions: list[i].question!.map((q) => q.question.toString()).toList(),
+                            answers: list[i].question!.map((q) => q.answer.toString()).toList(),
+                            imgClick: () {
+                              showImageViewer(
+                                context,
+                                Image.network(
+                                  '${AppConstants.osceImageUrl}${list[i].image}',
+                                ).image,
+                                swipeDismissible: true,
+                                doubleTapZoomable: true,
+                              );
+                            },
+                          );
+                        });
+                  },
+                ),
+              if (isLoading)
+                const Center(child: LoaderWidget()),
             ],
           ),
         ),
@@ -155,4 +162,5 @@ class OsceScreen extends StatelessWidget {
     });
   }
 }
+
 
