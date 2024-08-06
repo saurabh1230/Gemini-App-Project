@@ -18,6 +18,10 @@ class NoteRepo {
     return apiClient.getData(AppConstants.spottersListUrl);
   }
 
+  Future<Response> readNoteStatus(String? pageNo,String? categoryId,) async {
+    return await apiClient.postData(AppConstants.readNoteStatus, {"read_note": pageNo, "category" : categoryId});
+  }
+
 
 
 }

@@ -24,6 +24,8 @@ class AuthRepo {
     return await apiClient.postData(AppConstants.login, {"username": username, "password" : password});
   }
 
+
+
   Future<Response> registerRepo(String? firstname,String? email,String? password,String? confirmPassword) async {
     return await apiClient.postData(AppConstants.register, {
       "firstname" :firstname,

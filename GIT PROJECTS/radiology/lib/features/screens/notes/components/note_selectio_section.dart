@@ -1,24 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:radiology/controllers/notes_controller.dart';
 import 'package:radiology/data/model/response/note_list_model.dart';
-import 'package:radiology/helper/route_helper.dart';
 import 'package:radiology/utils/dimensions.dart';
-import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
 import 'package:get/get.dart';
 
 class NotesSelectionSelection extends StatelessWidget {
   final Function() tap;
-  final String title;
-  final String colorString;
+  final NoteListModel? noteListModel;
 
 
   const NotesSelectionSelection({
     super.key,
     required this.tap,
-    required this.title,
-    required this.colorString,
+    this.noteListModel,
   });
 
   Color _parseColor(String colorString) {
@@ -30,10 +27,8 @@ class NotesSelectionSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NotesController>(builder: (noteControl) {
-      final color = _parseColor(colorString);
-
-      // final isExpanded = noteControl.expandedItems[noteListModel!.id!] ?? false;
-
+      final color = _parseColor(noteListModel!.color.toString());
+      print(noteListModel!.readnotes);
       return Column(
         children: [
           InkWell(
@@ -45,12 +40,24 @@ class NotesSelectionSelection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(Dimensions.radius5),
               ),
               child: Center(
-                child: Text(
-                  title,
-                  style: poppinsRegular.copyWith(
-                    fontSize: Dimensions.fontSize13,
-                    color: Theme.of(context).cardColor,
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      noteListModel!.name.toString(),
+                      // title,
+                      style: poppinsRegular.copyWith(
+                        fontSize: Dimensions.fontSize14,
+                        color: Theme.of(context).cardColor,
+                      ),
+                    ),
+                    Text(
+                      'Completed ${noteListModel!.readnotes} / ${noteListModel!.notesCount}',
+                      style: poppinsRegular.copyWith(
+                        fontSize: 8,
+                        color: Theme.of(context).cardColor,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -23,6 +23,7 @@ class AppConstants {
   static const String savedOsceUrl = 'osce/change-osce-bookmark';
   static const String userData= "user-data";
   static const String osceUrl= "osce/list";
+  static const String readNoteStatus= "note/read-status";
 
 
 

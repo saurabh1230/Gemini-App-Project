@@ -247,6 +247,13 @@ class NotesController extends GetxController {
   }
  }
 
+ void readNoteStatusApi(String pageNo, categoryID) async {
+  Response response = await noteRepo.readNoteStatus(pageNo, categoryID);
+  if (response.statusCode == 200) {
+  }
+  update();
+ }
+
  // Future<void> getCategoryNoteList(categoryId) async {
  //  _isCategoryNoteLoading = true;
  //  _categoryNoteList = [];
