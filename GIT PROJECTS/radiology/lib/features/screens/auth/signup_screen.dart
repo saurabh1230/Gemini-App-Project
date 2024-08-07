@@ -127,7 +127,9 @@ class SignUpScreen extends StatelessWidget {
                   },),
                 sizedBoxDefault(),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(RouteHelper.getSignInRoute());
+                  },
                   child: RichText(
                     text:  TextSpan(
                       children: [

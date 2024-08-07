@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +18,8 @@ import 'package:radiology/utils/dimensions.dart';
 class SpottersScreen extends StatelessWidget {
   SpottersScreen({super.key});
 
-  final LoopPageController _loopPageController = LoopPageController(initialPage: 0);
+  final LoopPageController _loopPageController =
+      LoopPageController(initialPage: 0);
   final SpottersRepo spottersRp = Get.put(SpottersRepo(apiClient: Get.find()));
   final ScrollController _scrollController = ScrollController();
 
@@ -31,9 +34,11 @@ class SpottersScreen extends StatelessWidget {
     Get.find<SpottersController>().setOffset(1);
 
     _loopPageController.addListener(() {
-      final SpottersController spottersController = Get.find<SpottersController>();
+      final SpottersController spottersController =
+          Get.find<SpottersController>();
       final pageIndex = _loopPageController.page.round();
-      spottersController.currentPageIndex.value = pageIndex; // Update the page index
+      spottersController.currentPageIndex.value =
+          pageIndex; // Update the page index
 
       _scrollController.animateTo(
         pageIndex * 50.0, // Adjust the value if the height of each item changes
@@ -43,7 +48,8 @@ class SpottersScreen extends StatelessWidget {
 
       if (pageIndex == spottersController.spottersList!.length - 1 &&
           !spottersController.isSpottersLoading) {
-        if (spottersController.offset < 20) { // Adjust your max page limit
+        if (spottersController.offset < 20) {
+          // Adjust your max page limit
           spottersController.setOffset(spottersController.offset + 1);
           spottersController.showBottomLoader();
           spottersController.getSpottersPaginatedList(
@@ -57,7 +63,6 @@ class SpottersScreen extends StatelessWidget {
       final spottersList = spottersControl.spottersList;
       final isListEmpty = spottersList == null || spottersList.isEmpty;
       final isLoading = spottersControl.isSpottersLoading;
-
       return SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).cardColor,
@@ -69,51 +74,57 @@ class SpottersScreen extends StatelessWidget {
           bottomNavigationBar: isListEmpty
               ? const SizedBox()
               : Container(
-            color: Theme.of(context).canvasColor,
-            height: 70, // Adjust height as needed
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Obx(() {
-                final pageIndex = Get.find<SpottersController>().currentPageIndex.value;
-                return ListView.builder(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: spottersList.length,
-                  itemBuilder: (context, index) {
-                    final isCurrentPage = index == pageIndex;
-                    return Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSize10),
-                        child: GestureDetector(
-                          onTap: () => _loopPageController.jumpToPage(index),
-                          child: Container(
-                            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
-                              color: isCurrentPage
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).canvasColor,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${index + 1}', // Page count (1-based index)
-                                style: TextStyle(
-                                  fontSize: 12.0, // Adjust font size as needed
-                                  color: isCurrentPage
-                                      ? Theme.of(context).cardColor
-                                      : Theme.of(context).cardColor,
+                  color: Theme.of(context).canvasColor,
+                  height: 70, // Adjust height as needed
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Obx(() {
+                      final pageIndex =
+                          Get.find<SpottersController>().currentPageIndex.value;
+                      return ListView.builder(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: spottersList.length,
+                        itemBuilder: (context, index) {
+                          final isCurrentPage = index == pageIndex;
+                          return Center(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimensions.paddingSize10),
+                              child: GestureDetector(
+                                onTap: () =>
+                                    _loopPageController.jumpToPage(index),
+                                child: Container(
+                                  padding: const EdgeInsets.all(
+                                      Dimensions.paddingSizeDefault),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.paddingSizeDefault),
+                                    color: isCurrentPage
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(context).canvasColor,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${index + 1}', // Page count (1-based index)
+                                      style: TextStyle(
+                                        fontSize:
+                                            12.0, // Adjust font size as needed
+                                        color: isCurrentPage
+                                            ? Theme.of(context).cardColor
+                                            : Theme.of(context).cardColor,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }),
-            ),
-          ),
+                          );
+                        },
+                      );
+                    }),
+                  ),
+                ),
           body: Stack(
             children: [
               if (isListEmpty)
@@ -141,14 +152,17 @@ class SpottersScreen extends StatelessWidget {
                           },
                           spotterImg: spottersList[index].image.toString(),
                           categoryTitle: spottersList[index].title.toString(),
-                          categoryContent: spottersList[index].content.toString(),
+                          categoryContent:
+                              spottersList[index].content.toString(),
                           onBookMarkTap: () {
                             isBookmarked
-                                ? bookmarkControl.removeFromBookMarkList(spottersList[index].id)
-                                : bookmarkControl.addToSpotterList('', spottersList[index]);
+                                ? bookmarkControl.removeFromBookMarkList(
+                                    spottersList[index].id)
+                                : bookmarkControl.addToSpotterList(
+                                    '', spottersList[index]);
                           },
                           bookmarkIconColor: isBookmarked ||
-                              spottersList[index].bookmarkStatus == 1
+                                  spottersList[index].bookmarkStatus == 1
                               ? Theme.of(context).cardColor
                               : Theme.of(context).cardColor.withOpacity(0.60),
                         );
@@ -156,8 +170,7 @@ class SpottersScreen extends StatelessWidget {
                     );
                   },
                 ),
-              if (isLoading)
-                const LoaderWidget(),
+              if (isLoading) const LoaderWidget(),
             ],
           ),
         ),

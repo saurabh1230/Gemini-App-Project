@@ -91,13 +91,16 @@ class NotesDashboard extends StatelessWidget {
           ),
           bottomNavigationBar: isListEmpty
               ? const SizedBox()
-              : Container(
+              : noteList.length <= 1 ?
+          const SizedBox():
+          Container(
             color: Theme.of(context).canvasColor,
             height: 70,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Obx(() {
                 final pageIndex = Get.find<NotesController>().currentPageIndex.value;
+
                 return ListView.builder(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,

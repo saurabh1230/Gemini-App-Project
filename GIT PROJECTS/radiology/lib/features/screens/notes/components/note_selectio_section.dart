@@ -1,3 +1,6 @@
+import 'dart:ui';
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,13 +12,16 @@ import 'package:get/get.dart';
 
 class NotesSelectionSelection extends StatelessWidget {
   final Function() tap;
-  final NoteListModel? noteListModel;
+  // final Child ? noteListModel;
+  final String title;
+  final String colorString;
+  final String topics;
 
 
   const NotesSelectionSelection({
     super.key,
-    required this.tap,
-    this.noteListModel,
+    required this.tap, required this.title, required this.colorString, required this.topics,
+    // this.noteListModel,
   });
 
   Color _parseColor(String colorString) {
@@ -27,8 +33,8 @@ class NotesSelectionSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NotesController>(builder: (noteControl) {
-      final color = _parseColor(noteListModel!.color.toString());
-      print(noteListModel!.readnotes);
+      final color = _parseColor(colorString.toString());
+      // print(noteListModel!.readnotes);
       return Column(
         children: [
           InkWell(
@@ -43,15 +49,16 @@ class NotesSelectionSelection extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      noteListModel!.name.toString(),
-                      // title,
+                      // noteListModel!.name.toString(),
+                      title,
                       style: poppinsRegular.copyWith(
                         fontSize: Dimensions.fontSize14,
                         color: Theme.of(context).cardColor,
                       ),
                     ),
                     Text(
-                      'Completed ${noteListModel!.readnotes} / ${noteListModel!.notesCount}',
+                      topics,
+                      // 'Completed ${noteListModel!.readnotes} / ${noteListModel!.notesCount}',
                       style: poppinsRegular.copyWith(
                         fontSize: 8,
                         color: Theme.of(context).cardColor,

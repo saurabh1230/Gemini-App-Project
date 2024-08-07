@@ -74,22 +74,23 @@ class _NotesScreenState extends State<NotesScreen> {
                           final note = noteControl.noteList![i];
                           return NotesSelectionSelection(
                             tap: () {
-                              Get.toNamed(RouteHelper.getNotesDashboardRoute(
-                                  noteControl.noteList![i].id.toString(),
-                                  noteControl.noteList![i].name.toString()));
-                              // Get.to(() => NotesSubCategoryScreen(noteListModel: note,
-                              //   // childName: note.child![i].name.toString(),
-                              //   // childColorString:note.child![i].color.toString(),
-                              // ));
+                              // Get.toNamed(RouteHelper.getNotesDashboardRoute(
+                              //     noteControl.noteList![i].id.toString(),
+                              //     noteControl.noteList![i].name.toString()));
+                              Get.to(() => NotesSubCategoryScreen(noteListModel: note,
+                                // childName: note.child![i].name.toString(),
+                                // childColorString:note.child![i].color.toString(),
+                              ));
 
 
 
                               // noteControl.toggleExpanded(note.id!);
                             },
-                            noteListModel:noteControl.noteList![i],
-                            // title: note.name.toString(),
-                            // colorString: note.color.toString(),
-
+                            // noteListModel:noteControl,
+                            // title: '', colorString: '',
+                            title: note.name.toString(),
+                            colorString: note.color.toString(),
+                            topics:'Topics ${ note.child!.length}',
                             // noteListModel: note,
                           );
                         },
