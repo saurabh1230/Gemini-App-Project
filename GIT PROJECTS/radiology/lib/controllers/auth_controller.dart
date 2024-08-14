@@ -304,7 +304,6 @@ class AuthController extends GetxController implements GetxService {
     } else {
 
     }
-
     _isLoading = false;
     update();
     return _profileData;

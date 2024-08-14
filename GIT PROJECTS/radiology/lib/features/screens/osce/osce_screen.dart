@@ -55,12 +55,11 @@ class OsceScreen extends StatelessWidget {
       final list = spottersControl.osceList;
       final isListEmpty = list == null || list.isEmpty;
       final isLoading = spottersControl.isOsceLoading; // Get loading state
-
       return SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).cardColor,
           appBar: const CustomAppBar(
-            title: "ONCE",
+            title: "OSCE",
             isBackButtonExist: true,
             backGroundColor: Colors.black,
           ),
