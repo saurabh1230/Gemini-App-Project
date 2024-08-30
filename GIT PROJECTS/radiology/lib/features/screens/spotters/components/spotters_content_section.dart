@@ -9,7 +9,7 @@ import 'package:radiology/features/widgets/custom_network_image_widget.dart';
 import 'package:radiology/utils/app_constants.dart';
 import 'package:radiology/utils/dimensions.dart';
 import 'package:radiology/utils/images.dart';
-import 'package:radiology/utils/sizeboxes.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:radiology/utils/styles.dart';
 
 class SpotterContentWidget extends StatelessWidget {
@@ -42,22 +42,40 @@ class SpotterContentWidget extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    InkWell(
-                      onTap: onTap,
-                      child: Container(
-                        height: 400,
-                        clipBehavior: Clip.hardEdge,
-                        width: Get.size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(0),
-                          color: Theme.of(context).disabledColor,
+                    Stack(
+                      children: [
+                        InkWell(
+                          onTap: onTap,
+                          child: Container(
+                            height: 400,
+                            clipBehavior: Clip.hardEdge,
+                            width: Get.size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(0),
+                              color: Theme.of(context).disabledColor,
+                            ),
+                            child: CustomNetworkImageWidget(
+                              radius: 0,
+                              image: '${AppConstants.spottersImageUrl}$spotterImg',
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
                         ),
-                        child: CustomNetworkImageWidget(
-                          radius: 0,
-                          image: '${AppConstants.spottersImageUrl}$spotterImg',
-                          fit: BoxFit.fitWidth,
+                        Positioned(
+                          bottom: Dimensions.paddingSizeDefault,
+                          right: Dimensions.paddingSizeDefault,
+                          child: IconButton(
+                            splashColor: Theme.of(context).cardColor,
+                            icon: Icon(
+                              CupertinoIcons.arrowshape_turn_up_right_fill,
+                              color: Theme.of(context).cardColor,
+                            ),
+                            onPressed: () {
+                              Share.share('Check out this content!'); // Replace with your content
+                            },
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     Positioned(
                       top: 0,
@@ -84,6 +102,8 @@ class SpotterContentWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+
+
                     Padding(
                       padding: const EdgeInsets.only(top: 400),
                       child: Padding(
@@ -118,6 +138,7 @@ class SpotterContentWidget extends StatelessWidget {
                         width: 120,
                       ),
                     ),
+
                   ],
                 ),
               ],

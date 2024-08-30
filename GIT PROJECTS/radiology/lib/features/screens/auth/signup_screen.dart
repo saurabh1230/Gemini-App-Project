@@ -81,7 +81,7 @@ class SignUpScreen extends StatelessWidget {
                                    return null;
                                  },
                    controller: _emailController,
-                   hintText: 'E-mail/Phone Number',
+                   hintText: 'E-mail',
                   prefixIcon: Icons.email,
 
                  ),

@@ -7,14 +7,14 @@ import 'package:get/get.dart';
 import 'package:radiology/features/widgets/custom_loading_widget.dart';
 import 'package:radiology/utils/app_constants.dart';
 import 'package:radiology/utils/dimensions.dart';
-import 'package:loop_page_view/loop_page_view.dart';
+import '../../../utils/styles.dart';
 import 'osce_content_component/osce_component_widget.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 
 class OsceScreen extends StatelessWidget {
   OsceScreen({super.key});
 
-  final LoopPageController _loopPageController = LoopPageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
   final SpottersRepo spottersRp = Get.put(SpottersRepo(apiClient: Get.find()));
   final ScrollController _scrollController = ScrollController();
 
@@ -28,13 +28,13 @@ class OsceScreen extends StatelessWidget {
 
     Get.find<SpottersController>().setOffset(1);
 
-    _loopPageController.addListener(() {
+    _pageController.addListener(() {
       final SpottersController spottersController = Get.find<SpottersController>();
-      final pageIndex = _loopPageController.page.round();
-      spottersController.currentPageIndex.value = pageIndex; // Update the page index
+      final pageIndex = _pageController.page?.round() ?? 0;
+      spottersController.currentPageIndex.value = pageIndex;
 
       _scrollController.animateTo(
-        pageIndex * 50.0, // Adjust the value if the height of each item changes
+        pageIndex * 50.0,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
@@ -58,10 +58,17 @@ class OsceScreen extends StatelessWidget {
       return SafeArea(
         child: Scaffold(
           backgroundColor: Theme.of(context).cardColor,
-          appBar: const CustomAppBar(
+          appBar:  CustomAppBar(
             title: "OSCE",
             isBackButtonExist: true,
             backGroundColor: Colors.black,
+            // menuWidget: Row(
+            //   children: [
+            //     TextButton(onPressed: () {}, child: Text('Report',style: poppinsSemiBold.copyWith(
+            //         fontSize: Dimensions.fontSize14,
+            //         color: Theme.of(context).cardColor),)),
+            //   ],
+            // ),
           ),
           bottomNavigationBar: isListEmpty
               ? const SizedBox()
@@ -82,7 +89,7 @@ class OsceScreen extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSize10),
                         child: GestureDetector(
-                          onTap: () => _loopPageController.jumpToPage(index),
+                          onTap: () => _pageController.jumpToPage(index),
                           child: Container(
                             padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                             decoration: BoxDecoration(
@@ -113,13 +120,25 @@ class OsceScreen extends StatelessWidget {
           ),
           body: Stack(
             children: [
-              if (isListEmpty && !isLoading)
-                const Center(child: LoaderWidget())
-              else if (!isListEmpty)
-                LoopPageView.builder(
-                  controller: _loopPageController,
+              if (isListEmpty)
+                const Center(child: LoaderWidget()),
+              GestureDetector(
+                onHorizontalDragUpdate: (details) {
+                  final SpottersController spottersController = Get.find<SpottersController>();
+                  final pageIndex = spottersController.currentPageIndex.value;
+
+                  if (details.primaryDelta! < 0) {
+                    // Swiping left
+                    if (pageIndex == 0) {
+                      // Prevent swipe if at the first page
+                      _pageController.jumpToPage(0);
+                    }
+                  }
+                },
+                child: PageView.builder(
+                  controller: _pageController,
                   scrollDirection: Axis.horizontal,
-                  itemCount: list.length,
+                  itemCount: list!.length,
                   itemBuilder: (context, i) {
                     return GetBuilder<BookmarkController>(
                         builder: (bookmarkControl) {
@@ -152,8 +171,8 @@ class OsceScreen extends StatelessWidget {
                         });
                   },
                 ),
-              if (isLoading)
-                const Center(child: LoaderWidget()),
+              ),
+              if (isLoading) const LoaderWidget(),
             ],
           ),
         ),
@@ -161,5 +180,3 @@ class OsceScreen extends StatelessWidget {
     });
   }
 }
-
-

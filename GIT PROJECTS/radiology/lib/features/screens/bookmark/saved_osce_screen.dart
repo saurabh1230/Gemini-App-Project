@@ -17,6 +17,8 @@ import 'package:radiology/utils/images.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 
+import '../../../utils/styles.dart';
+
 class SavedOsceScreen extends StatelessWidget {
   SavedOsceScreen({super.key});
 
@@ -53,37 +55,17 @@ class SavedOsceScreen extends StatelessWidget {
       final isListEmpty = list == null || list.isEmpty;
       return Scaffold(
         backgroundColor: Theme.of(context).cardColor,
-        // bottomNavigationBar: SingleChildScrollView(
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-        //     child: Column(
-        //       children: [
-        //         isListEmpty && !spottersControl.isSavedSpottersLoading
-        //             ? const SizedBox()
-        //             : Row(
-        //                 mainAxisAlignment: MainAxisAlignment.center,
-        //                 children: [
-        //                   Text(
-        //                     'Slide Right for next ',
-        //                     style: poppinsRegular.copyWith(
-        //                       fontSize: Dimensions.fontSize14,
-        //                       color: Theme.of(context).primaryColor,
-        //                     ),
-        //                   ),
-        //                   Image.asset(
-        //                     Images.icdoubleArrowRight,
-        //                     height: 18,
-        //                   ),
-        //                 ],
-        //               ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        appBar: const CustomAppBar(
-          title: "Saved Osce",
+        appBar:  CustomAppBar(
+          title: "Saved OSCE",
           isBackButtonExist: true,
           backGroundColor: Colors.black,
+          // menuWidget: Row(
+          //   children: [
+          //     TextButton(onPressed: () {}, child: Text('Report',style: poppinsSemiBold.copyWith(
+          //         fontSize: Dimensions.fontSize14,
+          //         color: Theme.of(context).cardColor),)),
+          //   ],
+          // ),
         ),
         body: Stack(
           children: [

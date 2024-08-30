@@ -6,7 +6,7 @@ import 'package:radiology/utils/dimensions.dart';
 import 'package:radiology/utils/images.dart';
 import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
-import 'package:radiology/utils/themes/light_theme.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:html/parser.dart' as htmlParser;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 

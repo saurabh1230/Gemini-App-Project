@@ -15,7 +15,7 @@ import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:share_plus/share_plus.dart';
 class NotesDashboard extends StatelessWidget {
   final String? categoryId;
   final String? categoryName;
@@ -83,11 +83,28 @@ class NotesDashboard extends StatelessWidget {
 
       return SafeArea(
         child: Scaffold(
+          floatingActionButton: IconButton(
+            splashColor: Theme.of(context).cardColor,
+            icon: Icon(
+              CupertinoIcons.arrowshape_turn_up_right_fill,
+              color: Theme.of(context).disabledColor,
+            ),
+            onPressed: () {
+              Share.share('Check out this content!'); // Replace with your content
+            },
+          ),
           backgroundColor: Theme.of(context).cardColor,
           appBar: CustomAppBar(
             title: categoryName ?? 'Notes',
             isBackButtonExist: true,
             backGroundColor: Colors.black,
+            // menuWidget: Row(
+            //   children: [
+            //     TextButton(onPressed: () {}, child: Text('Report',style: poppinsSemiBold.copyWith(
+            //         fontSize: Dimensions.fontSize14,
+            //         color: Theme.of(context).cardColor),),),
+            //   ],
+            // ),
           ),
           bottomNavigationBar: isListEmpty
               ? const SizedBox()
@@ -100,7 +117,6 @@ class NotesDashboard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Obx(() {
                 final pageIndex = Get.find<NotesController>().currentPageIndex.value;
-
                 return ListView.builder(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
@@ -164,6 +180,7 @@ class NotesDashboard extends StatelessWidget {
                             color: Theme.of(context).cardColor,
                           ),
                         ),
+
                       ],
                     ),
                   ),

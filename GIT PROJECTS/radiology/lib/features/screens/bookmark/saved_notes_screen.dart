@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:radiology/controllers/bookmark_controller.dart';
 import 'package:radiology/controllers/spotters_controller.dart';
@@ -13,7 +14,7 @@ import 'package:radiology/utils/app_constants.dart';
 import 'package:radiology/utils/dimensions.dart';
 import 'package:radiology/utils/images.dart';
 import 'package:radiology/utils/styles.dart';
-import 'package:loop_page_view/loop_page_view.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SavedNoteScreen extends StatelessWidget {
   SavedNoteScreen({super.key});
@@ -51,37 +52,27 @@ class SavedNoteScreen extends StatelessWidget {
       return
         Scaffold(
             backgroundColor: Theme.of(context).cardColor,
-            // bottomNavigationBar: SingleChildScrollView(
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-            //     child: Column(
-            //       children: [
-            //         isListEmpty && !spottersControl.isSavedNotesLoading ?
-            //             const SizedBox() :
-            //         Row(
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           children: [
-            //             Text(
-            //               'Slide Right for next ',
-            //               style: poppinsRegular.copyWith(
-            //                 fontSize: Dimensions.fontSize14,
-            //                 color: Theme.of(context).primaryColor,
-            //               ),
-            //             ),
-            //             Image.asset(
-            //               Images.icdoubleArrowRight,
-            //               height: 18,
-            //             ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            appBar: const CustomAppBar(
+            floatingActionButton: IconButton(
+              splashColor: Theme.of(context).cardColor,
+              icon: Icon(
+                CupertinoIcons.arrowshape_turn_up_right_fill,
+                color: Theme.of(context).disabledColor,
+              ),
+              onPressed: () {
+                Share.share('Check out this content!'); // Replace with your content
+              },
+            ),
+            appBar:  CustomAppBar(
               title: "Saved Notes",
               isBackButtonExist: true,
               backGroundColor: Colors.black,
+              // menuWidget: Row(
+              //   children: [
+              //     TextButton(onPressed: () {}, child: Text('Report',style: poppinsSemiBold.copyWith(
+              //         fontSize: Dimensions.fontSize14,
+              //         color: Theme.of(context).cardColor),)),
+              //   ],
+              // ),
             ),
             body:  Stack(
               children: [

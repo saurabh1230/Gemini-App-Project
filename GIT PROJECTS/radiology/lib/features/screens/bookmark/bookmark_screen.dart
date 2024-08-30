@@ -76,10 +76,17 @@ class BookmarkScreen extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          appBar: const CustomAppBar(
+          appBar:  CustomAppBar(
             title: "Saved Spotters",
             isBackButtonExist: true,
             backGroundColor: Colors.black,
+            // menuWidget: Row(
+            //   children: [
+            //     TextButton(onPressed: () {}, child: Text('Report',style: poppinsSemiBold.copyWith(
+            //         fontSize: Dimensions.fontSize14,
+            //         color: Theme.of(context).cardColor),)),
+            //   ],
+            // ),
           ),
           body: Stack(
             children: [

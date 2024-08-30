@@ -17,4 +17,5 @@ class Images {
   static const String icOutlierTag = 'assets/icons/dr_outlier_tag.png';
   static const String icMenuIcon = 'assets/images/menu.png';
   static const String icRoundBookmarkBg = 'assets/images/ic_round-bookmark.png';
+  static const String icShare = 'assets/icons/ic_share.png';
 }

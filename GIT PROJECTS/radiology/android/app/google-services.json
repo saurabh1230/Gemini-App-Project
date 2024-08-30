@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "608770434427-vub54tmmalq3hbhci7ghpv9vd09ul0gc.apps.googleusercontent.com",
+          "client_id": "608770434427-pqkrvq4m83vd8r2bn71ncgm67ddhlq6a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.radiology.radiology",
-            "certificate_hash": "04a55dd4f4d4dda842069aec874203625d2d9e7f"
+            "certificate_hash": "254dfe0fb6aef784741738865f8fed69ba114aef"
           }
         },
         {

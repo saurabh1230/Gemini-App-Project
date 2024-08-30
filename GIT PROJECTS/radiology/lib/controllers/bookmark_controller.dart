@@ -5,7 +5,7 @@ import 'package:radiology/data/model/response/osce_model.dart';
 import 'package:radiology/data/model/response/spotters_list_model.dart';
 import 'package:radiology/data/repo/spotters_repo.dart';
 import 'package:radiology/features/widgets/custom_snackbar_widget.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class BookmarkController extends GetxController implements GetxService {
   final SpottersRepo spottersRepo;
 
@@ -20,6 +20,30 @@ class BookmarkController extends GetxController implements GetxService {
 
   List<int?> get bookmarkIdList => _bookmarkIdList;
 
+  @override
+  void onInit() {
+    super.onInit();
+    _loadBookmarks();
+    _loadNoteBookmarks();
+    _loadOsceBookmarks();
+  }
+
+  Future<void> _saveBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Convert List<int?> to List<String> for saving
+    List<String> bookmarkIds = _bookmarkIdList.where((id) => id != null).map((id) => id!.toString()).toList();
+    await prefs.setStringList('bookmarked_property_ids', bookmarkIds);
+  }
+
+  Future<void> _loadBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedIds = prefs.getStringList('bookmarked_property_ids');
+    if (savedIds != null) {
+      // Convert List<String> back to List<int?>
+      _bookmarkIdList = savedIds.map((id) => int.tryParse(id)).toList();
+    }
+    update();
+  }
   void addToSpotterList(String? userId,SpottersListModel? spottersListModel) async {
     Response response = await spottersRepo.saveSpotter(Get.find<AuthController>().profileData!.id.toString(),
         spottersListModel!.id.toString());
@@ -27,6 +51,7 @@ class BookmarkController extends GetxController implements GetxService {
       _bookmarkList!.add(spottersListModel);
       _bookmarkIdList.add(spottersListModel.id);
       showCustomSnackBar('Spotter Saved', isError: false);
+      await _saveBookmarks();
     }
     update();
   }
@@ -40,6 +65,7 @@ class BookmarkController extends GetxController implements GetxService {
       _bookmarkList!.removeAt(idIndex);
       getSavedSpottersPaginatedList('1');
       showCustomSnackBar('Spotter Unsaved', isError: false);
+      await _saveBookmarks();
     }
     update();
   }
@@ -126,12 +152,31 @@ class BookmarkController extends GetxController implements GetxService {
   List<int?> _bookmarkNoteIdList = [];
   List<int?> get bookmarkNoteIdList => _bookmarkNoteIdList;
 
+
+  Future<void> _saveNoteBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Convert List<int?> to List<String> for saving
+    List<String> bookmarkIds = _bookmarkNoteIdList.where((id) => id != null).map((id) => id!.toString()).toList();
+    await prefs.setStringList('bookmarked_note_ids', bookmarkIds);
+  }
+
+  Future<void> _loadNoteBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedIds = prefs.getStringList('bookmarked_note_ids');
+    if (savedIds != null) {
+      // Convert List<String> back to List<int?>
+      _bookmarkNoteIdList = savedIds.map((id) => int.tryParse(id)).toList();
+    }
+    update();
+  }
+
   void addNoteBookMarkList(String? userId,CategoryNoteListModel? notesListModel) async {
     Response response = await spottersRepo.saveNote(Get.find<AuthController>().profileData!.id.toString(),notesListModel!.id.toString(),);
     if (response.statusCode == 200) {
       _bookmarkNoteList!.add(notesListModel);
       _bookmarkNoteIdList.add(notesListModel.id);
       showCustomSnackBar('Note Saved', isError: false);
+      await _saveNoteBookmarks();
     }
     update();
   }
@@ -145,6 +190,7 @@ class BookmarkController extends GetxController implements GetxService {
       _bookmarkNoteList!.removeAt(idIndex);
       getSavedNotesPaginatedList('1');
       showCustomSnackBar('Note Unsaved', isError: false);
+      await _saveNoteBookmarks();
     }
     update();
   }
@@ -156,6 +202,23 @@ class BookmarkController extends GetxController implements GetxService {
   List<int?> _osceBookmarkIdList = [];
   List<int?> get osceBookmarkIdList => _osceBookmarkIdList;
 
+  Future<void> _saveOsceBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Convert List<int?> to List<String> for saving
+    List<String> bookmarkIds = _osceBookmarkIdList.where((id) => id != null).map((id) => id!.toString()).toList();
+    await prefs.setStringList('bookmarked_property_ids', bookmarkIds);
+  }
+
+  Future<void> _loadOsceBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedIds = prefs.getStringList('bookmarked_property_ids');
+    if (savedIds != null) {
+      // Convert List<String> back to List<int?>
+      _osceBookmarkIdList = savedIds.map((id) => int.tryParse(id)).toList();
+    }
+    update();
+  }
+
 
   void addOsceBookmark(String? userId,OsceModel? osceModel) async {
     Response response = await spottersRepo.saveOsce(Get.find<AuthController>().profileData!.id.toString(),osceModel!.id.toString(),);
@@ -163,6 +226,7 @@ class BookmarkController extends GetxController implements GetxService {
       _osceBookmarkList!.add(osceModel);
       _osceBookmarkIdList.add(osceModel.id);
       showCustomSnackBar('Osce Saved', isError: false);
+      await _saveOsceBookmarks();
     }
     update();
   }
@@ -176,6 +240,7 @@ class BookmarkController extends GetxController implements GetxService {
       _osceBookmarkList!.removeAt(idIndex);
       getSavedOscePaginatedList('1');
       showCustomSnackBar('Osce Unsaved', isError: false);
+      await _saveOsceBookmarks();
     }
     update();
   }
