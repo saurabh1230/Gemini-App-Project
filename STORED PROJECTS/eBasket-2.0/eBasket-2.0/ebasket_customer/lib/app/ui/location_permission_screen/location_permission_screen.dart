@@ -72,10 +72,10 @@ class LocationPermissionScreen extends StatelessWidget {
                       await Geolocator.requestPermission();
                       Position newLocalData = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-                      await placemarkFromCoordinates(newLocalData.latitude, newLocalData.longitude).then((valuePlaceMaker) {
+                      await placemarkFromCoordinates(23.0454913, 72.5315662).then((valuePlaceMaker) {
                         Placemark placeMark = valuePlaceMaker[0];
                         addressModel.id = Uuid().v4();
-                        addressModel.location = UserLocation(latitude: newLocalData.latitude, longitude: newLocalData.longitude);
+                        addressModel.location = UserLocation(latitude: 23.0454913, longitude: 72.5315662);
                         String currentLocation =
                             "${placeMark.name}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.administrativeArea}, ${placeMark.postalCode}, ${placeMark.country}";
                         addressModel.locality = currentLocation;

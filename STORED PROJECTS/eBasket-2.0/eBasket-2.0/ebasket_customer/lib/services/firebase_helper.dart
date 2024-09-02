@@ -37,7 +37,15 @@ class FireStoreUtils {
   static Reference storage = FirebaseStorage.instance.ref();
 
   static String getCurrentUid() {
-    return auth.FirebaseAuth.instance.currentUser!.uid;
+    final currentUser = auth.FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      print('======> Check UId   ${currentUser.uid}');
+      return currentUser.uid;
+    } else {
+      // Return an empty string or any default value when user is not logged in
+      print('======> No user is currently logged in.');
+      return ''; // or any other default value
+    }
   }
 
   static Future<String?> firebaseCreateNewUser(UserModel user) async =>

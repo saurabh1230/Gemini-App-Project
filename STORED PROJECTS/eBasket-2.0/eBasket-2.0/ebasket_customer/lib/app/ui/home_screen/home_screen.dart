@@ -39,6 +39,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('check id : --------${Constant.selectedPosition.id.toString()}');
     return GetBuilder(
         init: HomeController(),
         builder: (controller) {
@@ -51,35 +52,35 @@ class HomeScreen extends StatelessWidget {
               titleSpacing: 10,
               leadingWidth: 65,
               surfaceTintColor: AppThemeData.white,
-              leading: InkWell(
-                onTap: () {
-                  Get.to(const ProfileScreen(), transition: Transition.rightToLeftWithFade);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: controller.userModel.value.id != null
-                        ? controller.userModel.value.image!.isNotEmpty
-                            ? Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80),
-                                  border: Border.all(
-                                    color: AppThemeData.groceryAppDarkBlue,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(80),
-                                    child: Image.network(
-                                      controller.userModel.value.image.toString(),
-                                      fit: BoxFit.cover,
-                                    )))
-                            : Image.asset("assets/icons/ic_logo.png", color: AppThemeData.groceryAppDarkBlue)
-                        : Image.asset("assets/icons/ic_logo.png", color: AppThemeData.groceryAppDarkBlue),
-                  ),
-                ),
-              ),
+              // leading: InkWell(
+              //   onTap: () {
+              //     Get.to(const ProfileScreen(), transition: Transition.rightToLeftWithFade);
+              //   },
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(left: 10),
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: controller.userModel.value.id != null
+              //           ? controller.userModel.value.image!.isNotEmpty
+              //               ? Container(
+              //                   decoration: BoxDecoration(
+              //                     borderRadius: BorderRadius.circular(80),
+              //                     border: Border.all(
+              //                       color: AppThemeData.groceryAppDarkBlue,
+              //                       width: 1.0,
+              //                     ),
+              //                   ),
+              //                   child: ClipRRect(
+              //                       borderRadius: BorderRadius.circular(80),
+              //                       child: Image.network(
+              //                         controller.userModel.value.image.toString(),
+              //                         fit: BoxFit.cover,
+              //                       )))
+              //               : Image.asset("assets/icons/ic_logo.png", color: AppThemeData.groceryAppDarkBlue)
+              //           : Image.asset("assets/icons/ic_logo.png", color: AppThemeData.groceryAppDarkBlue),
+              //     ),
+              //   ),
+              // ),
               title: InkWell(
                 onTap: () async {
                   if (Constant.currentUser.id != null) {
@@ -276,14 +277,16 @@ class HomeScreen extends StatelessWidget {
                 ? Constant.selectedPosition.id != null
                     ? Constant.loader()
                     : Center(
-                        child: Text(
-                        "No Address found, please create address.",
-                        style: TextStyle(
-                          color: AppThemeData.black,
-                          fontSize: 16,
-                          fontFamily: AppThemeData.medium,
-                        ),
-                      ))
+                        child: CircularProgressIndicator()
+                      //   Text(
+                      //   "No Address found, please create address.",
+                      //   style: TextStyle(
+                      //     color: AppThemeData.black,
+                      //     fontSize: 16,
+                      //     fontFamily: AppThemeData.medium,
+                      //   ),
+                      // )
+            )
                 : controller.bestOfferList.isEmpty || controller.productList.isEmpty
                     ? EmptyData()
                     : SingleChildScrollView(

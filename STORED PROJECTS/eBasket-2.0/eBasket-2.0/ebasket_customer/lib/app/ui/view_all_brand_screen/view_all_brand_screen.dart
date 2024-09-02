@@ -95,7 +95,7 @@ class ViewAllBrandScreen extends StatelessWidget {
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 4,
                                       mainAxisSpacing: 5,
-                                      childAspectRatio: (2.1 / 4),
+                                      childAspectRatio: (1.1 / 3),
                                     ),
                                   ),
                                 ),

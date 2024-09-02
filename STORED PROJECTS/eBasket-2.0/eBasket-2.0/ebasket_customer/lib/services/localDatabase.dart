@@ -38,7 +38,13 @@ class CartProducts extends Table {
 
 @DriftDatabase(tables: [CartProducts])
 class CartDatabase extends _$CartDatabase {
-  CartDatabase() : super(_openConnection());
+  CartDatabase._() : super(_openConnection());
+
+  // Singleton instance
+  static final CartDatabase instance = CartDatabase._();
+
+  // Factory constructor to return the singleton instance
+  factory CartDatabase() => instance;
 
   addProduct(ProductModel model, CartDatabase cartDatabase, bool isIncrementQuantity) async {
     String mainPrice = "";

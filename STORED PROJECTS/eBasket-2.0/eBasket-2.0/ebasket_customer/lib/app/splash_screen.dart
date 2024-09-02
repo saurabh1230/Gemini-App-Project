@@ -13,12 +13,12 @@ class SplashScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           body: Container(
-            color: AppThemeData.groceryAppDarkBlue,
+            // color: AppThemeData.groceryAppDarkBlue,
             child: Center(
               child: Image.asset(
                 "assets/icons/logo.png",
                 height: 160,
-                color: Colors.white,
+                // color: Colors.white,
               ),
             ),
           ),

@@ -42,7 +42,7 @@ class Constant {
 
   static String minorderAmount = "";
   static String minimumAmountToDeposit = "0.0";
-  static String mapKey = "";
+  static String mapKey = "AIzaSyBNB2kmkXSOtldNxPdJ6vPs_yaiXBG6SSU";
 
   static DeliveryChargeModel? deliveryChargeModel;
 
@@ -80,9 +80,13 @@ class Constant {
 
   static String amountShow({required String? amount}) {
     if (currencyModel!.symbolatright == true) {
-      return "${double.parse(amount.toString()).toStringAsFixed(currencyModel!.decimal)}${currencyModel!.symbol.toString()}";
+      return "${double.parse(amount.toString()).toStringAsFixed(currencyModel!.decimal)}${'₹'}";
+      // return "${double.parse(amount.toString()).toStringAsFixed(currencyModel!.decimal)}${currencyModel!.symbol.toString()}";
+
     } else {
-      return "${currencyModel!.symbol.toString()}${double.parse(amount.toString()).toStringAsFixed(currencyModel!.decimal)}";
+      return "${'₹'}${double.parse(amount.toString()).toStringAsFixed(currencyModel!.decimal)}";
+      // return "${currencyModel!.symbol.toString()}${double.parse(amount.toString()).toStringAsFixed(currencyModel!.decimal)}";
+
     }
   }
 

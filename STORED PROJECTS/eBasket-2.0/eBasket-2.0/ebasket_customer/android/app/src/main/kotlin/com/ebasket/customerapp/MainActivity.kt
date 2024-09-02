@@ -1,4 +1,4 @@
-package com.ebasket.customerapp
+package com.vegkart.customerapp
 
 
 import io.flutter.embedding.android.FlutterActivity

@@ -148,12 +148,12 @@ class SignupScreen extends StatelessWidget {
                           title: "Enter Address *".tr,
                           enable: false,
                           textInputType: TextInputType.text,
-                          validation: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Address is required'.tr;
-                            }
-                            return null;
-                          },
+                          // validation: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return 'Address is required'.tr;
+                          //   }
+                          //   return null;
+                          // },
                           prefix: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: SvgPicture.asset("assets/icons/ic_profile_add.svg", height: 22, width: 22),

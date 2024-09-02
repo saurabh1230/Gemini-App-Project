@@ -90,7 +90,7 @@ class ViewAllCategoryProductScreen extends StatelessWidget {
                                         crossAxisCount: 2,
                                         crossAxisSpacing: 8,
                                         mainAxisSpacing: 12,
-                                        childAspectRatio: (2 / 3.9),
+                                        childAspectRatio: (2 / 4.3),
                                       ),
                                     ),
                                   ),
