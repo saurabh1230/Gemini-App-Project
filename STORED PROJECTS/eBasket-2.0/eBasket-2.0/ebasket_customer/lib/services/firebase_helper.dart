@@ -7,6 +7,7 @@ import 'package:ebasket_customer/app/model/email_template_model.dart';
 import 'package:ebasket_customer/app/model/language_model.dart';
 import 'package:ebasket_customer/app/model/mail_setting.dart';
 import 'package:ebasket_customer/app/model/payment_method_model.dart';
+import 'package:ebasket_customer/app/model/todays_special_model.dart';
 import 'package:ebasket_customer/app/model/wallet_transaction_model.dart';
 import 'package:ebasket_customer/services/helper.dart';
 import 'package:ebasket_customer/theme/app_theme_data.dart';
@@ -126,6 +127,21 @@ class FireStoreUtils {
       log(error.toString());
     });
     return categories;
+  }
+
+
+  static Future<List<TodaySpecialModel>?> getTodaySpecial() async {
+    List<TodaySpecialModel> todaySpecial = [];
+
+    await fireStore.collection(CollectionName.todaySpecial).where('publish', isEqualTo: true).get().then((value) {
+      for (var element in value.docs) {
+        TodaySpecialModel todaySpecialModel = TodaySpecialModel.fromJson(element.data());
+        todaySpecial.add(todaySpecialModel);
+      }
+    }).catchError((error) {
+      log(error.toString());
+    });
+    return todaySpecial;
   }
 
   getSettings() async {

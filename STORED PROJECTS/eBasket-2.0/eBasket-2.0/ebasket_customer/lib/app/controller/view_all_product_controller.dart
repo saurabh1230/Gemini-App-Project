@@ -10,9 +10,18 @@ import 'package:get/get.dart';
 
 class ProductListController extends GetxController {
   RxBool isLoading = true.obs;
+
   RxList<ProductModel> productList = <ProductModel>[].obs;
   RxList<ProductModel> productSearchList = <ProductModel>[].obs;
+  RxList<ProductModel> freshVegetablesList = <ProductModel>[].obs;
+  RxList<ProductModel> freshFruitsList = <ProductModel>[].obs;
+  RxList<ProductModel> ExoticVegetablesList = <ProductModel>[].obs;
+  RxList<ProductModel> ExoticFruitsList = <ProductModel>[].obs;
+  RxList<ProductModel> GreenVegetablesList = <ProductModel>[].obs;
+  RxList<ProductModel> baveragesList = <ProductModel>[].obs;
+  RxList<ProductModel> bakeryList = <ProductModel>[].obs;
   RxList<String> selectedBrandId = <String>[].obs;
+
 
   RxList<CartProduct> cartProducts = <CartProduct>[].obs;
   RxInt cartCount = 0.obs;
@@ -36,6 +45,13 @@ class ProductListController extends GetxController {
   void onInit() {
     getData();
     getFavoriteData();
+    fetchFreshVegetablesProducts();
+    fetchFreshFruitProducts();
+    fetchExoticVegetablesProducts();
+    fetchExoticFruitsListProducts();
+    fetchGreenVegetablesListProducts();
+    fetchBaveragesListProducts();
+    fetchBakeryListProducts();
     super.onInit();
   }
 
@@ -107,6 +123,84 @@ class ProductListController extends GetxController {
     });
     update();
   }
+
+  Future<void> fetchFreshVegetablesProducts() async {
+    const String staticCategoryId = '65d85efaa0c87';
+    await FireStoreUtils.getProductListByCategoryId(staticCategoryId).then((value) {
+      freshVegetablesList.value = value!;
+    }).catchError((error) {
+      print('Error fetching products: $error');
+    }).whenComplete(() {
+      isLoading.value = false;
+    });
+  }
+
+  Future<void> fetchFreshFruitProducts() async {
+    const String staticCategoryId = '65d86088c7958'; // Static category ID
+    await FireStoreUtils.getProductListByCategoryId(staticCategoryId).then((value) {
+      freshFruitsList.value = value!;
+    }).catchError((error) {
+      print('Error fetching products: $error');
+    }).whenComplete(() {
+      isLoading.value = false;
+    });
+  }
+
+  Future<void> fetchExoticVegetablesProducts() async {
+    const String staticCategoryId = '65d860d6ea757'; // Static category ID
+    await FireStoreUtils.getProductListByCategoryId(staticCategoryId).then((value) {
+      ExoticVegetablesList.value = value!;
+    }).catchError((error) {
+      print('Error fetching products: $error');
+    }).whenComplete(() {
+      isLoading.value = false;
+    });
+  }
+
+  Future<void> fetchExoticFruitsListProducts() async {
+    const String staticCategoryId = '65e5abad2c9f7'; // Static category ID
+    await FireStoreUtils.getProductListByCategoryId(staticCategoryId).then((value) {
+      ExoticFruitsList.value = value!;
+    }).catchError((error) {
+      print('Error fetching products: $error');
+    }).whenComplete(() {
+      isLoading.value = false;
+    });
+  }
+
+  Future<void> fetchGreenVegetablesListProducts() async {
+    const String staticCategoryId = '65e5ac604f4f2'; // Static category ID
+    await FireStoreUtils.getProductListByCategoryId(staticCategoryId).then((value) {
+      GreenVegetablesList.value = value!;
+    }).catchError((error) {
+      print('Error fetching products: $error');
+    }).whenComplete(() {
+      isLoading.value = false;
+    });
+  }
+
+  Future<void> fetchBaveragesListProducts() async {
+    const String staticCategoryId = '65e5acb0ecc9e'; // Static category ID
+    await FireStoreUtils.getProductListByCategoryId(staticCategoryId).then((value) {
+      baveragesList.value = value!;
+    }).catchError((error) {
+      print('Error fetching products: $error');
+    }).whenComplete(() {
+      isLoading.value = false;
+    });
+  }
+
+  Future<void> fetchBakeryListProducts() async {
+    const String staticCategoryId = '665b313d67893'; // Static category ID
+    await FireStoreUtils.getProductListByCategoryId(staticCategoryId).then((value) {
+      bakeryList.value = value!;
+    }).catchError((error) {
+      print('Error fetching products: $error');
+    }).whenComplete(() {
+      isLoading.value = false;
+    });
+  }
+
 
   getFavoriteData() async {
     await FireStoreUtils.getFavouritesProductList(FireStoreUtils.getCurrentUid()).then((value) {

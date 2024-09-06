@@ -80,67 +80,83 @@ class SignupScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () async {
-                          AddressModel addressModel = AddressModel();
-                          checkPermission(
-                            () async {
-                              try {
-                                await Geolocator.requestPermission();
-
-                                await Geolocator.getCurrentPosition();
-
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PlacePicker(
-                                      apiKey: Constant.mapKey,
-                                      onPlacePicked: (result) {
-                                        controller.businessAddressController.value.text = result.formattedAddress.toString();
-                                        // controller.locationLatLng.value = LocationLatLng(latitude: result.geometry!.location.lat, longitude: result.geometry!.location.lng);
-                                        addressModel.id = Uuid().v4();
-                                        addressModel.locality = result.formattedAddress!.toString();
-                                        addressModel.location = UserLocation(latitude: result.geometry!.location.lat, longitude: result.geometry!.location.lng);
-                                        for (int i = 0; i < result.addressComponents!.length; i++) {
-                                          if (result.addressComponents![i].types.contains('postal_code')) {
-                                            addressModel.pinCode = result.addressComponents![i].longName;
-                                          }
-                                        }
-                                        addressModel.isDefault = true;
-                                        Constant.selectedPosition = addressModel;
-                                        controller.shippingAddressList!.add(addressModel);
-
-                                        Get.back();
-                                      },
-                                      initialPosition: const LatLng(-33.8567844, 151.213108),
-                                      useCurrentLocation: true,
-                                      selectInitialPosition: true,
-                                      usePinPointingSearch: true,
-                                      usePlaceDetailSearch: true,
-                                      zoomGesturesEnabled: true,
-                                      zoomControlsEnabled: true,
-                                      initialMapType: MapType.terrain,
-                                      resizeToAvoidBottomInset: false, // only works in page mode, less flickery, remove if wrong offsets
-                                    ),
-                                  ),
-                                );
-                              } catch (e) {
-                                await placemarkFromCoordinates(19.228825, 72.854118).then((valuePlaceMaker) {
-                                  Placemark placeMark = valuePlaceMaker[0];
-
-                                  String currentLocation =
-                                      "${placeMark.name}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.administrativeArea}, ${placeMark.postalCode}, ${placeMark.country}";
-                                  controller.businessAddressController.value.text = currentLocation;
-                                  // controller.locationLatLng.value = LocationLatLng(latitude: 19.228825, longitude: 72.854118);
-                                  addressModel.id = Uuid().v4();
-                                  addressModel.location = UserLocation(latitude: 19.228825, longitude: 72.854118);
-                                  addressModel.locality = currentLocation;
-                                  addressModel.pinCode = placeMark.postalCode.toString();
-                                  addressModel.isDefault = true;
-                                  Constant.selectedPosition = addressModel;
-                                  controller.shippingAddressList!.add(addressModel);
-                                });
-                              }
+                          const staticAddressData = {
+                            "id": "33eILoLjJld2zpw6nIYEa7mqWrc2",
+                            "address": "1300-5, Relief Rd, Nagar Sheths Vando, Gheekanta, Bhadra, Ahmedabad, Gujarat 380001, India",
+                            "landmark": "Near City Center",
+                            "locality": "Ahmedabad",
+                            "pinCode": "380001",
+                            "location": {
+                              "latitude": 22.991724,
+                              "longitude": 72.526444
                             },
-                          );
+                            "isDefault": true,
+                            "addressAs": "BusinessAddress"
+                          };
+
+                          // Create an instance of AddressModel from static data
+                          final address = AddressModel.fromJson(staticAddressData);
+                          // AddressModel addressModel = AddressModel();
+                          // checkPermission(
+                          //   () async {
+                          //     try {
+                          //       await Geolocator.requestPermission();
+                          //
+                          //       await Geolocator.getCurrentPosition();
+                          //
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => PlacePicker(
+                          //             apiKey: Constant.mapKey,
+                          //             onPlacePicked: (result) {
+                          //               controller.businessAddressController.value.text = result.formattedAddress.toString();
+                          //               // controller.locationLatLng.value = LocationLatLng(latitude: result.geometry!.location.lat, longitude: result.geometry!.location.lng);
+                          //               addressModel.id = Uuid().v4();
+                          //               addressModel.locality = result.formattedAddress!.toString();
+                          //               addressModel.location = UserLocation(latitude: result.geometry!.location.lat, longitude: result.geometry!.location.lng);
+                          //               for (int i = 0; i < result.addressComponents!.length; i++) {
+                          //                 if (result.addressComponents![i].types.contains('postal_code')) {
+                          //                   addressModel.pinCode = result.addressComponents![i].longName;
+                          //                 }
+                          //               }
+                          //               addressModel.isDefault = true;
+                          //               Constant.selectedPosition = addressModel;
+                          //               controller.shippingAddressList!.add(addressModel);
+                          //
+                          //               Get.back();
+                          //             },
+                          //             initialPosition: const LatLng(-33.8567844, 151.213108),
+                          //             useCurrentLocation: true,
+                          //             selectInitialPosition: true,
+                          //             usePinPointingSearch: true,
+                          //             usePlaceDetailSearch: true,
+                          //             zoomGesturesEnabled: true,
+                          //             zoomControlsEnabled: true,
+                          //             initialMapType: MapType.terrain,
+                          //             resizeToAvoidBottomInset: false, // only works in page mode, less flickery, remove if wrong offsets
+                          //           ),
+                          //         ),
+                          //       );
+                          //     } catch (e) {
+                          //       await placemarkFromCoordinates(19.228825, 72.854118).then((valuePlaceMaker) {
+                          //         Placemark placeMark = valuePlaceMaker[0];
+                          //
+                          //         String currentLocation =
+                          //             "${placeMark.name}, ${placeMark.subLocality}, ${placeMark.locality}, ${placeMark.administrativeArea}, ${placeMark.postalCode}, ${placeMark.country}";
+                          //         controller.businessAddressController.value.text = currentLocation;
+                          //         // controller.locationLatLng.value = LocationLatLng(latitude: 19.228825, longitude: 72.854118);
+                          //         addressModel.id = Uuid().v4();
+                          //         addressModel.location = UserLocation(latitude: 19.228825, longitude: 72.854118);
+                          //         addressModel.locality = currentLocation;
+                          //         addressModel.pinCode = placeMark.postalCode.toString();
+                          //         addressModel.isDefault = true;
+                          //         Constant.selectedPosition = addressModel;
+                          //         controller.shippingAddressList!.add(addressModel);
+                          //       });
+                          //     }
+                          //   },
+                          // );
                         },
                         child: TextFieldWidget(
                           controller: controller.businessAddressController.value,

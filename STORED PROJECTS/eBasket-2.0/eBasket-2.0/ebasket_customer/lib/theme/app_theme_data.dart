@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppThemeData {
   // static Color groceryAppDarkBlue = const Color(0xFF01664A);
-  static Color groceryAppDarkBlue = const Color(0xFF2E8942);
-
+  static Color groceryAppDarkBlue = const Color(0xFF76BA3F);
   static const Color assetColorGrey100 = Color(0xFFEBECED);
   static const Color assetColorGrey600 = Color(0xFF393E46);
   static const Color assetColorGrey900 = Color(0xFF202328);

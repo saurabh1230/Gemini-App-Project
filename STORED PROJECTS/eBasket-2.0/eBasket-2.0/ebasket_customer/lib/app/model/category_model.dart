@@ -3,6 +3,7 @@ class CategoryModel {
   String? title;
   String? photo;
   String? description;
+  String? color;
   List<dynamic>? reviewAttributes;
   bool? checked;
 
@@ -13,6 +14,7 @@ class CategoryModel {
     title = json['title'] ?? "";
     photo = json['photo'] ?? "";
     description = json['description'] ?? '';
+    color = json['color'] ?? '';
     reviewAttributes = json['review_attributes'] ?? [];
     checked = false;
   }
@@ -23,6 +25,8 @@ class CategoryModel {
     data['title'] = title;
     data['photo'] = photo;
     data['description'] = description;
+    data['color'] = color;
+
     data['review_attributes'] = reviewAttributes;
 
     return data;

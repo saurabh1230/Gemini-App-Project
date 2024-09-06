@@ -17,4 +17,5 @@ class CollectionName {
   static const String languages = "languages";
   static const String emailTemplates = "email_templates";
   static const String newOrderPlaced = "new_order_placed";
+  static const String todaySpecial = "todays_special";
 }

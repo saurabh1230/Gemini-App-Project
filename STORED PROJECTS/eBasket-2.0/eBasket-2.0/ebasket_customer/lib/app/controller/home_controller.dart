@@ -1,4 +1,5 @@
 import 'package:ebasket_customer/app/model/address_model.dart';
+import 'package:ebasket_customer/app/model/todays_special_model.dart';
 import 'package:ebasket_customer/app/model/vendor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:ebasket_customer/app/model/category_model.dart';
@@ -19,6 +20,7 @@ class HomeController extends GetxController {
   Rx<UserModel> userModel = UserModel().obs;
   RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
   RxList<ProductModel> bestOfferList = <ProductModel>[].obs;
+  RxList<TodaySpecialModel> todaySpecialList = <TodaySpecialModel>[].obs;
 
   RxList<ProductModel> brandList = <ProductModel>[].obs;
   RxList<FavouriteItemModel> listFav = <FavouriteItemModel>[].obs;
@@ -87,6 +89,11 @@ class HomeController extends GetxController {
     await FireStoreUtils.getCategories().then((value) {
       if (value != null) {
         categoryList.value = value;
+      }
+    });
+    await FireStoreUtils.getTodaySpecial().then((value) {
+      if (value != null) {
+        todaySpecialList.value = value;
       }
     });
 

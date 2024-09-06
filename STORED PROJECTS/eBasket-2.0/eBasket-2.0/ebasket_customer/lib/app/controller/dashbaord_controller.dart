@@ -12,7 +12,7 @@ class DashboardController extends GetxController {
   HomeController homeController = Get.put(HomeController());
 
   RxList<Widget> listOfScreen = <Widget>[
-    const HomeScreen(),
+     HomeScreen(),
     const ViewAllCategoryListScreen(),
     const FavouriteScreen(),
     const SettingScreen(),
