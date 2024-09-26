@@ -52,6 +52,30 @@ class SpottersRepo {
     return await apiClient.postData(AppConstants.savedOsceUrl, {"user_id": userId, "osce_id" : osceId});
   }
 
+  Future<Response> saveBasic(String? userId,String? noteId,) async {
+    return await apiClient.postData(AppConstants.savedBasicUrl, {"user_id": userId, "basic_id" : noteId});
+  }
+
+  Future<Response> saveWatch(String? userId,String? noteId,) async {
+    return await apiClient.postData(AppConstants.savedWatchUrl, {"user_id": userId, "watch_id" : noteId});
+  }
+
+  Future<Response> saveMunchies(String? userId,String? noteId,) async {
+    return await apiClient.postData(AppConstants.savedMunchiesUrl, {"user_id": userId, "munchie_id" : noteId});
+  }
+
+  Future<Response> getSavedWatchList(page,userId) async {
+    return await apiClient.getData('${AppConstants.savedWatchListUrl}?page=$page&user_id=$userId');
+  }
+  Future<Response> getSavedMunchiesList(page,userId) async {
+    return await apiClient.getData('${AppConstants.savedMunchiesListUrl}?page=$page&user_id=$userId');
+  }
+
+  Future<Response> getSavedBasicList(page,userId) async {
+    return await apiClient.getData('${AppConstants.savedBasicListUrl}?page=$page&user_id=$userId');
+  }
+
+
 
 
 }

@@ -59,7 +59,7 @@ class SavedNoteScreen extends StatelessWidget {
                 color: Theme.of(context).disabledColor,
               ),
               onPressed: () {
-                Share.share('Check out this content!'); // Replace with your content
+                Share.share(AppConstants.shareContent); // Replace with your content
               },
             ),
             appBar:  CustomAppBar(

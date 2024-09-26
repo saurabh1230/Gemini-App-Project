@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:radiology/controllers/basic_controller.dart';
+import 'package:radiology/controllers/munchies_controller.dart';
 import 'package:radiology/controllers/notes_controller.dart';
+import 'package:radiology/data/repo/basic_repo.dart';
+import 'package:radiology/data/repo/munchies_repo.dart';
 import 'package:radiology/data/repo/note_repo.dart';
+import 'package:radiology/features/screens/basics/basic_sub_category.dart';
 import 'package:radiology/features/screens/custom_appbar.dart';
+import 'package:radiology/features/screens/munchies/munches_sub_category_screen.dart';
 import 'package:radiology/features/screens/notes/components/note_selectio_section.dart';
 import 'package:radiology/features/screens/notes/notes_sub_category_screen.dart';
 import 'package:radiology/features/widgets/custom_loading_widget.dart';
@@ -12,39 +18,38 @@ import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
 import 'package:get/get.dart';
 
-class NotesScreen extends StatefulWidget {
-  NotesScreen({super.key});
+class BasicCategoryScreen extends StatefulWidget {
+  BasicCategoryScreen({super.key});
 
   @override
-  State<NotesScreen> createState() => _NotesScreenState();
+  State<BasicCategoryScreen> createState() => _BasicCategoryScreenState();
 }
 
-class _NotesScreenState extends State<NotesScreen> {
-  final NoteRepo notesRp = Get.put(NoteRepo(apiClient: Get.find()));
+class _BasicCategoryScreenState extends State<BasicCategoryScreen> {
+  final BasicRepo munchiesRp = Get.put(BasicRepo(apiClient: Get.find()));
 
-  final NotesController notesController = Get.put(NotesController(noteRepo: Get.find()));
+  final BasicController controller = Get.put(BasicController(basicRepo: Get.find()));
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      notesController.getNoteList();
+      controller.getBasicList();
     });
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NotesController>(builder: (noteControl) {
+    return GetBuilder<BasicController>(builder: (control) {
       return Stack(
         children: [
           SafeArea(
             child: Scaffold(
               appBar: const CustomAppBar(
                 isBackButtonExist: true,
-                title: "NOTES",
+                title: "Back To Basics",
               ),
               body: RefreshIndicator(
                 onRefresh: () async {
-                  notesController.getNoteList();
-
+                  controller.getBasicList();
                 },
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -58,21 +63,21 @@ class _NotesScreenState extends State<NotesScreen> {
                         ),
                       ),
                       sizedBoxDefault(),
-                      noteControl.noteList != null && noteControl.noteList!.isNotEmpty
+                      control.list != null && control.list!.isNotEmpty
                           ? ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.symmetric(
                           horizontal: Dimensions.paddingSizeDefault,
                           vertical: Dimensions.paddingSizeDefault,
                         ),
-                        itemCount: noteControl.noteList!.length,
+                        itemCount: control.list!.length,
                         shrinkWrap: true,
                         itemBuilder: (_, i) {
-                          final note = noteControl.noteList![i];
+                          final note = control.list![i];
                           return NotesSelectionSelection(
                             tap: () {
-                              Get.to(() => NotesSubCategoryScreen(noteListModel: note,
-                              ));
+                              Get.to(() => BasicSubCategoryScreen(noteListModel: note,));
+
                             },
                             title: note.name.toString(),
                             colorString: note.color.toString(),
@@ -84,7 +89,7 @@ class _NotesScreenState extends State<NotesScreen> {
                       )
                           : Center(
                         child: Text(
-                          'No notes available',
+                          'No Munchies available',
                           style: poppinsRegular.copyWith(
                             fontSize: Dimensions.fontSize14,
                             color: Theme.of(context).cardColor.withOpacity(0.50),
@@ -97,7 +102,7 @@ class _NotesScreenState extends State<NotesScreen> {
               ),
             ),
           ),
-          if (noteControl.isNoteLoading || noteControl.noteList == null)
+          if (control.isBasicLoading || control.isBasicLoading == null)
             const LoaderWidget(),
         ],
       );

@@ -26,6 +26,9 @@ class BookmarkController extends GetxController implements GetxService {
     _loadBookmarks();
     _loadNoteBookmarks();
     _loadOsceBookmarks();
+    _loadBasicBookmarks();
+    _loadWatchBookmarks();
+    _loadMunchieBookmarks();
   }
 
   Future<void> _saveBookmarks() async {
@@ -155,7 +158,6 @@ class BookmarkController extends GetxController implements GetxService {
 
   Future<void> _saveNoteBookmarks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Convert List<int?> to List<String> for saving
     List<String> bookmarkIds = _bookmarkNoteIdList.where((id) => id != null).map((id) => id!.toString()).toList();
     await prefs.setStringList('bookmarked_note_ids', bookmarkIds);
   }
@@ -164,7 +166,6 @@ class BookmarkController extends GetxController implements GetxService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? savedIds = prefs.getStringList('bookmarked_note_ids');
     if (savedIds != null) {
-      // Convert List<String> back to List<int?>
       _bookmarkNoteIdList = savedIds.map((id) => int.tryParse(id)).toList();
     }
     update();
@@ -365,4 +366,310 @@ class BookmarkController extends GetxController implements GetxService {
       update();
     }
   }
+
+
+
+  ///-----------------------------------------------------------
+
+
+  List<CategoryNoteListModel?>? _bookmarkBasicList = [];
+  List<CategoryNoteListModel?>? get bookmarkBasicList => _bookmarkBasicList;
+
+  List<int?> _bookmarkBasicIdList = [];
+  List<int?> get bookmarkBasicIdList => _bookmarkBasicIdList;
+
+
+  Future<void> _saveBasicBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> bookmarkIds = _bookmarkBasicIdList.where((id) => id != null).map((id) => id!.toString()).toList();
+    await prefs.setStringList('bookmarked_basic_ids', bookmarkIds);
+  }
+
+  Future<void> _loadBasicBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedIds = prefs.getStringList('bookmarked_basic_ids');
+    if (savedIds != null) {
+      _bookmarkBasicIdList = savedIds.map((id) => int.tryParse(id)).toList();
+    }
+    update();
+  }
+
+  void addBasicBookMarkList(String? userId,CategoryNoteListModel? notesListModel) async {
+    Response response = await spottersRepo.saveBasic(Get.find<AuthController>().profileData!.id.toString(),notesListModel!.id.toString(),);
+    if (response.statusCode == 200) {
+      _bookmarkBasicList!.add(notesListModel);
+      _bookmarkBasicIdList.add(notesListModel.id);
+      showCustomSnackBar('Back To Basics Saved', isError: false);
+      await _saveBasicBookmarks();
+    }
+    update();
+  }
+
+  void removeBasicBookMarkList(int? id,) async {
+    Response response = await spottersRepo.saveBasic(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+    if (response.statusCode == 200) {
+      int idIndex = -1;
+      idIndex = _bookmarkBasicIdList.indexOf(id);
+      _bookmarkBasicIdList.removeAt(idIndex);
+      _bookmarkBasicList!.removeAt(idIndex);
+      getSavedBasicPaginatedList('1');
+      showCustomSnackBar('Note Unsaved', isError: false);
+      await _saveBasicBookmarks();
+    }
+    update();
+  }
+
+  /// watch///
+
+
+  List<CategoryNoteListModel?>? _bookmarkWatchList = [];
+  List<CategoryNoteListModel?>? get bookmarkWatchList => _bookmarkWatchList;
+
+  List<int?> _bookmarkWatchIdList = [];
+  List<int?> get bookmarkWatchIdList => _bookmarkWatchIdList;
+
+  Future<void> _saveWatchBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> bookmarkIds = _bookmarkWatchIdList.where((id) => id != null).map((id) => id!.toString()).toList();
+    await prefs.setStringList('bookmarked_watch_ids', bookmarkIds);
+  }
+
+  Future<void> _loadWatchBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedIds = prefs.getStringList('bookmarked_watch_ids');
+    if (savedIds != null) {
+      _bookmarkWatchIdList = savedIds.map((id) => int.tryParse(id)).toList();
+    }
+    update();
+  }
+
+  void addWatchBookMarkList(String? userId, CategoryNoteListModel? watchListModel) async {
+    Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(), watchListModel!.id.toString());
+    if (response.statusCode == 200) {
+      _bookmarkWatchList!.add(watchListModel);
+      _bookmarkWatchIdList.add(watchListModel.id);
+      showCustomSnackBar('Saved Successfully', isError: false);
+      await _saveWatchBookmarks();
+    }
+    update();
+  }
+
+  void removeWatchBookMarkList(int? id) async {
+    Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(), id.toString());
+    if (response.statusCode == 200) {
+      int idIndex = _bookmarkWatchIdList.indexOf(id);
+      _bookmarkWatchIdList.removeAt(idIndex);
+      _bookmarkWatchList!.removeAt(idIndex);
+      getSavedWatchPaginatedList('1');
+      showCustomSnackBar('Unsaved Successfully', isError: false);
+      await _saveWatchBookmarks();
+    }
+    update();
+  }
+
+  /// munches //
+  List<CategoryNoteListModel?>? _bookmarkMunchieList = [];
+  List<CategoryNoteListModel?>? get bookmarkMunchieList => _bookmarkMunchieList;
+
+  List<int?> _bookmarkMunchieIdList = [];
+  List<int?> get bookmarkMunchieIdList => _bookmarkMunchieIdList;
+
+  Future<void> _saveMunchieBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> bookmarkIds = _bookmarkMunchieIdList.where((id) => id != null).map((id) => id!.toString()).toList();
+    await prefs.setStringList('bookmarked_munchie_ids', bookmarkIds);
+  }
+
+  Future<void> _loadMunchieBookmarks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedIds = prefs.getStringList('bookmarked_munchie_ids');
+    if (savedIds != null) {
+      _bookmarkMunchieIdList = savedIds.map((id) => int.tryParse(id)).toList();
+    }
+    update();
+  }
+
+  void addMunchieBookMarkList(String? userId, CategoryNoteListModel? munchieListModel) async {
+    Response response = await spottersRepo.saveMunchies(Get.find<AuthController>().profileData!.id.toString(), munchieListModel!.id.toString());
+    if (response.statusCode == 200) {
+      _bookmarkMunchieList!.add(munchieListModel);
+      _bookmarkMunchieIdList.add(munchieListModel.id);
+      showCustomSnackBar('Saved Successfully', isError: false);
+      await _saveMunchieBookmarks();
+    }
+    update();
+  }
+
+  void removeMunchieBookMarkList(int? id) async {
+    Response response = await spottersRepo.saveMunchies(Get.find<AuthController>().profileData!.id.toString(), id.toString());
+    if (response.statusCode == 200) {
+      int idIndex = _bookmarkMunchieIdList.indexOf(id);
+      _bookmarkMunchieIdList.removeAt(idIndex);
+      _bookmarkMunchieList!.removeAt(idIndex);
+      getSavedMunchiesPaginatedList('1');
+      showCustomSnackBar('Unsaved Successfully', isError: false);
+      await _saveMunchieBookmarks();
+    }
+    update();
+  }
+
+
+  /// saved watches list ///
+
+  bool _isSavedWatchLoading = false;
+
+  bool get isSavedWatchLoading => _isSavedWatchLoading;
+
+  List<CategoryNoteListModel>? _savedWatchList;
+  List<CategoryNoteListModel>? get savedWatchList => _savedWatchList;
+  Future<void> getSavedWatchPaginatedList(String page) async {
+    _isSavedWatchLoading = true;
+    try {
+      if (page == '1') {
+        _pageList = []; // Reset page list for new search
+        _offset = 1;
+        _savedWatchList = []; // Reset product list for first page
+        update();
+      }
+
+      if (!_pageList.contains(page)) {
+        _pageList.add(page);
+
+        Response response = await spottersRepo.getSavedWatchList(page,Get.find<AuthController>().profileData!.id.toString());
+
+        if (response.statusCode == 200) {
+          // Adjust the parsing to match the response structure
+          Map<String, dynamic> responseData = response.body['data']['list'];
+          List<dynamic> dataList = responseData['data'];
+          List<CategoryNoteListModel> newDataList = dataList.map((json) =>
+              CategoryNoteListModel.fromJson(json)).toList();
+
+          if (page == '1') {
+            // Reset product list for first page
+            _savedWatchList = newDataList;
+          } else {
+            // Append data for subsequent pages
+            _savedWatchList!.addAll(newDataList);
+          }
+
+          _isSavedWatchLoading = false;
+          update();
+        } else {
+          // ApiChecker.checkApi(response);
+        }
+      } else {
+        // Page already loaded or in process, handle loading state
+        if (_isSavedWatchLoading) {
+          _isSavedWatchLoading = false;
+          update();
+        }
+      }
+    } catch (e) {
+      print('Error fetching saved osce list: $e');
+      _isSavedWatchLoading = false;
+      update();
+    }
+  }
+
+
+  bool _isSavedMunchiesLoading = false;
+
+  bool get isSavedMunchiesLoading => _isSavedMunchiesLoading;
+
+  List<CategoryNoteListModel>? _savedMunchiesList;
+  List<CategoryNoteListModel>? get savedMunchiesList => _savedMunchiesList;
+
+  Future<void> getSavedMunchiesPaginatedList(String page) async {
+    _isSavedMunchiesLoading = true;
+    try {
+      if (page == '1') {
+        _pageList = [];
+        _offset = 1;
+        _savedMunchiesList = [];
+        update();
+      }
+
+      if (!_pageList.contains(page)) {
+        _pageList.add(page);
+        Response response = await spottersRepo.getSavedMunchiesList(page,Get.find<AuthController>().profileData!.id.toString());
+        if (response.statusCode == 200) {
+          Map<String, dynamic> responseData = response.body['data']['list'];
+          List<dynamic> dataList = responseData['data'];
+          List<CategoryNoteListModel> newDataList = dataList.map((json) =>
+              CategoryNoteListModel.fromJson(json)).toList();
+
+          if (page == '1') {
+            _savedMunchiesList = newDataList;
+          } else {
+            _savedMunchiesList!.addAll(newDataList);
+          }
+          _isSavedMunchiesLoading = false;
+          update();
+        } else {
+        }
+      } else {
+        if (_isSavedMunchiesLoading) {
+          _isSavedMunchiesLoading = false;
+          update();
+        }
+      }
+    } catch (e) {
+      print('Error fetching saved munchies list: $e');
+      _isSavedMunchiesLoading = false;
+      update();
+    }
+  }
+
+
+  /// saved basic list ///
+
+  bool _isSavedBasicLoading = false;
+
+  bool get isSavedBasicLoading => _isSavedBasicLoading;
+
+  List<CategoryNoteListModel>? _savedBasicList;
+  List<CategoryNoteListModel>? get savedBasicList => _savedBasicList;
+
+  Future<void> getSavedBasicPaginatedList(String page) async {
+    _isSavedBasicLoading = true;
+    try {
+      if (page == '1') {
+        _pageList = [];
+        _offset = 1;
+        _savedBasicList = [];
+        update();
+      }
+
+      if (!_pageList.contains(page)) {
+        _pageList.add(page);
+        Response response = await spottersRepo.getSavedBasicList(page,Get.find<AuthController>().profileData!.id.toString());
+        if (response.statusCode == 200) {
+          Map<String, dynamic> responseData = response.body['data']['list'];
+          List<dynamic> dataList = responseData['data'];
+          List<CategoryNoteListModel> newDataList = dataList.map((json) =>
+              CategoryNoteListModel.fromJson(json)).toList();
+
+          if (page == '1') {
+            _savedBasicList = newDataList;
+          } else {
+            _savedBasicList!.addAll(newDataList);
+          }
+          _isSavedBasicLoading = false;
+          update();
+        } else {
+        }
+      } else {
+        if (_isSavedBasicLoading) {
+          _isSavedBasicLoading = false;
+          update();
+        }
+      }
+    } catch (e) {
+      print('Error fetching saved basic list: $e');
+      _isSavedBasicLoading = false;
+      update();
+    }
+  }
+
+
 }

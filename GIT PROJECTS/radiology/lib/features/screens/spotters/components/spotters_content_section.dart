@@ -71,7 +71,7 @@ class SpotterContentWidget extends StatelessWidget {
                               color: Theme.of(context).cardColor,
                             ),
                             onPressed: () {
-                              Share.share('Check out this content!'); // Replace with your content
+                              Share.share(AppConstants.shareContent);
                             },
                           ),
                         ),

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:radiology/controllers/bookmark_controller.dart';
 import 'package:radiology/controllers/notes_controller.dart';
+import 'package:radiology/controllers/watch_controller.dart';
 import 'package:radiology/data/repo/note_repo.dart';
+import 'package:radiology/data/repo/watch_repo.dart';
 import 'package:radiology/features/screens/custom_appbar.dart';
 import 'package:radiology/features/screens/notes/components/notes_view_component.dart';
 import 'package:radiology/features/widgets/custom_loading_widget.dart';
@@ -17,13 +19,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 
 
-class NotesDashboard extends StatelessWidget {
+class WatchNotesDashboard extends StatelessWidget {
   final String? categoryId;
   final String? categoryName;
 
-  NotesDashboard({super.key, required this.categoryId, this.categoryName});
-  final NotesController notesController = Get.put(NotesController(noteRepo: Get.find()));
-  final NoteRepo notesRp = Get.put(NoteRepo(apiClient: Get.find()));
+  WatchNotesDashboard({super.key, required this.categoryId, this.categoryName});
+  final WatchController notesController = Get.put(WatchController(watchRepo: Get.find()));
+  final WatchRepo notesRp = Get.put(WatchRepo(apiClient: Get.find()));
   final LoopPageController _loopPageController = LoopPageController();
   final ScrollController _scrollController = ScrollController();
 
@@ -31,21 +33,21 @@ class NotesDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final lastPageIndex = await _getLastPageIndex();
-      Get.find<NotesController>().getNotesPaginatedList("1", categoryId!);
-      Get.find<NotesController>().currentPageIndex.value = lastPageIndex; // Set initial page index
+      Get.find<WatchController>().getWatchPaginatedList("1", categoryId!);
+      Get.find<WatchController>().currentPageIndex.value = lastPageIndex; // Set initial page index
       _loopPageController.jumpToPage(lastPageIndex); // Restore last page index
     });
 
-    Get.find<NotesController>().setOffset(1);
+    Get.find<WatchController>().setOffset(1);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loopPageController.addListener(() async {
-        final NotesController controller = Get.find<NotesController>();
+        final WatchController controller = Get.find<WatchController>();
         final pageIndex = _loopPageController.page.round();
         controller.currentPageIndex.value = pageIndex; // Update the page index
         await _saveLastPageIndex(pageIndex);
         if (controller.categoryNoteList != null && pageIndex < controller.categoryNoteList!.length) {
-          final noteValue = Get.find<NotesController>().currentPageIndex.value + 1;
-          controller.readNoteStatusApi('${noteValue}', categoryId.toString());
+          final noteValue = Get.find<WatchController>().currentPageIndex.value + 1;
+          controller.readWatchStatusApi('${noteValue}', categoryId.toString());
         }
 
         if (_scrollController.hasClients) {
@@ -61,7 +63,7 @@ class NotesDashboard extends StatelessWidget {
           if (controller.offset < 20) {
             controller.setOffset(controller.offset + 1);
             controller.showBottomLoader();
-            controller.getNotesPaginatedList(
+            controller.getWatchPaginatedList(
               controller.offset.toString(),
               categoryId!,
             );
@@ -70,7 +72,7 @@ class NotesDashboard extends StatelessWidget {
       });
     });
 
-    return GetBuilder<NotesController>(builder: (noteControl) {
+    return GetBuilder<WatchController>(builder: (noteControl) {
       final noteList = noteControl.categoryNoteList;
       final isListEmpty = noteList == null || noteList.isEmpty;
       final pageIndex = noteControl.currentPageIndex.value;
@@ -84,12 +86,11 @@ class NotesDashboard extends StatelessWidget {
               color: Theme.of(context).disabledColor,
             ),
             onPressed: () {
-              Share.share(AppConstants.shareContent);
-            },
+              Share.share(AppConstants.shareContent);             },
           ),
           backgroundColor: Theme.of(context).cardColor,
           appBar: CustomAppBar(
-            title: categoryName ?? 'Notes',
+            title: categoryName ?? 'Watch And Learn',
             isBackButtonExist: true,
             backGroundColor: Colors.black,
           ),
@@ -103,7 +104,7 @@ class NotesDashboard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Obx(() {
-                final pageIndex = Get.find<NotesController>().currentPageIndex.value;
+                final pageIndex = Get.find<WatchController>().currentPageIndex.value;
                 return ListView.builder(
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
@@ -191,7 +192,7 @@ class NotesDashboard extends StatelessWidget {
                         return GetBuilder<BookmarkController>(
                             builder: (bookmarkControl) {
                               bool isBookmarked = bookmarkControl
-                                  .bookmarkNoteIdList
+                                  .bookmarkWatchIdList
                                   .contains(noteList![i].id);
                               return NotesViewComponent(
                                 title: noteList[i].title.toString(),
@@ -199,9 +200,9 @@ class NotesDashboard extends StatelessWidget {
                                 saveNote: () {
                                   isBookmarked
                                       ? bookmarkControl
-                                      .removeNoteBookMarkList(int.parse(
+                                      .removeWatchBookMarkList(int.parse(
                                       noteList[i].id.toString()))
-                                      : bookmarkControl.addNoteBookMarkList(
+                                      : bookmarkControl.addWatchBookMarkList(
                                       '', noteList[i]);
                                 },
                                 saveNoteColor: isBookmarked

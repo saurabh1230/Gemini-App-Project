@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:radiology/features/widgets/bookmart_button.dart';
 import 'package:radiology/features/widgets/custom_network_image_widget.dart';
+import 'package:radiology/utils/app_constants.dart';
 import 'package:radiology/utils/dimensions.dart';
 import 'package:radiology/utils/images.dart';
 import 'package:radiology/utils/sizeboxes.dart';
@@ -70,8 +71,7 @@ class OsceComponentWidget extends StatelessWidget {
                             color: Theme.of(context).cardColor,
                           ),
                           onPressed: () {
-                            Share.share('Check out this content!'); // Replace with your content
-                          },
+                            Share.share(AppConstants.shareContent);                           },
                         ),
                       ),
                     ],

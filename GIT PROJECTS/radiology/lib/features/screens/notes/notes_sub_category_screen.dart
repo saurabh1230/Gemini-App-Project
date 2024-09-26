@@ -12,18 +12,13 @@ import 'package:radiology/utils/images.dart';
 import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
 import 'package:get/get.dart';
-
 import '../../../data/model/response/note_list_model.dart';
 
 class NotesSubCategoryScreen extends StatelessWidget {
-  // final String childName;
-  // final String childColorString;
   final NoteListModel? noteListModel;
-
   NotesSubCategoryScreen({
     super.key,
     required this.noteListModel,
-    /* required this.childName, required this.childColorString*/
   });
 
   final NoteRepo notesRp = Get.put(NoteRepo(apiClient: Get.find()));
@@ -81,9 +76,6 @@ class NotesSubCategoryScreen extends StatelessWidget {
                                   title: noteListModel!.child![i].name.toString(),
                                   colorString:noteListModel!.child![i].color.toString(),
                                   topics:'Completed ${noteListModel!.child![i].readNote} / ${noteListModel!.child![i].notesCount}',
-                                  // title: noteListModel!.child![i].name.toString(),
-                                  // colorString: noteListModel!.child![i].color.toString(),
-                                  // noteListModel: noteListModel.child![i],
                                 );
                               },
                               separatorBuilder: (BuildContext context, int index) => sizedBoxDefault(),

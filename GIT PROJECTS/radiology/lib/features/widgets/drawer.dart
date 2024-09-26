@@ -61,6 +61,18 @@ class CustomDrawer extends StatelessWidget {
 
                         }),
                         Divider(color: Theme.of(context).cardColor,),
+                        buildContainer(context,"Saved Munchies",tap : () {
+                          Get.toNamed(RouteHelper.getSavedMunchiesScreen());
+                        }),
+                        Divider(color: Theme.of(context).cardColor,),
+                        buildContainer(context,"Saved Back To Basics",tap : () {
+                          Get.toNamed(RouteHelper.getSavedBasicScreen());
+                        }),
+                        Divider(color: Theme.of(context).cardColor,),
+                        buildContainer(context,"Saved Watch And Learn",tap : () {
+                          Get.toNamed(RouteHelper.getSavedWatchScreen());
+                        }),
+                        Divider(color: Theme.of(context).cardColor,),
                         buildContainer(context,"Logout",tap : () {
                           Get.dialog(ConfirmationDialog(
                             icon: Images.icLogout,

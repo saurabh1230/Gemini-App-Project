@@ -4,46 +4,46 @@ import 'package:radiology/controllers/notes_controller.dart';
 import 'package:radiology/data/repo/note_repo.dart';
 import 'package:radiology/features/screens/custom_appbar.dart';
 import 'package:radiology/features/screens/notes/components/note_selectio_section.dart';
-import 'package:radiology/features/screens/notes/notes_sub_category_screen.dart';
 import 'package:radiology/features/widgets/custom_loading_widget.dart';
+import 'package:radiology/features/widgets/empty_data_widget.dart';
 import 'package:radiology/helper/route_helper.dart';
 import 'package:radiology/utils/dimensions.dart';
+import 'package:radiology/utils/images.dart';
 import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
 import 'package:get/get.dart';
 
-class NotesScreen extends StatefulWidget {
-  NotesScreen({super.key});
+import '../../../data/model/response/note_list_model.dart';
 
-  @override
-  State<NotesScreen> createState() => _NotesScreenState();
-}
+class MunchesSubCategoryScreen extends StatelessWidget {
+  final NoteListModel? noteListModel;
 
-class _NotesScreenState extends State<NotesScreen> {
+  MunchesSubCategoryScreen({
+    super.key,
+    required this.noteListModel,
+  });
+
   final NoteRepo notesRp = Get.put(NoteRepo(apiClient: Get.find()));
-
   final NotesController notesController = Get.put(NotesController(noteRepo: Get.find()));
+
   @override
-  void initState() {
+  Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notesController.getNoteList();
     });
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
+
     return GetBuilder<NotesController>(builder: (noteControl) {
       return Stack(
         children: [
           SafeArea(
             child: Scaffold(
-              appBar: const CustomAppBar(
+              appBar: CustomAppBar(
                 isBackButtonExist: true,
-                title: "NOTES",
+                title: noteListModel!.name.toString(),
               ),
               body: RefreshIndicator(
                 onRefresh: () async {
-                  notesController.getNoteList();
+
 
                 },
                 child: SingleChildScrollView(
@@ -51,46 +51,38 @@ class _NotesScreenState extends State<NotesScreen> {
                   child: Column(
                     children: [
                       Text(
-                        'Select topic to know',
+                        'Select to see notes',
                         style: poppinsRegular.copyWith(
                           fontSize: Dimensions.fontSize14,
                           color: Theme.of(context).cardColor.withOpacity(0.50),
                         ),
                       ),
                       sizedBoxDefault(),
-                      noteControl.noteList != null && noteControl.noteList!.isNotEmpty
+                      noteListModel!.child != null && noteListModel!.child!.isNotEmpty
                           ? ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         padding: const EdgeInsets.symmetric(
                           horizontal: Dimensions.paddingSizeDefault,
                           vertical: Dimensions.paddingSizeDefault,
                         ),
-                        itemCount: noteControl.noteList!.length,
+                        itemCount: noteListModel!.child!.length,
                         shrinkWrap: true,
                         itemBuilder: (_, i) {
-                          final note = noteControl.noteList![i];
                           return NotesSelectionSelection(
                             tap: () {
-                              Get.to(() => NotesSubCategoryScreen(noteListModel: note,
-                              ));
+                              Get.toNamed(RouteHelper.getMunchesDashboardRoute(
+                                  noteListModel!.child![i].id.toString(),
+                                  noteListModel!.child![i].name.toString()));
                             },
-                            title: note.name.toString(),
-                            colorString: note.color.toString(),
-                            topics:'Topics ${ note.child!.length}',
+                            title: noteListModel!.child![i].name.toString(),
+                            colorString:noteListModel!.child![i].color.toString(),
+                            topics:'Completed ${noteListModel!.child![i].readNote} / ${noteListModel!.child![i].notesCount}',
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            sizedBoxDefault(),
-                      )
-                          : Center(
-                        child: Text(
-                          'No notes available',
-                          style: poppinsRegular.copyWith(
-                            fontSize: Dimensions.fontSize14,
-                            color: Theme.of(context).cardColor.withOpacity(0.50),
-                          ),
-                        ),
-                      ),
+                        separatorBuilder: (BuildContext context, int index) => sizedBoxDefault(),
+                      ) : const Center(child: EmptyDataWidget(
+                        image: Images.emptyDataImage,
+                        text: "No Munches Available",)),
                     ],
                   ),
                 ),
@@ -104,4 +96,3 @@ class _NotesScreenState extends State<NotesScreen> {
     });
   }
 }
-
