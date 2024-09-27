@@ -4,10 +4,11 @@ ThemeData light = ThemeData(
   useMaterial3: false,
   fontFamily: 'OpenSans',
   primaryColor: const Color(0xFF0F84B8),
+  primaryColorDark: const Color(0xFF115878),
   secondaryHeaderColor: const Color(0xFF000743),
   disabledColor: const Color(0xFF000000),
   brightness: Brightness.light,
-  hintColor:  const Color(0xff282D41).withOpacity(0.40),
+  hintColor:  const Color(0xFF000000).withOpacity(0.40),
   cardColor: Colors.white,
   canvasColor: const Color(0xffFFFFFF),
   scaffoldBackgroundColor: const Color(0xffFFFFFF),
@@ -24,7 +25,7 @@ ThemeData light = ThemeData(
 );
 
 const Color redColor = Color(0xffB43642);
-const Color greenColor = Color(0xff17AD2F);
+const Color greenColor = Color(0xff6D9C0A);
 const Color greyColor = Color(0xff83A2AF);
 const Color skyColor = Color(0xff46C8D0);
 const Color darkBlueColor = Color(0xff517DA5);

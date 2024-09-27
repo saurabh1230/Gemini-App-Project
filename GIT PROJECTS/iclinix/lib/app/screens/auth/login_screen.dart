@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iclinix/app/widget/custom_button_widget.dart';
+import 'package:iclinix/app/widget/custom_textfield.dart';
+import 'package:iclinix/helper/route_helper.dart';
 import 'package:iclinix/utils/dimensions.dart';
 import 'package:iclinix/utils/images.dart';
 import 'package:get/get.dart';
@@ -6,24 +9,26 @@ import 'package:iclinix/utils/sizeboxes.dart';
 import 'package:iclinix/utils/styles.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
+   LoginScreen({super.key});
+  final _phoneController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: Stack(
-        children: [
-          // Background Image
-          Positioned.fill(
-            child: Image.asset(
-              Images.loginScreenBG,
-              fit: BoxFit.cover,
+      body: Form(
+        key: _formKey,
+        child: Stack(
+          children: [
+            // Background Image
+            Positioned.fill(
+              child: Image.asset(
+                Images.loginScreenBG,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          // Bottom content
-          Container(
-            child: Positioned(
+            // Bottom content
+            Positioned(
               bottom: 0,
               left: 0,
               right: 0,
@@ -42,7 +47,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                   sizedBox20(),
                   Container(
-                    height: 200,
+                    padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                    width: Get.size.width,
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: const BorderRadius.only(
@@ -50,19 +56,49 @@ class LoginScreen extends StatelessWidget {
                         topRight: Radius.circular(Dimensions.radius20),
                       ),
                     ),
-                    child: Column(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Enter your Phone Number',style: openSansBold.copyWith(
                             fontSize: Dimensions.fontSizeDefault,
-                            color: Theme.of(context).disabledColor.withOpacity(0.50) ),)
+                            color: Theme.of(context).disabledColor.withOpacity(0.50) ),),
+                        Text("You'll get a verification code from us.",style: openSansRegular.copyWith(
+                            fontSize: Dimensions.fontSize13,
+                            color: Theme.of(context).disabledColor.withOpacity(0.40) ),),
+                        sizedBox12(),
+                        CustomTextField(
+                          isNumber: true,
+                          inputType: TextInputType.number,
+                          controller: _phoneController,
+                          isPhone: true,
+                          hintText: "Enter your mobile number here",
+                          validation: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your Phone No';
+                            } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                              return 'Please enter a valid 10-digit Phone No';
+                            }
+                            return null;
+                          },
+                        ),
+                        sizedBox30(),
+                        CustomButtonWidget(
+                          buttonText: "Continue",
+                          onPressed: () {
+                            if(_formKey.currentState!.validate()) {
+                              Get.toNamed(RouteHelper.getOtpVerificationRoute(_phoneController.text));
+
+                            }
+                          },
+                        ),
+
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
