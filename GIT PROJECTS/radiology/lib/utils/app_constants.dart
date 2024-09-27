@@ -31,7 +31,7 @@ class AppConstants {
   static const String savedOsceUrl = 'osce/change-osce-bookmark';
   static const String savedMunchiesUrl = 'category-munchie/change-munchie-bookmark-status';
   static const String savedBasicUrl = 'basic-category/change-basic-bookmark-status';
-  static const String savedWatchUrl = 'watch-and-learn-category/change-watch-bookmark-status';
+  static const String savedWatch = 'watch-and-learn-category/change-watch-bookmark-status';
   static const String userData= "user-data";
   static const String osceUrl= "osce/list";
   static const String readNoteStatus= "note/read-status";

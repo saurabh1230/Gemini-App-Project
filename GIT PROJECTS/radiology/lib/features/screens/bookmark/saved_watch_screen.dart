@@ -7,6 +7,7 @@ import 'package:radiology/features/screens/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:radiology/features/screens/notes/components/notes_view_component.dart';
 import 'package:radiology/features/screens/spotters/components/spotters_content_section.dart';
+import 'package:radiology/features/screens/watch/watch_learn_component.dart';
 import 'package:radiology/features/widgets/custom_loading_widget.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:radiology/features/widgets/empty_data_widget.dart';
@@ -47,8 +48,8 @@ class SavedWatchScreen extends StatelessWidget {
     });
 
     return GetBuilder<BookmarkController>(builder: (spottersControl) {
-      final spottersList = spottersControl.savedWatchList;
-      final isListEmpty = spottersList == null || spottersList.isEmpty;
+      final list = spottersControl.savedWatchList;
+      final isListEmpty = list == null || list.isEmpty;
       return
         Scaffold(
           backgroundColor: Theme.of(context).cardColor,
@@ -62,48 +63,40 @@ class SavedWatchScreen extends StatelessWidget {
               Share.share(AppConstants.shareContent); // Replace with your content
             },
           ),
-          appBar:  CustomAppBar(
+          appBar:  const CustomAppBar(
             title: "Saved Watch And Learn",
             isBackButtonExist: true,
             backGroundColor: Colors.black,
-            // menuWidget: Row(
-            //   children: [
-            //     TextButton(onPressed: () {}, child: Text('Report',style: poppinsSemiBold.copyWith(
-            //         fontSize: Dimensions.fontSize14,
-            //         color: Theme.of(context).cardColor),)),
-            //   ],
-            // ),
           ),
           body:  Stack(
             children: [
               isListEmpty && !spottersControl.isSavedNotesLoading ? Padding(
-                padding: const EdgeInsets.only(top: Dimensions.paddingSize100),
+                padding: const EdgeInsets.only(top: 0),
                 child: Center(child: EmptyDataWidget(image: Images.emptyDataBlackImage,
-                  fontColor:  Theme.of(context).disabledColor, text: 'No Saved Yet',)),
+                  fontColor:  Theme.of(context).disabledColor, text: 'Nothing Available',)),
               ) :
               // isListEmpty
               //   ? const Center(child: LoaderWidget()) :
               PageView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: spottersList!.length,
+                itemCount: list!.length,
                 itemBuilder: (context, i) {
                   return GetBuilder<BookmarkController>(
                       builder: (bookmarkControl) {
                         bool isBookmarked = bookmarkControl.bookmarkWatchIdList
-                            .contains(spottersList[i].id);
-                        return NotesViewComponent(
-                          title: spottersList[i].title.toString(),
-                          question: spottersList[i].content.toString(),
+                            .contains(list[i].id);
+                        return WatchLearnComponent(
+                          title: list[i].title.toString(),
+                          videoUrl: list[i].videoUrl.toString(),
                           saveNote: () {
-                            // isBookmarked ?
-                            bookmarkControl.removeWatchBookMarkList(int.parse(spottersList[i].id.toString()));
-
-
-                            // bookmarkControl.addNoteBookMarkList('',spottersList[i]);
+                             bookmarkControl.removeWatchBookMarkList(int.parse(
+                                list[i].id.toString()));
                           },
-                          saveNoteColor: /*isBookmarked ?
-                            */Theme.of(context).cardColor
-                          /*: Theme.of(context).cardColor.withOpacity(0.60)*/,
+                          saveNoteColor: isBookmarked
+                              ? Theme.of(context).cardColor
+                              : Theme.of(context)
+                              .cardColor
+                              .withOpacity(0.60),
                         );
                       });
                 },

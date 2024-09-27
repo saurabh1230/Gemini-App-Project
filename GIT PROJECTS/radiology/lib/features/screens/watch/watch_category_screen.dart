@@ -87,7 +87,7 @@ class _WatchCategoryScreenState extends State<WatchCategoryScreen> {
                       )
                           : Center(
                         child: Text(
-                          'No notes available',
+                          'Nothing Available',
                           style: poppinsRegular.copyWith(
                             fontSize: Dimensions.fontSize14,
                             color: Theme.of(context).cardColor.withOpacity(0.50),

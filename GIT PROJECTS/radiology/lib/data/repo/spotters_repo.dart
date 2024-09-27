@@ -57,7 +57,7 @@ class SpottersRepo {
   }
 
   Future<Response> saveWatch(String? userId,String? noteId,) async {
-    return await apiClient.postData(AppConstants.savedWatchUrl, {"user_id": userId, "watch_id" : noteId});
+    return await apiClient.postData(AppConstants.savedWatch, {"user_id": userId, "watch_id" : noteId});
   }
 
   Future<Response> saveMunchies(String? userId,String? noteId,) async {

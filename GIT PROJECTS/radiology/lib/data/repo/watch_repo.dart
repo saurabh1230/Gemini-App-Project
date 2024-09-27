@@ -22,7 +22,7 @@ class WatchRepo {
     return await apiClient.postData(AppConstants.readWatchStatus, {"read_watch": pageNo, "category" : categoryId});
   }
   Future<Response> saveWatch(String? userId,String? noteId,) async {
-    return await apiClient.postData(AppConstants.savedWatchUrl, {"user_id": userId, "watch_id" : noteId});
+    return await apiClient.postData(AppConstants.savedWatch, {"user_id": userId, "watch_id" : noteId});
   }
 
 

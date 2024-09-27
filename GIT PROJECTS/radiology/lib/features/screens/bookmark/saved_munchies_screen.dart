@@ -62,7 +62,7 @@ class SavedMunchiesScreen extends StatelessWidget {
               Share.share(AppConstants.shareContent); // Replace with your content
             },
           ),
-          appBar:  CustomAppBar(
+          appBar:  const CustomAppBar(
             title: "Saved Munchies",
             isBackButtonExist: true,
             backGroundColor: Colors.black,
@@ -71,9 +71,9 @@ class SavedMunchiesScreen extends StatelessWidget {
           body:  Stack(
             children: [
               isListEmpty && !spottersControl.isSavedNotesLoading ? Padding(
-                padding: const EdgeInsets.only(top: Dimensions.paddingSize100),
+                padding: const EdgeInsets.only(top: 0),
                 child: Center(child: EmptyDataWidget(image: Images.emptyDataBlackImage,
-                  fontColor:  Theme.of(context).disabledColor, text: 'No Saved Notes Yet',)),
+                  fontColor:  Theme.of(context).disabledColor, text: 'Nothing Available',)),
               ) :
               // isListEmpty
               //   ? const Center(child: LoaderWidget()) :

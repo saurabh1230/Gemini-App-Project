@@ -87,7 +87,7 @@ class _MunchiesCategoryScreenState extends State<MunchiesCategoryScreen> {
                       )
                           : Center(
                         child: Text(
-                          'No Munchies available',
+                          'Nothing available',
                           style: poppinsRegular.copyWith(
                             fontSize: Dimensions.fontSize14,
                             color: Theme.of(context).cardColor.withOpacity(0.50),

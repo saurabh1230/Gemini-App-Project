@@ -65,7 +65,7 @@ class CustomDrawer extends StatelessWidget {
                           Get.toNamed(RouteHelper.getSavedMunchiesScreen());
                         }),
                         Divider(color: Theme.of(context).cardColor,),
-                        buildContainer(context,"Saved Back To Basics",tap : () {
+                        buildContainer(context,"Saved Back To Basic",tap : () {
                           Get.toNamed(RouteHelper.getSavedBasicScreen());
                         }),
                         Divider(color: Theme.of(context).cardColor,),

@@ -14,18 +14,21 @@ class LoaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
-        child: SizedBox(
-      height: Get.height,
-      width: Get.width,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-            sigmaX: 1.0, sigmaY: 1.0, tileMode: TileMode.mirror),
-        child:
-            Center(
-              child: Lottie.asset('assets/images/Animation - 1721799150210.json', height: 80),
-            ),
-            ),
-      ),
+        child: Container(
+          color: Theme.of(context).cardColor,
+          child: SizedBox(
+                height: Get.height,
+                width: Get.width,
+                child: BackdropFilter(
+          filter: ImageFilter.blur(
+              sigmaX: 1.0, sigmaY: 1.0, tileMode: TileMode.mirror),
+          child:
+              Center(
+                child: Lottie.asset('assets/images/Animation - 1721799150210.json', height: 80),
+              ),
+              ),
+                ),
+        ),
     );
   }
 }

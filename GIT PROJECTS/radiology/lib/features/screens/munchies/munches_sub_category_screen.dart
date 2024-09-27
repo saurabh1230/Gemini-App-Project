@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:radiology/controllers/notes_controller.dart';
+import 'package:radiology/data/repo/munchies_repo.dart';
 import 'package:radiology/data/repo/note_repo.dart';
 import 'package:radiology/features/screens/custom_appbar.dart';
 import 'package:radiology/features/screens/notes/components/note_selectio_section.dart';
@@ -13,6 +14,7 @@ import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/styles.dart';
 import 'package:get/get.dart';
 
+import '../../../controllers/munchies_controller.dart';
 import '../../../data/model/response/note_list_model.dart';
 
 class MunchesSubCategoryScreen extends StatelessWidget {
@@ -23,16 +25,16 @@ class MunchesSubCategoryScreen extends StatelessWidget {
     required this.noteListModel,
   });
 
-  final NoteRepo notesRp = Get.put(NoteRepo(apiClient: Get.find()));
-  final NotesController notesController = Get.put(NotesController(noteRepo: Get.find()));
+  final MunchiesRepo notesRp = Get.put(MunchiesRepo(apiClient: Get.find()));
+  final MunchiesController notesController = Get.put(MunchiesController(munchiesRepo: Get.find()));
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      notesController.getNoteList();
+      notesController.getMunchesList();
     });
 
-    return GetBuilder<NotesController>(builder: (noteControl) {
+    return GetBuilder<MunchiesController>(builder: (noteControl) {
       return Stack(
         children: [
           SafeArea(
@@ -43,6 +45,7 @@ class MunchesSubCategoryScreen extends StatelessWidget {
               ),
               body: RefreshIndicator(
                 onRefresh: () async {
+                  notesController.getMunchesList();
 
 
                 },
@@ -82,14 +85,14 @@ class MunchesSubCategoryScreen extends StatelessWidget {
                         separatorBuilder: (BuildContext context, int index) => sizedBoxDefault(),
                       ) : const Center(child: EmptyDataWidget(
                         image: Images.emptyDataImage,
-                        text: "No Munches Available",)),
+                        text: "Nothing Available",)),
                     ],
                   ),
                 ),
               ),
             ),
           ),
-          if (noteControl.isNoteLoading || noteControl.noteList == null)
+          if (noteControl.isMunchiesLoading || noteControl.munchiesList == null)
             const LoaderWidget(),
         ],
       );

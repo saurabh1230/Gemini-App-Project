@@ -46,8 +46,7 @@ class BasicSubCategoryScreen extends StatelessWidget {
               ),
               body: RefreshIndicator(
                 onRefresh: () async {
-
-
+                  controller.getBasicList();
                 },
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -92,7 +91,7 @@ class BasicSubCategoryScreen extends StatelessWidget {
               ),
             ),
           ),
-          if (noteControl.isBasicLoading || noteControl.isBasicLoading == null)
+          if (noteControl.isBasicLoading || noteControl.list == null)
             const LoaderWidget(),
         ],
       );

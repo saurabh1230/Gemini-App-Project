@@ -3,6 +3,7 @@ import 'package:radiology/controllers/auth_controller.dart';
 import 'package:radiology/data/model/response/category_note_list_model.dart';
 import 'package:radiology/data/model/response/osce_model.dart';
 import 'package:radiology/data/model/response/spotters_list_model.dart';
+import 'package:radiology/data/model/response/watchLearnModel.dart';
 import 'package:radiology/data/repo/spotters_repo.dart';
 import 'package:radiology/features/widgets/custom_snackbar_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -421,12 +422,12 @@ class BookmarkController extends GetxController implements GetxService {
 
   /// watch///
 
-
-  List<CategoryNoteListModel?>? _bookmarkWatchList = [];
-  List<CategoryNoteListModel?>? get bookmarkWatchList => _bookmarkWatchList;
+  List<WatchLearnModel?>? _bookmarkWatchList = [];
+  List<WatchLearnModel?>? get bookmarkWatchList => _bookmarkWatchList;
 
   List<int?> _bookmarkWatchIdList = [];
   List<int?> get bookmarkWatchIdList => _bookmarkWatchIdList;
+
 
   Future<void> _saveWatchBookmarks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -443,29 +444,31 @@ class BookmarkController extends GetxController implements GetxService {
     update();
   }
 
-  void addWatchBookMarkList(String? userId, CategoryNoteListModel? watchListModel) async {
-    Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(), watchListModel!.id.toString());
+  void addWatchBookMarkList(String? userId,WatchLearnModel? notesListModel) async {
+    Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(),notesListModel!.id.toString(),);
     if (response.statusCode == 200) {
-      _bookmarkWatchList!.add(watchListModel);
-      _bookmarkWatchIdList.add(watchListModel.id);
-      showCustomSnackBar('Saved Successfully', isError: false);
+      _bookmarkWatchList!.add(notesListModel);
+      _bookmarkWatchIdList.add(notesListModel.id);
+      showCustomSnackBar('Note Saved', isError: false);
       await _saveWatchBookmarks();
     }
     update();
   }
 
-  void removeWatchBookMarkList(int? id) async {
-    Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(), id.toString());
+  void removeWatchBookMarkList(int? id,) async {
+    Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(),id.toString());
     if (response.statusCode == 200) {
-      int idIndex = _bookmarkWatchIdList.indexOf(id);
+      int idIndex = -1;
+      idIndex = _bookmarkWatchIdList.indexOf(id);
       _bookmarkWatchIdList.removeAt(idIndex);
       _bookmarkWatchList!.removeAt(idIndex);
       getSavedWatchPaginatedList('1');
-      showCustomSnackBar('Unsaved Successfully', isError: false);
-      await _saveWatchBookmarks();
+      showCustomSnackBar('Note Unsaved', isError: false);
+      await _saveNoteBookmarks();
     }
     update();
   }
+
 
   /// munches //
   List<CategoryNoteListModel?>? _bookmarkMunchieList = [];
@@ -520,8 +523,8 @@ class BookmarkController extends GetxController implements GetxService {
 
   bool get isSavedWatchLoading => _isSavedWatchLoading;
 
-  List<CategoryNoteListModel>? _savedWatchList;
-  List<CategoryNoteListModel>? get savedWatchList => _savedWatchList;
+  List<WatchLearnModel>? _savedWatchList;
+  List<WatchLearnModel>? get savedWatchList => _savedWatchList;
   Future<void> getSavedWatchPaginatedList(String page) async {
     _isSavedWatchLoading = true;
     try {
@@ -534,31 +537,25 @@ class BookmarkController extends GetxController implements GetxService {
 
       if (!_pageList.contains(page)) {
         _pageList.add(page);
-
         Response response = await spottersRepo.getSavedWatchList(page,Get.find<AuthController>().profileData!.id.toString());
-
         if (response.statusCode == 200) {
-          // Adjust the parsing to match the response structure
           Map<String, dynamic> responseData = response.body['data']['list'];
           List<dynamic> dataList = responseData['data'];
-          List<CategoryNoteListModel> newDataList = dataList.map((json) =>
-              CategoryNoteListModel.fromJson(json)).toList();
+          List<WatchLearnModel> newDataList = dataList.map((json) =>
+              WatchLearnModel.fromJson(json)).toList();
 
           if (page == '1') {
-            // Reset product list for first page
             _savedWatchList = newDataList;
           } else {
-            // Append data for subsequent pages
+
             _savedWatchList!.addAll(newDataList);
           }
 
           _isSavedWatchLoading = false;
           update();
         } else {
-          // ApiChecker.checkApi(response);
         }
       } else {
-        // Page already loaded or in process, handle loading state
         if (_isSavedWatchLoading) {
           _isSavedWatchLoading = false;
           update();
