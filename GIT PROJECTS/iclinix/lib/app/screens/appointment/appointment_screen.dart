@@ -26,7 +26,7 @@ class AppointmentScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ClinicContentCard(),
+                  const ClinicContentCard(),
                   sizedBox100(),
                 ],
               ),

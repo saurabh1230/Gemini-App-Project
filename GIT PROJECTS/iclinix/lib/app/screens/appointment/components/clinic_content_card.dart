@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iclinix/app/widget/custom_card_container.dart';
+import 'package:iclinix/helper/route_helper.dart';
 import 'package:iclinix/utils/dimensions.dart';
 import 'package:iclinix/utils/sizeboxes.dart';
 import 'package:iclinix/utils/styles.dart';
@@ -20,6 +21,9 @@ class ClinicContentCard extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (_,i) {
       return CustomCardContainer(
+        tap: () {
+          Get.toNamed(RouteHelper.getSelectSlotRoute());
+        },
         child: Column(
           children: [
             Image.asset(

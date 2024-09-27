@@ -1,5 +1,6 @@
 
 import 'package:get/get.dart';
+import 'package:iclinix/app/screens/appointment/select_slot_screen.dart';
 import 'package:iclinix/app/screens/auth/login_screen.dart';
 import 'package:iclinix/app/screens/auth/otp_verification_screen.dart';
 import 'package:iclinix/app/screens/dashboard/dashboard_screen.dart';
@@ -12,6 +13,7 @@ class RouteHelper {
   static const String login = '/login';
   static const String otpVerification = '/otp-verification';
   static const String dashboard = '/dashboard';
+  static const String selectSlot = '/select-slot';
 
 
 
@@ -22,6 +24,7 @@ class RouteHelper {
   static String getLoginRoute() => login;
   static String getOtpVerificationRoute(String? phoneNo,) => '$otpVerification?phoneNo=$phoneNo';
   static String getDashboardRoute() => dashboard;
+  static String getSelectSlotRoute() => selectSlot;
 
 
 
@@ -32,6 +35,7 @@ class RouteHelper {
     GetPage(name: login, page: () =>  LoginScreen()),
     GetPage(name: otpVerification, page: () =>  OtpVerificationScreen(phoneNo :Get.parameters['phoneNo'])),
     GetPage(name: dashboard, page: () =>  const DashboardScreen(pageIndex: 0)),
+    GetPage(name: selectSlot, page: () =>  SelectSlotScreen()),
 
 
 
