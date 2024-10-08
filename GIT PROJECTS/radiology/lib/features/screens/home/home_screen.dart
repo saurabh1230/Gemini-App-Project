@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:radiology/controllers/auth_controller.dart';
+import 'package:radiology/features/screens/search/search_screen.dart';
 import 'package:radiology/features/widgets/drawer.dart';
 import 'package:radiology/features/widgets/exit_confirmation_dialog.dart';
 import 'package:radiology/helper/route_helper.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:radiology/utils/sizeboxes.dart';
 import 'package:radiology/utils/strings.dart';
 import 'package:radiology/utils/styles.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -72,6 +74,12 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              actions: [
+                TextButton(onPressed: () {
+                  Get.to(SearchScreen());
+                }, child: Icon(CupertinoIcons.search,
+                color: Theme.of(context).cardColor,))
+              ],
             ),
             body: Stack(
               children: [

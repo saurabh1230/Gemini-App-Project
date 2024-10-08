@@ -21,6 +21,10 @@ class MunchiesRepo {
     return await apiClient.postData(AppConstants.savedMunchiesUrl, {"user_id": userId, "munchie_id" : noteId});
   }
 
+  Future<Response> getMunchiesDetails(id) {
+    return apiClient.getData('${AppConstants.munchieDetailsUrl}?id=$id');
+  }
+
 
 
 

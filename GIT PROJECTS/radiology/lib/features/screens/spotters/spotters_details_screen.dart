@@ -25,6 +25,7 @@ class SpottersDetailsScreen extends StatelessWidget {
       Get.find<SpottersController>().getSpottersDetailsApi(spottersId);
     });
     return Scaffold(
+      backgroundColor: Theme.of(context).cardColor,
       appBar: CustomAppBar(
         title: title,
         isBackButtonExist: true,
@@ -71,7 +72,7 @@ class SpottersDetailsScreen extends StatelessWidget {
                               "${spottersDetails.title.toString()} : ",
                               style: poppinsBold.copyWith(
                                 fontSize: Dimensions.fontSizeDefault,
-                                color: Theme.of(context).cardColor,
+                                color: Theme.of(context).disabledColor,
                               ),
                             ),
                             Text(
@@ -80,10 +81,10 @@ class SpottersDetailsScreen extends StatelessWidget {
                                 fontSize: Dimensions.fontSize12,
                                 fontWeight: FontWeight.w100,
 
-                                color: Theme.of(context).cardColor,
+                                color: Theme.of(context).disabledColor,
                               ),
                             ),
-                            Divider(color: Theme.of(context).cardColor.withOpacity(0.50),)
+                            Divider(color: Theme.of(context).disabledColor.withOpacity(0.50),)
                           ],
                         ),
                       ),

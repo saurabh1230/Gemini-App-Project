@@ -2,15 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:radiology/data/repo/spotters_repo.dart';
 import 'package:radiology/helper/route_helper.dart';
 import 'package:radiology/utils/app_constants.dart';
 import 'package:radiology/utils/themes/light_theme.dart';
+import 'controllers/munchies_controller.dart';
+import 'data/api/api_client.dart';
+import 'data/repo/munchies_repo.dart';
 import 'helper/gi_dart.dart' as di;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // if(!GetPlatform.isWeb) {
   HttpOverrides.global = MyHttpOverrides();
   await di.init();
+  Get.lazyPut<MunchiesRepo>(() => MunchiesRepo(apiClient: Get.find<ApiClient>()));
+  Get.lazyPut<SpottersRepo>(() => SpottersRepo(apiClient: Get.find<ApiClient>()));
+  Get.lazyPut<MunchiesController>(() => MunchiesController(munchiesRepo: Get.find<MunchiesRepo>()));
+
   runApp(const MyApp());
 }
 
@@ -26,7 +33,6 @@ class MyHttpOverrides extends HttpOverrides {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

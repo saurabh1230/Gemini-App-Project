@@ -22,6 +22,10 @@ class NoteRepo {
     return await apiClient.postData(AppConstants.readNoteStatus, {"read_note": pageNo, "category" : categoryId});
   }
 
+  Future<Response> getNoteDetails(id) {
+    return apiClient.getData('${AppConstants.notesDetailsUrl}?id=$id');
+  }
+
 
 
 }

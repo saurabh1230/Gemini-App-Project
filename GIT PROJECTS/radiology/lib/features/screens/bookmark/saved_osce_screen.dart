@@ -72,12 +72,12 @@ class SavedOsceScreen extends StatelessWidget {
             isListEmpty && !spottersControl.isSavedOsceLoading
                 ? Padding(
                     padding:
-                        const EdgeInsets.only(top: Dimensions.paddingSize100),
+                        const EdgeInsets.only(top: 0),
                     child: Center(
                         child: EmptyDataWidget(
                       image: Images.emptyDataBlackImage,
                       fontColor: Theme.of(context).disabledColor,
-                      text: 'No Saved OSCE Yet',
+                      text: 'Nothing Yet',
                     )),
                   )
                 :

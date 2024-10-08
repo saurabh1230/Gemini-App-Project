@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:radiology/data/model/response/category_note_list_model.dart';
+import 'package:radiology/data/model/response/munchies_details_model.dart';
 import 'package:radiology/data/model/response/munchies_model.dart';
 import 'package:radiology/data/model/response/note_list_model.dart';
 import 'package:radiology/data/repo/munchies_repo.dart';
@@ -167,4 +168,46 @@ class MunchiesController extends GetxController {
     expandedItems[id] = !(expandedItems[id] ?? false);
     update();
   }
+
+  bool _isMunchiesDetailsLoading = false;
+  bool get isMunchiesDetailsLoading => _isMunchiesDetailsLoading;
+
+  MunchiesDetailsModel? _munchiesDetails;
+  MunchiesDetailsModel? get munchiesDetails => _munchiesDetails;
+
+  Future<MunchiesDetailsModel?> getMunchiesDetailsApi(String? id) async {
+    print('munchies details APi ================>');
+    _isMunchiesDetailsLoading = true;
+    _munchiesDetails = null;
+    update();
+
+    try {
+      Response response = await munchiesRepo.getMunchiesDetails(id);
+
+      if (response.statusCode == 200) {
+        final data = response.body['data'];
+
+        if (data != null && data['munchiehow'] != null) {
+          Map<String, dynamic> responseData = data['munchiehow'];
+          _munchiesDetails = MunchiesDetailsModel.fromJson(responseData);
+        } else {
+          // Handle case where datalist is null
+          print("munchiehow is null");
+        }
+      } else {
+        // Handle non-200 status codes
+        print("Failed to load data: ${response.statusCode}");
+        // ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      // Handle exceptions
+      print("Exception occurred: $e");
+    }
+
+    _isMunchiesDetailsLoading = false;
+    update();
+    return _munchiesDetails;
+  }
+
+
 }

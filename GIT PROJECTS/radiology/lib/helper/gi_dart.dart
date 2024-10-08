@@ -6,6 +6,7 @@ import 'package:radiology/controllers/basic_controller.dart';
 import 'package:radiology/controllers/bookmark_controller.dart';
 import 'package:radiology/controllers/munchies_controller.dart';
 import 'package:radiology/controllers/notes_controller.dart';
+import 'package:radiology/controllers/search_controller.dart';
 import 'package:radiology/controllers/spotters_controller.dart';
 import 'package:radiology/controllers/watch_controller.dart';
 import 'package:radiology/data/api/api_client.dart';
@@ -47,6 +48,7 @@ Future<void>   init() async {
   Get.lazyPut(() => BookmarkController(spottersRepo:  Get.find()));
   Get.lazyPut(() => BasicController(basicRepo:  Get.find()));
   Get.lazyPut(() => WatchController(watchRepo:  Get.find()));
+  Get.lazyPut(() => SearchDataController(spottersRepo:  Get.find()));
 
 
 

@@ -12,14 +12,6 @@ class BookmarkController extends GetxController implements GetxService {
 
   BookmarkController({required this.spottersRepo});
 
-  List<SpottersListModel?>? _bookmarkList = [];
-
-  List<SpottersListModel?>? get bookmarkList => _bookmarkList;
-
-
-  List<int?> _bookmarkIdList = [];
-
-  List<int?> get bookmarkIdList => _bookmarkIdList;
 
   @override
   void onInit() {
@@ -31,6 +23,16 @@ class BookmarkController extends GetxController implements GetxService {
     _loadWatchBookmarks();
     _loadMunchieBookmarks();
   }
+
+  List<SpottersListModel?>? _bookmarkList = [];
+
+  List<SpottersListModel?>? get bookmarkList => _bookmarkList;
+
+
+  List<int?> _bookmarkIdList = [];
+
+  List<int?> get bookmarkIdList => _bookmarkIdList;
+
 
   Future<void> _saveBookmarks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -60,19 +62,44 @@ class BookmarkController extends GetxController implements GetxService {
     update();
   }
 
-  void removeFromBookMarkList(int? id,) async {
-    Response response = await spottersRepo.saveSpotter(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  void removeFromBookMarkList(int? id) async {
+    Response response = await spottersRepo.saveSpotter(
+      Get.find<AuthController>().profileData!.id.toString(),
+      id.toString(),
+    );
+
     if (response.statusCode == 200) {
-      int idIndex = -1;
-      idIndex = _bookmarkIdList.indexOf(id);
-      _bookmarkIdList.removeAt(idIndex);
-      _bookmarkList!.removeAt(idIndex);
-      getSavedSpottersPaginatedList('1');
-      showCustomSnackBar('Spotter Unsaved', isError: false);
-      await _saveBookmarks();
+      int idIndex = _bookmarkIdList.indexOf(id);
+
+      if (idIndex != -1) {
+        // Only proceed if the index is valid
+        _bookmarkIdList.removeAt(idIndex);
+        _bookmarkList!.removeAt(idIndex);
+        getSavedSpottersPaginatedList('1');
+        showCustomSnackBar('Spotter Unsaved', isError: false);
+        await _saveBookmarks();
+      } else {
+        // Handle the case where the id was not found
+        print('ID $id not found in bookmark list.');
+      }
     }
     update();
   }
+
+
+  // void removeFromBookMarkList(int? id,) async {
+  //   Response response = await spottersRepo.saveSpotter(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  //   if (response.statusCode == 200) {
+  //     int idIndex = -1;
+  //     idIndex = _bookmarkIdList.indexOf(id);
+  //     _bookmarkIdList.removeAt(idIndex);
+  //     _bookmarkList!.removeAt(idIndex);
+  //     getSavedSpottersPaginatedList('1');
+  //     showCustomSnackBar('Spotter Unsaved', isError: false);
+  //     await _saveBookmarks();
+  //   }
+  //   update();
+  // }
 
 
   int _offset = 1;
@@ -183,16 +210,40 @@ class BookmarkController extends GetxController implements GetxService {
     update();
   }
 
-  void removeNoteBookMarkList(int? id,) async {
-    Response response = await spottersRepo.saveNote(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  // void removeNoteBookMarkList(int? id,) async {
+  //   Response response = await spottersRepo.saveNote(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  //   if (response.statusCode == 200) {
+  //     int idIndex = -1;
+  //     idIndex = _bookmarkNoteIdList.indexOf(id);
+  //     _bookmarkNoteIdList.removeAt(idIndex);
+  //     _bookmarkNoteList!.removeAt(idIndex);
+  //     getSavedNotesPaginatedList('1');
+  //     showCustomSnackBar('Note Unsaved', isError: false);
+  //     await _saveNoteBookmarks();
+  //   }
+  //   update();
+  // }
+
+  void removeNoteBookMarkList(int? id) async {
+    Response response = await spottersRepo.saveNote(
+      Get.find<AuthController>().profileData!.id.toString(),
+      id.toString(),
+    );
+
     if (response.statusCode == 200) {
-      int idIndex = -1;
-      idIndex = _bookmarkNoteIdList.indexOf(id);
-      _bookmarkNoteIdList.removeAt(idIndex);
-      _bookmarkNoteList!.removeAt(idIndex);
-      getSavedNotesPaginatedList('1');
-      showCustomSnackBar('Note Unsaved', isError: false);
-      await _saveNoteBookmarks();
+      int idIndex = _bookmarkNoteIdList.indexOf(id);
+
+      if (idIndex != -1) {
+        // Only proceed if the index is valid
+        _bookmarkNoteIdList.removeAt(idIndex);
+        _bookmarkNoteList!.removeAt(idIndex);
+        getSavedNotesPaginatedList('1');
+        showCustomSnackBar('Note Unsaved', isError: false);
+        await _saveNoteBookmarks();
+      } else {
+        // Handle the case where the id was not found
+        print('ID $id not found in Note bookmark list.');
+      }
     }
     update();
   }
@@ -227,22 +278,46 @@ class BookmarkController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _osceBookmarkList!.add(osceModel);
       _osceBookmarkIdList.add(osceModel.id);
-      showCustomSnackBar('Osce Saved', isError: false);
+      showCustomSnackBar('OSCE Saved', isError: false);
       await _saveOsceBookmarks();
     }
     update();
   }
 
-  void removeOsceBookmark(int? id,) async {
-    Response response = await spottersRepo.saveOsce(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  // void removeOsceBookmark(int? id,) async {
+  //   Response response = await spottersRepo.saveOsce(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  //   if (response.statusCode == 200) {
+  //     int idIndex = -1;
+  //     idIndex = _osceBookmarkIdList.indexOf(id);
+  //     _osceBookmarkIdList.removeAt(idIndex);
+  //     _osceBookmarkList!.removeAt(idIndex);
+  //     getSavedOscePaginatedList('1');
+  //     showCustomSnackBar('Osce Unsaved', isError: false);
+  //     await _saveOsceBookmarks();
+  //   }
+  //   update();
+  // }
+
+  void removeOsceBookmark(int? id) async {
+    Response response = await spottersRepo.saveOsce(
+      Get.find<AuthController>().profileData!.id.toString(),
+      id.toString(),
+    );
+
     if (response.statusCode == 200) {
-      int idIndex = -1;
-      idIndex = _osceBookmarkIdList.indexOf(id);
-      _osceBookmarkIdList.removeAt(idIndex);
-      _osceBookmarkList!.removeAt(idIndex);
-      getSavedOscePaginatedList('1');
-      showCustomSnackBar('Osce Unsaved', isError: false);
-      await _saveOsceBookmarks();
+      int idIndex = _osceBookmarkIdList.indexOf(id);
+
+      if (idIndex != -1) {
+        // Only proceed if the index is valid
+        _osceBookmarkIdList.removeAt(idIndex);
+        _osceBookmarkList!.removeAt(idIndex);
+        getSavedOscePaginatedList('1');
+        showCustomSnackBar('OSCE Unsaved', isError: false);
+        await _saveOsceBookmarks();
+      } else {
+        // Handle the case where the id was not found
+        print('ID $id not found in OSCE bookmark list.');
+      }
     }
     update();
   }
@@ -400,22 +475,47 @@ class BookmarkController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _bookmarkBasicList!.add(notesListModel);
       _bookmarkBasicIdList.add(notesListModel.id);
-      showCustomSnackBar('Back To Basics Saved', isError: false);
+      showCustomSnackBar('Saved Successfully', isError: false);
       await _saveBasicBookmarks();
     }
     update();
   }
 
-  void removeBasicBookMarkList(int? id,) async {
-    Response response = await spottersRepo.saveBasic(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  // void removeBasicBookMarkList(int? id,) async {
+  //   Response response = await spottersRepo.saveBasic(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  //   if (response.statusCode == 200) {
+  //     int idIndex = -1;
+  //     idIndex = _bookmarkBasicIdList.indexOf(id);
+  //     _bookmarkBasicIdList.removeAt(idIndex);
+  //     _bookmarkBasicList!.removeAt(idIndex);
+  //     getSavedBasicPaginatedList('1');
+  //     showCustomSnackBar('Note Unsaved', isError: false);
+  //     await _saveBasicBookmarks();
+  //   }
+  //   update();
+  // }
+
+
+  void removeBasicBookMarkList(int? id) async {
+    Response response = await spottersRepo.saveBasic(
+      Get.find<AuthController>().profileData!.id.toString(),
+      id.toString(),
+    );
+
     if (response.statusCode == 200) {
-      int idIndex = -1;
-      idIndex = _bookmarkBasicIdList.indexOf(id);
-      _bookmarkBasicIdList.removeAt(idIndex);
-      _bookmarkBasicList!.removeAt(idIndex);
-      getSavedBasicPaginatedList('1');
-      showCustomSnackBar('Note Unsaved', isError: false);
-      await _saveBasicBookmarks();
+      int idIndex = _bookmarkBasicIdList.indexOf(id);
+
+      if (idIndex != -1) {
+        // Only proceed if the index is valid
+        _bookmarkBasicIdList.removeAt(idIndex);
+        _bookmarkBasicList!.removeAt(idIndex);
+        getSavedBasicPaginatedList('1');
+        showCustomSnackBar('Unsaved Successfully', isError: false);
+        await _saveBasicBookmarks();
+      } else {
+        // Handle the case where the id was not found
+        print('ID $id not found in Note bookmark list.');
+      }
     }
     update();
   }
@@ -449,22 +549,45 @@ class BookmarkController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _bookmarkWatchList!.add(notesListModel);
       _bookmarkWatchIdList.add(notesListModel.id);
-      showCustomSnackBar('Note Saved', isError: false);
+      showCustomSnackBar('Saved Successfully', isError: false);
       await _saveWatchBookmarks();
     }
     update();
   }
 
-  void removeWatchBookMarkList(int? id,) async {
-    Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  // void removeWatchBookMarkList(int? id,) async {
+  //   Response response = await spottersRepo.saveWatch(Get.find<AuthController>().profileData!.id.toString(),id.toString());
+  //   if (response.statusCode == 200) {
+  //     int idIndex = -1;
+  //     idIndex = _bookmarkWatchIdList.indexOf(id);
+  //     _bookmarkWatchIdList.removeAt(idIndex);
+  //     _bookmarkWatchList!.removeAt(idIndex);
+  //     getSavedWatchPaginatedList('1');
+  //     showCustomSnackBar('Note Unsaved', isError: false);
+  //     await _saveNoteBookmarks();
+  //   }
+  //   update();
+  // }
+  void removeWatchBookMarkList(int? id) async {
+    Response response = await spottersRepo.saveWatch(
+      Get.find<AuthController>().profileData!.id.toString(),
+      id.toString(),
+    );
+
     if (response.statusCode == 200) {
-      int idIndex = -1;
-      idIndex = _bookmarkWatchIdList.indexOf(id);
-      _bookmarkWatchIdList.removeAt(idIndex);
-      _bookmarkWatchList!.removeAt(idIndex);
-      getSavedWatchPaginatedList('1');
-      showCustomSnackBar('Note Unsaved', isError: false);
-      await _saveNoteBookmarks();
+      int idIndex = _bookmarkWatchIdList.indexOf(id);
+
+      if (idIndex != -1) {
+        // Only proceed if the index is valid
+        _bookmarkWatchIdList.removeAt(idIndex);
+        _bookmarkWatchList!.removeAt(idIndex);
+        getSavedWatchPaginatedList('1');
+        showCustomSnackBar('Unsaved Successfully', isError: false);
+        await _saveWatchBookmarks();
+      } else {
+        // Handle the case where the id was not found
+        print('ID $id not found in Note bookmark list.');
+      }
     }
     update();
   }
@@ -503,15 +626,40 @@ class BookmarkController extends GetxController implements GetxService {
     update();
   }
 
+
+  // void removeMunchieBookMarkList(int? id) async {
+  //   Response response = await spottersRepo.saveMunchies(Get.find<AuthController>().profileData!.id.toString(), id.toString());
+  //   if (response.statusCode == 200) {
+  //     int idIndex = _bookmarkMunchieIdList.indexOf(id);
+  //     _bookmarkMunchieIdList.removeAt(idIndex);
+  //     _bookmarkMunchieList!.removeAt(idIndex);
+  //     getSavedMunchiesPaginatedList('1');
+  //     showCustomSnackBar('Unsaved Successfully', isError: false);
+  //     await _saveMunchieBookmarks();
+  //   }
+  //   update();
+  // }
+
   void removeMunchieBookMarkList(int? id) async {
-    Response response = await spottersRepo.saveMunchies(Get.find<AuthController>().profileData!.id.toString(), id.toString());
+    Response response = await spottersRepo.saveMunchies(
+      Get.find<AuthController>().profileData!.id.toString(),
+      id.toString(),
+    );
+
     if (response.statusCode == 200) {
       int idIndex = _bookmarkMunchieIdList.indexOf(id);
-      _bookmarkMunchieIdList.removeAt(idIndex);
-      _bookmarkMunchieList!.removeAt(idIndex);
-      getSavedMunchiesPaginatedList('1');
-      showCustomSnackBar('Unsaved Successfully', isError: false);
-      await _saveMunchieBookmarks();
+
+      if (idIndex != -1) {
+        // Only proceed if the index is valid
+        _bookmarkMunchieIdList.removeAt(idIndex);
+        _bookmarkMunchieList!.removeAt(idIndex);
+        getSavedMunchiesPaginatedList('1');
+        showCustomSnackBar('Munchies Unsaved', isError: false);
+        await _saveMunchieBookmarks();
+      } else {
+        // Handle the case where the id was not found
+        print('ID $id not found in Munchies bookmark list.');
+      }
     }
     update();
   }

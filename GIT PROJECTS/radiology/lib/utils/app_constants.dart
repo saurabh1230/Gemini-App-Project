@@ -25,7 +25,6 @@ class AppConstants {
   static const String bookMarkListUrl = 'spotters/get-bookmark';
   static const String savedNotesListUrl = 'note/get-note-bookmark';
   static const String savedWatchListUrl = 'watch-and-learn-category/get-watch-bookmark';
-
   static const String savedOsceListUrl = 'osce/get-osce-bookmark';
   static const String savedNoteUrl = 'note/change-note-bookmark-status';
   static const String savedOsceUrl = 'osce/change-osce-bookmark';
@@ -44,6 +43,9 @@ class AppConstants {
   static const String watchNotesUrl = 'watch-and-learn-category/category-watch';
   static const String savedMunchiesListUrl = 'category-munchie/get-munchie-bookmark';
   static const String savedBasicListUrl = 'basic-category/get-basic-bookmark';
+  static const String searchUrl = 'search';
+  static const String notesDetailsUrl = 'note/note-details';
+  static const String munchieDetailsUrl = 'munchies/show';
 
 
 

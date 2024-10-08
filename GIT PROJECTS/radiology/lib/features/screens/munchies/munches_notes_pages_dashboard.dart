@@ -19,12 +19,14 @@ import 'package:radiology/utils/styles.dart';
 import 'package:loop_page_view/loop_page_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
+
 class MunchesNotesDashboard extends StatelessWidget {
   final String? categoryId;
   final String? categoryName;
   MunchesNotesDashboard({super.key, required this.categoryId, this.categoryName});
   final MunchiesController notesController = Get.put(MunchiesController(munchiesRepo: Get.find()));
   final MunchiesRepo notesRp = Get.put(MunchiesRepo(apiClient: Get.find()));
+
   final LoopPageController _loopPageController = LoopPageController();
   final ScrollController _scrollController = ScrollController();
 

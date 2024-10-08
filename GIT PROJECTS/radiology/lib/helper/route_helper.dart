@@ -23,6 +23,8 @@ import 'package:radiology/features/screens/spotters/spotters_screen.dart';
 import 'package:radiology/features/screens/watch/watch_category_screen.dart';
 import 'package:radiology/features/screens/watch/watch_pages_dashboard.dart';
 
+import '../features/screens/munchies/munchies_details_screen.dart';
+
 
 class RouteHelper {
   static const String initial = '/';
@@ -34,6 +36,7 @@ class RouteHelper {
   static const String spotters = '/spotters';
   static const String notesDashboard = '/notes-dashboard';
   static const String munchesDashboard = '/munches-dashboard';
+  static const String munchesDetails = '/munches-details';
   static const String basicDashboard = '/basic-dashboard';
   static const String watchDashboard = '/watch-dashboard';
   static const String forgotVerifyOtp = '/forgot-verify';
@@ -63,6 +66,7 @@ class RouteHelper {
   static String getSpottersRoute() => spotters;
   static String getNotesDashboardRoute(String? categoryId,String? categoryName,) => '$notesDashboard?categoryId=$categoryId&categoryName=$categoryName';
   static String getMunchesDashboardRoute(String? categoryId,String? categoryName,) => '$munchesDashboard?categoryId=$categoryId&categoryName=$categoryName';
+  static String getMunchesDetailsRoute(String? categoryId,String? categoryName,) => '$munchesDetails?categoryId=$categoryId&categoryName=$categoryName';
   static String getBasicDashboardRoute(String? categoryId,String? categoryName,) => '$basicDashboard?categoryId=$categoryId&categoryName=$categoryName';
   static String getWatchDashboardRoute(String? categoryId,String? categoryName,) => '$watchDashboard?categoryId=$categoryId&categoryName=$categoryName';
   static String getSpottersDetailsRoute(String? id,String? title,) => '$spottersDetails?spottersID=$id&title=$title';
@@ -91,6 +95,7 @@ class RouteHelper {
     GetPage(name: spotters, page: () =>  SpottersScreen()),
     GetPage(name: notesDashboard, page: () =>  NotesDashboard(categoryId: Get.parameters['categoryId'],categoryName: Get.parameters['categoryName'],)),
     GetPage(name: munchesDashboard, page: () =>  MunchesNotesDashboard(categoryId: Get.parameters['categoryId'],categoryName: Get.parameters['categoryName'],)),
+    GetPage(name: munchesDetails, page: () =>  MunchiesDetailScreen(categoryId: Get.parameters['categoryId'],categoryName: Get.parameters['categoryName'],)),
     GetPage(name: basicDashboard, page: () =>  BasicNotesDashboard(categoryId: Get.parameters['categoryId'],categoryName: Get.parameters['categoryName'],)),
     GetPage(name: watchDashboard, page: () =>  WatchNotesDashboard(categoryId: Get.parameters['categoryId'],categoryName: Get.parameters['categoryName'],)),
     GetPage(name: spottersDetails, page: () =>  SpottersDetailsScreen(spottersId: Get.parameters['spottersID'],title:  Get.parameters['title'],)),

@@ -75,6 +75,9 @@ class SpottersRepo {
     return await apiClient.getData('${AppConstants.savedBasicListUrl}?page=$page&user_id=$userId');
   }
 
+  Future<Response> getSearchApi(String title,) async {
+    return await apiClient.getData('${AppConstants.searchUrl}?title=$title');
+  }
 
 
 
