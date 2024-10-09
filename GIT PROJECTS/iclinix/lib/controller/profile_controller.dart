@@ -49,6 +49,9 @@ class ProfileController extends GetxController implements GetxService {
     selectedGender = gender;
     update();
   }
+  String getGenderStatus() {
+    return 'gender name == ${selectedGender == 'Male' ? 'M' : 'F'}';
+  }
 
   var selectedDiabetes = 'No';
   final List<String> diabetesOptions = ['No','Yes'];
@@ -56,6 +59,9 @@ class ProfileController extends GetxController implements GetxService {
   void updateDiabetes(String val) {
     selectedDiabetes = val;
     update();
+  }
+  String getDiabetesStatus() {
+    return 'diabetes name == ${selectedDiabetes == 'No' ? '0' : '1'}';
   }
 
   var selectedGlasses = 'No';
@@ -66,12 +72,21 @@ class ProfileController extends GetxController implements GetxService {
     update();
   }
 
+  String getGlassesStatus() {
+    return 'diabetes name == ${selectedGlasses == 'No' ? '0' : '1'}';
+  }
+
+
   var selectedBp= 'No';
   final List<String> bpOptions = ['No','Yes'];
 
-  void updateHealth(String val) {
+  void updateBp(String val) {
     selectedBp = val;
     update();
+  }
+
+  String getBpStatus() {
+    return 'diabetes name == ${selectedBp == 'No' ? '0' : '1'}';
   }
 
 
