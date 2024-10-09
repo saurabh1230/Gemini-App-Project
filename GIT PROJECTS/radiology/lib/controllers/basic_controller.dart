@@ -165,4 +165,45 @@ class BasicController extends GetxController {
     expandedItems[id] = !(expandedItems[id] ?? false);
     update();
   }
+
+
+  bool _isBasicDetailsLoading = false;
+  bool get isBasicDetailsLoading => _isBasicDetailsLoading;
+
+  CategoryNoteListModel? _basicDetails;
+  CategoryNoteListModel? get basicDetails => _basicDetails;
+
+  Future<CategoryNoteListModel?> getBasicDetailsApi(String? id) async {
+    print('munchies details APi ================>');
+    _isBasicDetailsLoading = true;
+    _basicDetails = null;
+    update();
+
+    try {
+      Response response = await basicRepo.getBasicDetails(id);
+
+      if (response.statusCode == 200) {
+        final data = response.body['data'];
+
+        if (data != null && data['basicshow'] != null) {
+          Map<String, dynamic> responseData = data['basicshow'];
+          _basicDetails = CategoryNoteListModel.fromJson(responseData);
+        } else {
+          // Handle case where datalist is null
+          print("basicshow is null");
+        }
+      } else {
+        // Handle non-200 status codes
+        print("Failed to load data: ${response.statusCode}");
+        // ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      // Handle exceptions
+      print("Exception occurred: $e");
+    }
+
+    _isBasicDetailsLoading = false;
+    update();
+    return _basicDetails;
+  }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:radiology/controllers/search_controller.dart';
 import 'package:radiology/features/screens/custom_appbar.dart';
@@ -7,15 +6,17 @@ import 'package:radiology/helper/route_helper.dart';
 import '../../../controllers/notes_controller.dart';
 import '../../../data/model/response/search_model.dart';
 import '../../../data/repo/note_repo.dart';
+import '../../../data/repo/spotters_repo.dart';
 
 class SearchScreen extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
 
+  final SpottersRepo spottersRp = Get.put(SpottersRepo(apiClient: Get.find()));
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar:CustomAppBar(title: 'Search',isBackButtonExist: true,),
+      appBar: const CustomAppBar(title: 'Search', isBackButtonExist: true),
       body: GetBuilder<SearchDataController>(
         builder: (controller) {
           return Column(
@@ -24,7 +25,7 @@ class SearchScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: TextField(
                   controller: _searchController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: 'Search here...',
                     border: OutlineInputBorder(),
                   ),
@@ -41,43 +42,77 @@ class SearchScreen extends StatelessWidget {
                   length: 6, // Number of tabs
                   child: Column(
                     children: [
-                      TabBar(
-                        tabs: [
-                          Tab(text: 'Notes'),
-                          Tab(text: 'Spotters'),
-                          Tab(text: 'OSCE'),
-                          Tab(text: 'Munchies'),
-                          Tab(text: 'Learn'),
-                          Tab(text: 'Basics'),
-                        ],
+                      const SingleChildScrollView(
+                        scrollDirection: Axis.horizontal, // Make tabs scrollable horizontally
+                        child: TabBar(
+                          isScrollable: true, // Allow tabs to slide
+                          tabs: [
+                            Tab(text: 'Notes'),
+                            Tab(text: 'Spotters'),
+                            Tab(text: 'OSCE'),
+                            Tab(text: 'Munchies'),
+                            Tab(text: 'Watch And Learn'),
+                            Tab(text: 'Back To Basics'),
+                          ],
+                        ),
                       ),
                       Expanded(
                         child: TabBarView(
                           children: [
-                            _buildTabContent(controller, controller.searchNoteList, (searchItem) {
-                              Get.toNamed(RouteHelper.getNotesDashboardRoute(
-                                  searchItem.id.toString(),
-                                  searchItem.title.toString()));
-                            }),
-                            _buildTabContent(controller, controller.searchSpottersList, (searchItem) {
-                              Get.toNamed(RouteHelper.getSpottersDetailsRoute(
-                                  searchItem.id.toString(),
-                                  searchItem.title.toString()));
-                            }),
-                            _buildTabContent(controller, controller.searchOsceList, (searchItem) {
-
-                            }),
-                            _buildTabContent(controller, controller.searchMunchiesList, (searchItem) {
-                              Get.toNamed(RouteHelper.getMunchesDetailsRoute(
-                                  searchItem.id.toString(),
-                                  searchItem.title.toString()));
-                            }),
-                            _buildTabContent(controller, controller.searchlearnList, (searchItem) {
-
-                            }),
-                            _buildTabContent(controller, controller.searchBasicsList, (searchItem) {
-
-                            }),
+                            _buildTabContent(
+                              controller,
+                              controller.searchNoteList,
+                                  (searchItem) {
+                                Get.toNamed(RouteHelper.getNoteDetailsRoute(
+                                    searchItem.id.toString(),
+                                    searchItem.title.toString()));
+                              },
+                            ),
+                            _buildTabContent(
+                              controller,
+                              controller.searchSpottersList,
+                                  (searchItem) {
+                                Get.toNamed(RouteHelper.getSpottersDetailsRoute(
+                                    searchItem.id.toString(),
+                                    searchItem.title.toString()));
+                              },
+                            ),
+                            _buildTabContent(
+                              controller,
+                              controller.searchOsceList,
+                                  (searchItem) {
+                                Get.toNamed(RouteHelper.getOsceDetailsRoute(
+                                    searchItem.id.toString(),
+                                    searchItem.title.toString()));
+                              },
+                            ),
+                            _buildTabContent(
+                              controller,
+                              controller.searchMunchiesList,
+                                  (searchItem) {
+                                Get.toNamed(RouteHelper.getMunchesDetailsRoute(
+                                    searchItem.id.toString(),
+                                    searchItem.title.toString()));
+                              },
+                            ),
+                            _buildTabContent(
+                              controller,
+                              controller.searchlearnList,
+                                  (searchItem) {
+                                Get.toNamed(RouteHelper.getWatchAndLearnDetailsRoute(
+                                    searchItem.id.toString(),
+                                    searchItem.title.toString()));
+                              },
+                            ),
+                            _buildTabContent(
+                              controller,
+                              controller.searchBasicsList,
+                                  (searchItem) {
+                                Get.toNamed(RouteHelper.getBasicDetailsRoute(
+                                    searchItem.id.toString(),
+                                    searchItem.title.toString()));
+                              },
+                            ),
                           ],
                         ),
                       ),

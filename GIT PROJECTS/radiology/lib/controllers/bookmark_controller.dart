@@ -56,7 +56,7 @@ class BookmarkController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _bookmarkList!.add(spottersListModel);
       _bookmarkIdList.add(spottersListModel.id);
-      showCustomSnackBar('Spotter Saved', isError: false);
+      showCustomSnackBar('Saved Successfully', isError: false);
       await _saveBookmarks();
     }
     update();
@@ -76,7 +76,7 @@ class BookmarkController extends GetxController implements GetxService {
         _bookmarkIdList.removeAt(idIndex);
         _bookmarkList!.removeAt(idIndex);
         getSavedSpottersPaginatedList('1');
-        showCustomSnackBar('Spotter Unsaved', isError: false);
+        showCustomSnackBar('Unsaved Successfully', isError: false);
         await _saveBookmarks();
       } else {
         // Handle the case where the id was not found
@@ -204,7 +204,7 @@ class BookmarkController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _bookmarkNoteList!.add(notesListModel);
       _bookmarkNoteIdList.add(notesListModel.id);
-      showCustomSnackBar('Note Saved', isError: false);
+      showCustomSnackBar('Saved Successfully', isError: false);
       await _saveNoteBookmarks();
     }
     update();
@@ -238,7 +238,7 @@ class BookmarkController extends GetxController implements GetxService {
         _bookmarkNoteIdList.removeAt(idIndex);
         _bookmarkNoteList!.removeAt(idIndex);
         getSavedNotesPaginatedList('1');
-        showCustomSnackBar('Note Unsaved', isError: false);
+        showCustomSnackBar('Unsaved Successfully', isError: false);
         await _saveNoteBookmarks();
       } else {
         // Handle the case where the id was not found
@@ -278,7 +278,7 @@ class BookmarkController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       _osceBookmarkList!.add(osceModel);
       _osceBookmarkIdList.add(osceModel.id);
-      showCustomSnackBar('OSCE Saved', isError: false);
+      showCustomSnackBar('Saved Successfully', isError: false);
       await _saveOsceBookmarks();
     }
     update();
@@ -312,7 +312,7 @@ class BookmarkController extends GetxController implements GetxService {
         _osceBookmarkIdList.removeAt(idIndex);
         _osceBookmarkList!.removeAt(idIndex);
         getSavedOscePaginatedList('1');
-        showCustomSnackBar('OSCE Unsaved', isError: false);
+        showCustomSnackBar('Unsaved Successfully', isError: false);
         await _saveOsceBookmarks();
       } else {
         // Handle the case where the id was not found
@@ -654,7 +654,7 @@ class BookmarkController extends GetxController implements GetxService {
         _bookmarkMunchieIdList.removeAt(idIndex);
         _bookmarkMunchieList!.removeAt(idIndex);
         getSavedMunchiesPaginatedList('1');
-        showCustomSnackBar('Munchies Unsaved', isError: false);
+        showCustomSnackBar('Unsaved Successfully', isError: false);
         await _saveMunchieBookmarks();
       } else {
         // Handle the case where the id was not found

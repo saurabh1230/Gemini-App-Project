@@ -92,9 +92,9 @@ class BookmarkScreen extends StatelessWidget {
             children: [
               isListEmpty && !spottersControl.isSavedSpottersLoading
                   ?   Padding(
-                padding: const EdgeInsets.only(top: Dimensions.paddingSize100),
+                padding: const EdgeInsets.only(top: 0),
                 child: Center(child: EmptyDataWidget(image: Images.emptyDataBlackImage,
-                  fontColor:  Theme.of(context).disabledColor, text: 'No Saved Spotter Yet',)),
+                  fontColor:  Theme.of(context).disabledColor, text: 'Nothing Available',)),
               )
                   :
               // isListEmpty

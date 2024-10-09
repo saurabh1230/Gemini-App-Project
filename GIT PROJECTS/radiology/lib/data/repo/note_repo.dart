@@ -23,7 +23,7 @@ class NoteRepo {
   }
 
   Future<Response> getNoteDetails(id) {
-    return apiClient.getData('${AppConstants.notesDetailsUrl}?id=$id');
+    return apiClient.getData('${AppConstants.noteDetailsUrl}?id=$id');
   }
 
 

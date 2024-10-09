@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:radiology/controllers/basic_controller.dart';
 import 'package:radiology/controllers/bookmark_controller.dart';
 import 'package:radiology/controllers/notes_controller.dart';
+import 'package:radiology/data/repo/basic_repo.dart';
 import 'package:radiology/data/repo/note_repo.dart';
 import 'package:radiology/features/screens/custom_appbar.dart';
 import 'package:radiology/features/screens/notes/components/notes_view_component.dart';
@@ -17,25 +19,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 
 
-class NotesDashboard extends StatelessWidget {
+class NoteDetailsScreen extends StatelessWidget {
   final String? categoryId;
   final String? categoryName;
+  NoteDetailsScreen({super.key, required this.categoryId, this.categoryName});
 
-  NotesDashboard({super.key, required this.categoryId, this.categoryName});
-  final NotesController notesController = Get.put(NotesController(noteRepo: Get.find()));
-  final NoteRepo notesRp = Get.put(NoteRepo(apiClient: Get.find()));
-  final LoopPageController _loopPageController = LoopPageController();
+  final NoteRepo noteRepo = Get.put(NoteRepo(apiClient: Get.find()));
+  final NotesController noteController = Get.put(NotesController(noteRepo: Get.find()));
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-
+      noteController.getNoteDetailsApi(categoryId);
     });
 
     return GetBuilder<NotesController>(builder: (noteControl) {
-      final noteList = noteControl.categoryNoteList;
-      final isListEmpty = noteList == null || noteList.isEmpty;
-      final pageIndex = noteControl.currentPageIndex.value;
+      final data = noteControl.noteDetails;
+      final isListEmpty = data == null;
+      final isLoading = noteControl.isNoteDetailsLoading;
 
       return SafeArea(
         child: Scaffold(
@@ -66,73 +67,49 @@ class NotesDashboard extends StatelessWidget {
                     ),
                     color: Theme.of(context).canvasColor,
                     child: Row(
-                      children: [
-                        Text(
-                          'Page ${pageIndex + 1}/${noteList?.length ?? 0}',
-                          style: poppinsRegular.copyWith(
-                            fontSize: Dimensions.fontSize10,
-                            color: Theme.of(context).cardColor,
-                          ),
-                        ),
-
-                      ],
+                      children: [],
                     ),
                   ),
-                  isListEmpty && !noteControl.isCategoryNoteLoading
-                      ? Padding(
-                    padding: const EdgeInsets.only(
-                        top: Dimensions.paddingSize100),
-                    child: Center(
+                  if (isListEmpty && !isLoading)
+                    Padding(
+                      padding: const EdgeInsets.only(top: Dimensions.paddingSize100),
+                      child: Center(
                         child: EmptyDataWidget(
                           text: 'No Notes Yet',
                           image: Images.emptyDataBlackImage,
                           fontColor: Theme.of(context).disabledColor,
-                        )),
-                  )
-                      : Expanded(
-                    child: LoopPageView.builder(
-                      controller: _loopPageController,
-                      itemCount: noteList?.length ?? 0,
-                      onPageChanged: (index) =>
-                          noteControl.updateIndex(index),
-                      itemBuilder: (context, i) {
-                        return GetBuilder<BookmarkController>(
-                            builder: (bookmarkControl) {
-                              bool isBookmarked = bookmarkControl
-                                  .bookmarkNoteIdList
-                                  .contains(noteList![i].id);
-                              return NotesViewComponent(
-                                title: noteList[i].title.toString(),
-                                question: noteList[i].content.toString(),
-                                saveNote: () {
-                                  isBookmarked
-                                      ? bookmarkControl
-                                      .removeNoteBookMarkList(int.parse(
-                                      noteList[i].id.toString()))
-                                      : bookmarkControl.addNoteBookMarkList(
-                                      '', noteList[i]);
-                                },
-                                saveNoteColor: isBookmarked
-                                    ? Theme.of(context).cardColor
-                                    : Theme.of(context)
-                                    .cardColor
-                                    .withOpacity(0.60),
-                              );
-                            });
-                      },
+                        ),
+                      ),
+                    )
+                  else if (!isListEmpty)
+                    Expanded(
+                      child: GetBuilder<BookmarkController>(builder: (bookmarkControl) {
+                        bool isBookmarked = bookmarkControl.bookmarkNoteIdList.contains(data.id);
+
+                        return NotesViewComponent(
+                          title: data.title.toString(), // Ensure data is not null
+                          question: data.content.toString(),
+                          saveNote: () {
+                            isBookmarked
+                                ? bookmarkControl.removeNoteBookMarkList(int.parse(data.id.toString()))
+                                : bookmarkControl.addNoteBookMarkList('', data);
+                          },
+                          saveNoteColor: isBookmarked
+                              ? Theme.of(context).cardColor
+                              : Theme.of(context).cardColor.withOpacity(0.60),
+                          isNotBookmark: true,
+                        );
+                      }),
                     ),
-                  ),
                 ],
               ),
-              if (noteControl.isCategoryNoteLoading)
-                const Center(child: LoaderWidget()),
+              if (isLoading) const Center(child: LoaderWidget()),
             ],
           ),
         ),
       );
     });
   }
-
-
 }
+
 

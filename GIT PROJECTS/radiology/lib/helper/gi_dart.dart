@@ -21,35 +21,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data/repo/munchies_repo.dart';
 
 
-Future<void>   init() async {
-  /// Repository
-
+Future<void> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   Get.lazyPut(() => sharedPreferences);
   Get.lazyPut(() => ApiClient(appBaseUrl: AppConstants.baseUrl, sharedPreferences: Get.find()));
 
 
-  // Repository
-
   Get.lazyPut(() => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(() => NoteRepo(apiClient: Get.find(),));
-  Get.lazyPut(() => SpottersRepo(apiClient: Get.find(),));
-  Get.lazyPut(() => MunchiesRepo(apiClient: Get.find(),));
-  Get.lazyPut(() => BasicRepo(apiClient: Get.find(),));
-  Get.lazyPut(() => WatchRepo(apiClient: Get.find(),));
+  Get.lazyPut(() => NoteRepo(apiClient: Get.find()));
+  Get.lazyPut(() => SpottersRepo(apiClient: Get.find()));
+  Get.lazyPut(() => MunchiesRepo(apiClient: Get.find()));
+  Get.lazyPut(() => WatchRepo(apiClient: Get.find()));
+  Get.lazyPut(() => BasicRepo(apiClient: Get.find()));
 
-
-  /// Controller
-
-  Get.lazyPut(() => AuthController(authRepo:  Get.find(),sharedPreferences: Get.find()));
-  Get.lazyPut(() => NotesController(noteRepo:  Get.find()));
-  Get.lazyPut(() => MunchiesController(munchiesRepo:  Get.find()));
-  Get.lazyPut(() => SpottersController(spottersRepo:  Get.find()));
-  Get.lazyPut(() => BookmarkController(spottersRepo:  Get.find()));
-  Get.lazyPut(() => BasicController(basicRepo:  Get.find()));
-  Get.lazyPut(() => WatchController(watchRepo:  Get.find()));
-  Get.lazyPut(() => SearchDataController(spottersRepo:  Get.find()));
-
-
-
+  // Register controllers after repositories
+  Get.lazyPut(() => AuthController(authRepo: Get.find(), sharedPreferences: Get.find()));
+  Get.lazyPut(() => NotesController(noteRepo: Get.find()));
+  Get.lazyPut(() => MunchiesController(munchiesRepo: Get.find()));
+  Get.lazyPut(() => SpottersController(spottersRepo: Get.find()));
+  Get.lazyPut(() => BookmarkController(spottersRepo: Get.find()));
+  Get.lazyPut(() => BasicController(basicRepo: Get.find()));
+  Get.lazyPut(() => WatchController(watchRepo: Get.find()));
+  Get.lazyPut(() => SearchDataController(spottersRepo: Get.find()));
 }
+

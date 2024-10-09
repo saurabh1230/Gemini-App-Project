@@ -44,8 +44,11 @@ class AppConstants {
   static const String savedMunchiesListUrl = 'category-munchie/get-munchie-bookmark';
   static const String savedBasicListUrl = 'basic-category/get-basic-bookmark';
   static const String searchUrl = 'search';
-  static const String notesDetailsUrl = 'note/note-details';
   static const String munchieDetailsUrl = 'munchies/show';
+  static const String osceDetailsUrl = 'osce/osce-details';
+  static const String basicDetailsUrl = 'basic/show';
+  static const String noteDetailsUrl = 'note/note-details';
+  static const String watchAndLearnDetailsUrl = 'watch-and-learn/show';
 
 
 

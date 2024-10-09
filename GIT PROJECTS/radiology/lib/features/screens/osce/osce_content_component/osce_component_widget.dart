@@ -20,6 +20,7 @@ class OsceComponentWidget extends StatelessWidget {
   final Color bookmarkColor;
   final VoidCallback onBookmarkTap;
   final VoidCallback imgClick;
+  final bool? isNotBookmark;
 
   const OsceComponentWidget({
     Key? key,
@@ -29,7 +30,7 @@ class OsceComponentWidget extends StatelessWidget {
     required this.onBookmarkTap,
     required this.questionCount,
     required this.questions,
-    required this.answers, required this.imgClick,
+    required this.answers, required this.imgClick,this.isNotBookmark = false
   }) : super(key: key);
 
   @override
@@ -76,6 +77,7 @@ class OsceComponentWidget extends StatelessWidget {
                       ),
                     ],
                   ),
+                  isNotBookmark! ? const SizedBox() :
                   Positioned(
                     top: 0,
                     right: Dimensions.paddingSizeDefault,

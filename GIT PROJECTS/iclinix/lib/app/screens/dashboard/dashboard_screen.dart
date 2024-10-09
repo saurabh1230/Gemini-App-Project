@@ -11,6 +11,8 @@ import 'package:iclinix/controller/auth_controller.dart';
 import 'package:iclinix/utils/dimensions.dart';
 import 'package:iclinix/utils/images.dart';
 
+import '../profile/profile_screen.dart';
+
 
 class DashboardScreen extends StatefulWidget {
   final int pageIndex;
@@ -42,7 +44,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       const HomeScreen(),
       AppointmentScreen(),
       const HomeScreen(),
-      HomeScreen(),
+      ProfileScreen(),
     ];
 
     Future.delayed(const Duration(seconds: 1), () {

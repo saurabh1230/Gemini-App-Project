@@ -79,6 +79,10 @@ class SpottersRepo {
     return await apiClient.getData('${AppConstants.searchUrl}?title=$title');
   }
 
+  Future<Response> getOsceDetails(id) {
+    return apiClient.getData('${AppConstants.osceDetailsUrl}?id=$id');
+  }
+
 
 
 }

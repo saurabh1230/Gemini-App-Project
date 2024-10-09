@@ -24,8 +24,6 @@ class MunchiesDetailScreen extends StatelessWidget {
   final String? categoryId;
   final String? categoryName;
   MunchiesDetailScreen({super.key, required this.categoryId, this.categoryName});
-  // final MunchiesController notesController = Get.put(MunchiesController(munchiesRepo: Get.find()));
-  // final MunchiesRepo notesRp = Get.put(MunchiesRepo(apiClient: Get.find()));
   final LoopPageController _loopPageController = LoopPageController();
   final ScrollController _scrollController = ScrollController();
 
@@ -83,18 +81,12 @@ class MunchiesDetailScreen extends StatelessWidget {
                           fontColor: Theme.of(context).disabledColor,
                         )),
                   ) : Expanded(
-                    child: NotesViewComponent(
+                    child: NotesViewComponent(isNotBookmark: true,
                       title: data!.title.toString(),
                       question: data.title.toString(),
                       saveNote: () {
-                        // isBookmarked
-                        //     ? bookmarkControl.removeMunchieBookMarkList(int.parse(
-                        //     noteList[i].id.toString())) : bookmarkControl.addMunchieBookMarkList(
-                        //     '', noteList[i]);
                       },
-                      saveNoteColor: /*isBookmarked
-                          ? Theme.of(context).cardColor
-                          :*/ Theme.of(context)
+                      saveNoteColor: Theme.of(context)
                           .cardColor
                           .withOpacity(0.60),
                     ),

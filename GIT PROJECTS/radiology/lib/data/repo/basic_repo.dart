@@ -22,6 +22,9 @@ class BasicRepo {
     return await apiClient.postData(AppConstants.savedBasicUrl, {"user_id": userId, "basic_id" : noteId});
   }
 
+  Future<Response> getBasicDetails(id) {
+    return apiClient.getData('${AppConstants.basicDetailsUrl}?id=$id');
+  }
 
 
 

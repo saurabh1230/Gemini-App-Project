@@ -77,8 +77,8 @@ class ClinicContentCard extends StatelessWidget {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                text: "Open",
-                                style: openSansSemiBold.copyWith(
+                                text: "Open: ",
+                                style: openSansRegular.copyWith(
                                     fontSize: Dimensions.fontSize12,
                                     color: greenColor), // Different color for "resend"
                               ),

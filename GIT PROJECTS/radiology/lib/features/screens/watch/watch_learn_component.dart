@@ -8,13 +8,14 @@ class WatchLearnComponent extends StatefulWidget {
   final String videoUrl;
   final Function() saveNote;
   final Color saveNoteColor;
+  final bool? isNotBookmark;
 
   const WatchLearnComponent({
     super.key,
     required this.title,
     required this.videoUrl,
     required this.saveNote,
-    required this.saveNoteColor,
+    required this.saveNoteColor,this.isNotBookmark = false
   });
 
   @override
@@ -99,6 +100,7 @@ class _WatchLearnComponentState extends State<WatchLearnComponent> {
                     ),
                   ),
                 ),
+                widget.isNotBookmark! ? const SizedBox() :
                 InkWell(
                   onTap: widget.saveNote,
                   child: Container(

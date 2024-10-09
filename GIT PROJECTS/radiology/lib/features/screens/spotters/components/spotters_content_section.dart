@@ -19,6 +19,7 @@ class SpotterContentWidget extends StatelessWidget {
   final Function() onTap;
   final Function() onBookMarkTap;
   final Color bookmarkIconColor;
+  final bool? isNotBookmark;
 
   const SpotterContentWidget({
     required this.onTap,
@@ -27,6 +28,7 @@ class SpotterContentWidget extends StatelessWidget {
     required this.categoryContent,
     required this.onBookMarkTap,
     required this.bookmarkIconColor,
+    this.isNotBookmark = false,
     Key? key,
   }) : super(key: key);
 
@@ -77,6 +79,8 @@ class SpotterContentWidget extends StatelessWidget {
                         ),
                       ],
                     ),
+
+                    isNotBookmark! ? const SizedBox() :
                     Positioned(
                       top: 0,
                       right: Dimensions.paddingSizeDefault,

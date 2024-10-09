@@ -77,7 +77,7 @@ class SavedOsceScreen extends StatelessWidget {
                         child: EmptyDataWidget(
                       image: Images.emptyDataBlackImage,
                       fontColor: Theme.of(context).disabledColor,
-                      text: 'Nothing Yet',
+                      text: 'Nothing Available',
                     )),
                   )
                 :
@@ -94,13 +94,9 @@ class SavedOsceScreen extends StatelessWidget {
                        return OsceComponentWidget(
                          imageUrl: '${AppConstants.osceImageUrl}${list[i].image}',
                          title: '${list[i].title}',
-                         bookmarkColor: isBookmarked
-                             ? Theme.of(context).cardColor
-                             : Theme.of(context).cardColor.withOpacity(0.60),
+                         bookmarkColor: Theme.of(context).cardColor,
                          onBookmarkTap: () {
-                           isBookmarked
-                               ? bookmarkControl.removeOsceBookmark(list[i].id)
-                               : bookmarkControl.addOsceBookmark('', list[i]);
+                            bookmarkControl.removeOsceBookmark(list[i].id);
                          },
                          questionCount: list[i].question?.length ?? 0,
                          questions: list[i].question!.map((q) => q.question.toString()).toList(),

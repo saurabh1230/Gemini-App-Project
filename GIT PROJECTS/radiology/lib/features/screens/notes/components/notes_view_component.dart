@@ -15,7 +15,8 @@ class NotesViewComponent extends StatelessWidget {
   final String question;
   final Function() saveNote;
   final Color saveNoteColor;
-  const NotesViewComponent({super.key, required this.title, required this.question, required this.saveNote, required this.saveNoteColor});
+  final bool? isNotBookmark;
+  const NotesViewComponent({super.key, required this.title, required this.question, required this.saveNote, required this.saveNoteColor, this.isNotBookmark = false});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class NotesViewComponent extends StatelessWidget {
                   // overflow: TextOverflow.ellipsis,
                   style: poppinsSemiBold.copyWith(fontSize: Dimensions.fontSizeDefault,color: Theme.of(context).disabledColor),),
                 ),
+                isNotBookmark! ? SizedBox() :
                 InkWell(
                   onTap: saveNote,
                   child: Container(

@@ -167,4 +167,46 @@ class WatchController extends GetxController {
   }
 
 
+  bool _isWatchAndLearnDetailsLoading = false;
+  bool get isWatchAndLearnDetailsLoading => _isWatchAndLearnDetailsLoading;
+
+  WatchLearnModel? _watchAndLearnDetails;
+  WatchLearnModel? get watchAndLearnDetails => _watchAndLearnDetails;
+
+  Future<WatchLearnModel?> getWatchAndLearnDetailsApi(String? id) async {
+    print('munchies details APi ================>');
+    _isWatchAndLearnDetailsLoading = true;
+    _watchAndLearnDetails = null;
+    update();
+
+    try {
+      Response response = await watchRepo.getWatchAndLearnDetails(id);
+
+      if (response.statusCode == 200) {
+        final data = response.body['data'];
+
+        if (data != null && data['watchshow'] != null) {
+          Map<String, dynamic> responseData = data['watchshow'];
+          _watchAndLearnDetails = WatchLearnModel.fromJson(responseData);
+        } else {
+          // Handle case where datalist is null
+          print("watchshow is null");
+        }
+      } else {
+        // Handle non-200 status codes
+        print("Failed to load data: ${response.statusCode}");
+        // ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      // Handle exceptions
+      print("Exception occurred: $e");
+    }
+
+    _isWatchAndLearnDetailsLoading = false;
+    update();
+    return _watchAndLearnDetails;
+  }
+
+
+
 }

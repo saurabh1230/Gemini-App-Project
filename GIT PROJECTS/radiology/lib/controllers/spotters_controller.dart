@@ -123,10 +123,10 @@ class SpottersController extends GetxController implements GetxService {
   bool _isSpottersDetailsLoading = false;
   bool get isSpottersDetailsLoading => _isSpottersDetailsLoading;
 
-  SpottersDetailsModel? _spottersDetails;
-  SpottersDetailsModel? get spottersDetails => _spottersDetails;
+  SpottersListModel? _spottersDetails;
+  SpottersListModel? get spottersDetails => _spottersDetails;
 
-  Future<SpottersDetailsModel?> getSpottersDetailsApi(String? id) async {
+  Future<SpottersListModel?> getSpottersDetailsApi(String? id) async {
     _isSpottersDetailsLoading = true;
     _spottersDetails = null;
     update();
@@ -139,7 +139,7 @@ class SpottersController extends GetxController implements GetxService {
 
         if (data != null && data['datalist'] != null) {
           Map<String, dynamic> responseData = data['datalist'];
-          _spottersDetails = SpottersDetailsModel.fromJson(responseData);
+          _spottersDetails = SpottersListModel.fromJson(responseData);
         } else {
           // Handle case where datalist is null
           print("datalist is null");
@@ -211,6 +211,57 @@ class SpottersController extends GetxController implements GetxService {
       update();
     }
   }
+
+
+  bool _isOsceDetailsLoading = false;
+  bool get isOsceDetailsLoading => _isOsceDetailsLoading;
+
+  OsceModel? _osceDetails;
+  OsceModel? get osceDetails => _osceDetails;
+
+  Future<OsceModel?> getOsceDetailsApi(String? id) async {
+    _isOsceDetailsLoading = true;
+    _osceDetails = null;
+    update();
+
+    try {
+      Response response = await spottersRepo.getOsceDetails(id);
+
+      if (response.statusCode == 200) {
+        final data = response.body['data'];
+
+        if (data != null && data['datalist'] != null) {
+          // Access the 'datalist' object directly
+          Map<String, dynamic> datalist = data['datalist'];
+
+          // Check if 'question' exists and is a list
+          if (datalist['question'] != null && datalist['question'] is List) {
+            List<dynamic> questions = datalist['question'];
+
+            // Assuming you map this to an OsceModel, pass the full datalist to the model
+            _osceDetails = OsceModel.fromJson(datalist);
+          } else {
+            print("Questions list is null or not a list");
+          }
+        } else {
+          // Handle case where datalist is null
+          print("datalist is null");
+        }
+      } else {
+        // Handle non-200 status codes
+        print("Failed to load data: ${response.statusCode}");
+      }
+    } catch (e) {
+      // Handle exceptions
+      print("Exception occurred: $e");
+    }
+
+    _isOsceDetailsLoading = false;
+    update();
+    return _osceDetails;
+  }
+
+
 
 
 

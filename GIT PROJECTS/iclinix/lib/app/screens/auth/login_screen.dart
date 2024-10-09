@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iclinix/app/widget/custom_button_widget.dart';
 import 'package:iclinix/app/widget/custom_textfield.dart';
+import 'package:iclinix/controller/auth_controller.dart';
 import 'package:iclinix/helper/route_helper.dart';
 import 'package:iclinix/utils/dimensions.dart';
 import 'package:iclinix/utils/images.dart';
@@ -9,7 +10,7 @@ import 'package:iclinix/utils/sizeboxes.dart';
 import 'package:iclinix/utils/styles.dart';
 
 class LoginScreen extends StatelessWidget {
-   LoginScreen({super.key});
+  LoginScreen({super.key});
   final _phoneController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
@@ -18,7 +19,8 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       body: Form(
         key: _formKey,
-        child: Stack(
+        child:
+        Stack(
           children: [
             // Background Image
             Positioned.fill(
@@ -38,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                     child: Text(
-                      'Login/Register',
+                      'Login / Register',
                       style: openSansExtraBold.copyWith(
                         fontSize: Dimensions.fontSize32,
                         color: Theme.of(context).cardColor,
@@ -66,6 +68,7 @@ class LoginScreen extends StatelessWidget {
                             color: Theme.of(context).disabledColor.withOpacity(0.40) ),),
                         sizedBox12(),
                         CustomTextField(
+                          maxLength: 10,
                           isNumber: true,
                           inputType: TextInputType.number,
                           controller: _phoneController,
@@ -80,16 +83,49 @@ class LoginScreen extends StatelessWidget {
                             return null;
                           },
                         ),
+                        // sizedBox10(),
+                        // InkWell(
+                        //   onTap: () {
+                        //     // Get.toNamed(RouteHelper.getLoginRoute());
+                        //     Get.toNamed(RouteHelper.getLetsBeginRoute());
+                        //   },
+                        //   child: RichText(
+                        //     text: TextSpan(
+                        //       children: [
+                        //         TextSpan(
+                        //           text: "Already a Member? ",
+                        //           style: openSansRegular.copyWith(
+                        //             fontSize: Dimensions.fontSize14,
+                        //             color: Theme.of(context).disabledColor.withOpacity(0.40),
+                        //           ),
+                        //         ),
+                        //         TextSpan(
+                        //           text: "Login",
+                        //           style: openSansBold.copyWith(
+                        //             fontSize: Dimensions.fontSize14,
+                        //             color: Theme.of(context).primaryColor,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         sizedBox30(),
-                        CustomButtonWidget(
-                          buttonText: "Continue",
-                          onPressed: () {
-                            if(_formKey.currentState!.validate()) {
-                              Get.toNamed(RouteHelper.getOtpVerificationRoute(_phoneController.text));
 
-                            }
-                          },
-                        ),
+                        GetBuilder<AuthController>(builder: (authControl) {
+                          return  authControl.isLoginLoading ?
+                          const Center(child: CircularProgressIndicator()) :
+                          CustomButtonWidget(
+                            buttonText: "Continue",
+                            onPressed: () {
+                              if(_formKey.currentState!.validate()) {
+                                authControl.sendOtpApi(_phoneController.text);
+                              }
+                            },
+                          );
+
+                        })
+
 
                       ],
                     ),

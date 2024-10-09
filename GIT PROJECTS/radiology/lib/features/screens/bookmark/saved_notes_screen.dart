@@ -79,7 +79,7 @@ class SavedNoteScreen extends StatelessWidget {
                 isListEmpty && !spottersControl.isSavedNotesLoading ? Padding(
                   padding: const EdgeInsets.only(top: 0),
                   child: Center(child: EmptyDataWidget(image: Images.emptyDataBlackImage,
-                    fontColor:  Theme.of(context).disabledColor, text: 'No Saved Notes Yet',)),
+                    fontColor:  Theme.of(context).disabledColor, text: 'Nothing Available',)),
                 ) :
                 // isListEmpty
                 //   ? const Center(child: LoaderWidget()) :

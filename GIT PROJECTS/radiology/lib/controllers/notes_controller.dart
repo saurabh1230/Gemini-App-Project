@@ -199,4 +199,46 @@ class NotesController extends GetxController {
   expandedItems[id] = !(expandedItems[id] ?? false);
   update();
  }
+
+
+ bool _isNoteDetailsLoading = false;
+ bool get isNoteDetailsLoading => _isNoteDetailsLoading;
+
+ CategoryNoteListModel? _noteDetails;
+
+ CategoryNoteListModel? get noteDetails => _noteDetails;
+
+ Future<CategoryNoteListModel?> getNoteDetailsApi(String? id) async {
+  print('munchies details APi ================>');
+  _isNoteDetailsLoading = true;
+  _noteDetails = null;
+  update();
+
+  try {
+   Response response = await noteRepo.getNoteDetails(id);
+
+   if (response.statusCode == 200) {
+    final data = response.body['data'];
+
+    if (data != null && data['datalist'] != null) {
+     Map<String, dynamic> responseData = data['datalist'];
+     _noteDetails = CategoryNoteListModel.fromJson(responseData);
+    } else {
+     // Handle case where datalist is null
+     print("basicshow is null");
+    }
+   } else {
+    // Handle non-200 status codes
+    print("Failed to load data: ${response.statusCode}");
+    // ApiChecker.checkApi(response);
+   }
+  } catch (e) {
+   // Handle exceptions
+   print("Exception occurred: $e");
+  }
+
+  _isNoteDetailsLoading = false;
+  update();
+  return _noteDetails;
+ }
 }

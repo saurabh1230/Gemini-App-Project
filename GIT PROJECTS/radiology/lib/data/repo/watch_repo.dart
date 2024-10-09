@@ -25,6 +25,10 @@ class WatchRepo {
     return await apiClient.postData(AppConstants.savedWatch, {"user_id": userId, "watch_id" : noteId});
   }
 
+  Future<Response> getWatchAndLearnDetails(id) {
+    return apiClient.getData('${AppConstants.watchAndLearnDetailsUrl}?id=$id');
+  }
+
 
 
 }

@@ -20,5 +20,8 @@ class Images {
   static const String imgReferHomeBanner = 'assets/images/img_refer_friend_banner.png';
   static const String imgBookAppointmentHomeBanner = 'assets/images/img_book_appointment_home_banner.png';
   static const String imgDiabetesHomeBanner = 'assets/images/img_diabetes_home_banner.png';
+  static const String icBookingSuccessful = 'assets/icons/ic_booking_successful.png';
+  static const String placeholder = 'assets/images/img_placeholder.png';
+  static const String icProfilePlaceholder = 'assets/images/ic_profile_placeholder.png';
 
 }

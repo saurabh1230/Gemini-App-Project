@@ -5,7 +5,6 @@ import 'package:iclinix/utils/styles.dart';
 import '../../utils/dimensions.dart';
 import '../../utils/themes/light_theme.dart';
 
-
 class CustomTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController? controller;
@@ -34,6 +33,8 @@ class CustomTextField extends StatefulWidget {
   final bool editText; // New property to show edit text suffix
   final FormFieldValidator<String>? validation;
   final Function()? onTap;
+  final bool isCalenderIcon;
+  final int? maxLength; // New property for maximum character limit
 
   const CustomTextField({
     super.key,
@@ -62,7 +63,10 @@ class CustomTextField extends StatefulWidget {
     this.isRequired = false,
     this.readOnly = false,
     this.editText = false,
-    this.validation, this.onTap,
+    this.validation,
+    this.onTap,
+    this.isCalenderIcon = false,
+    this.maxLength, // Initialize new property
   });
 
   @override
@@ -84,7 +88,6 @@ class CustomTextFieldState extends State<CustomTextField> {
         )
             : const SizedBox(),
         SizedBox(height: widget.showTitle ? 5 : 0),
-
         TextFormField(
           onTap: widget.onTap,
           validator: widget.validation,
@@ -107,7 +110,7 @@ class CustomTextFieldState extends State<CustomTextField> {
               : widget.isNumber
               ? [
             FilteringTextInputFormatter.allow(RegExp(r'\d')),
-            LengthLimitingTextInputFormatter(10),
+            LengthLimitingTextInputFormatter(widget.maxLength ?? 10), // Set maxLength if provided
           ]
               : widget.isPhone
               ? [
@@ -151,52 +154,41 @@ class CustomTextFieldState extends State<CustomTextField> {
             ),
             isDense: true,
             hintText: widget.hintText,
-            errorStyle: openSansRegular.copyWith(fontSize: Dimensions.fontSize12,color: redColor),
+            errorStyle: openSansRegular.copyWith(fontSize: Dimensions.fontSize12, color: redColor),
             fillColor: Theme.of(context).cardColor,
-            hintStyle: TextStyle(
-              fontSize: 14,
-              color: Theme.of(context)
-                  .disabledColor
-                  .withOpacity(0.40),
-            ),
+            hintStyle: openSansRegular.copyWith(fontSize: Dimensions.fontSize14, color: Theme.of(context).hintColor),
             filled: true,
             prefixIcon: widget.isPhone
                 ? SizedBox(
               width: 55,
               child: Row(
-                children:  [
+                children: [
                   const SizedBox(width: 5),
                   Text(
                     " + 91",
                     style: TextStyle(
-                      color: Theme.of(context)
-                          .disabledColor
-                          .withOpacity(0.40),
+                      color: Theme.of(context).disabledColor.withOpacity(0.40),
                     ),
                   ),
                   const SizedBox(width: 5),
                   Container(
                     height: 20,
                     width: 2,
-                    color: Theme.of(context)
-                        .disabledColor
-                        .withOpacity(0.40),
+                    color: Theme.of(context).disabledColor.withOpacity(0.40),
                   ),
                 ],
               ),
             )
                 : widget.prefixImage != null && widget.prefixIcon == null
                 ? Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Image.asset(
                 widget.prefixImage!,
                 height: 20,
                 width: 20,
               ),
             )
-                : widget.prefixImage == null &&
-                widget.prefixIcon != null
+                : widget.prefixImage == null && widget.prefixIcon != null
                 ? Icon(
               widget.prefixIcon,
               size: widget.iconSize,
@@ -205,37 +197,23 @@ class CustomTextFieldState extends State<CustomTextField> {
             suffixIcon: widget.isPassword
                 ? IconButton(
               icon: Icon(
-                _obscureText
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                color: Theme.of(context)
-                    .primaryColor,
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: Theme.of(context).primaryColor,
               ),
               onPressed: _toggle,
             )
                 : widget.editText
                 ? Container(
               width: 60,
-              child: Row(
-                children: [
-                  Icon(Icons.edit,
-                    color: Theme.of(context).primaryColor,),
-                  sizedBoxW5(),
-                  Text("Edit",style: openSansRegular.copyWith(fontSize: Dimensions.fontSize12,
-                      color: Theme.of(context).primaryColor),)
-                ],
+              child: Icon(
+                widget.isCalenderIcon ? Icons.calendar_month : Icons.edit,
+                color: Theme.of(context).primaryColor,
               ),
             )
                 : null,
           ),
-          // onSubmitted: (text) => widget.nextFocus != null
-          //     ? FocusScope.of(context).requestFocus(widget.nextFocus)
-          //     : widget.onSubmit != null
-          //     ? widget.onSubmit!(text)
-          //     : null,
           onChanged: widget.onChanged as void Function(String)?,
         ),
-
         widget.divider
             ? const Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),

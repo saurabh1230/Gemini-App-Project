@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:radiology/data/repo/spotters_repo.dart';
@@ -10,13 +9,13 @@ import 'controllers/munchies_controller.dart';
 import 'data/api/api_client.dart';
 import 'data/repo/munchies_repo.dart';
 import 'helper/gi_dart.dart' as di;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+
+  // Initialize dependencies
   await di.init();
-  Get.lazyPut<MunchiesRepo>(() => MunchiesRepo(apiClient: Get.find<ApiClient>()));
-  Get.lazyPut<SpottersRepo>(() => SpottersRepo(apiClient: Get.find<ApiClient>()));
-  Get.lazyPut<MunchiesController>(() => MunchiesController(munchiesRepo: Get.find<MunchiesRepo>()));
 
   runApp(const MyApp());
 }
@@ -29,7 +28,6 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -49,4 +47,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
