@@ -17,6 +17,9 @@ class AuthController extends GetxController implements GetxService {
   final SharedPreferences sharedPreferences;
   AuthController({required this.authRepo,required this.sharedPreferences, }) ;
 
+  bool isLoggedIn() {
+    return authRepo.isLoggedIn();
+  }
   DateTime? selectedDate;
   String? formattedDate;
 

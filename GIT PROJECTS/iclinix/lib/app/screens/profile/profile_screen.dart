@@ -19,11 +19,13 @@ class ProfileScreen extends StatelessWidget {
    final _lastNameController = TextEditingController();
    final _dateController = TextEditingController();
    final _addressController = TextEditingController();
+   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'My Profile',isBackButtonExist: true,
+      key: _scaffoldKey,
+      appBar: CustomAppBar(title: 'My Profile',
         menuWidget: Row(
           children: [
             NotificationButton(tap: () {}),
@@ -167,18 +169,18 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   sizedBox10(),
 
-                  CustomTextField(
-                    showTitle: true,
-                    maxLines: 3,
-                    validation: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your Address';
-                      }
-                      return null;
-                    },
-                    controller: _addressController,
-                    hintText: 'Address',
-                  ),
+                  // CustomTextField(
+                  //   showTitle: true,
+                  //   maxLines: 3,
+                  //   validation: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Please enter your Address';
+                  //     }
+                  //     return null;
+                  //   },
+                  //   controller: _addressController,
+                  //   hintText: 'Address',
+                  // ),
                   sizedBox20(),
                   Text('ACCOUNT DETAILS',style: openSansSemiBold.copyWith(
                       fontSize: Dimensions.fontSize14,color: Theme.of(context).hintColor
@@ -244,6 +246,7 @@ class ProfileScreen extends StatelessWidget {
                     },
                     showTitle: true,
                   ),
+                  sizedBox20(),
                   CustomButtonWidget(
                     buttonText: "Continue",
                     onPressed: () {

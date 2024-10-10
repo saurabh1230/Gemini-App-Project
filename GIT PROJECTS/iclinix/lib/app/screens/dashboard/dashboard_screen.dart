@@ -11,6 +11,7 @@ import 'package:iclinix/controller/auth_controller.dart';
 import 'package:iclinix/utils/dimensions.dart';
 import 'package:iclinix/utils/images.dart';
 
+import '../diabetic/diabetic_screen.dart';
 import '../profile/profile_screen.dart';
 
 
@@ -41,7 +42,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
     _screens = [
       const HomeScreen(),
-      const HomeScreen(),
+      const DiabeticScreen(),
       AppointmentScreen(),
       const HomeScreen(),
       ProfileScreen(),

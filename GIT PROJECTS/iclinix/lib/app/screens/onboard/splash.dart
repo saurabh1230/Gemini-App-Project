@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:iclinix/controller/auth_controller.dart';
 import 'package:iclinix/helper/route_helper.dart';
 import 'package:iclinix/utils/dimensions.dart';
 import 'package:iclinix/utils/images.dart';
@@ -21,9 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _route() {
+    final AuthController authController = Get.find<AuthController>();
     Timer(const Duration(seconds: 1), () async {
-      Get.toNamed(RouteHelper.getLoginRoute());
-
+      if (Get.find<AuthController>().isLoggedIn()) {
+        Get.offNamed(RouteHelper.getDashboardRoute());
+      } else {
+        Get.offNamed(RouteHelper.getLoginRoute());
+      }
     });
   }
   @override

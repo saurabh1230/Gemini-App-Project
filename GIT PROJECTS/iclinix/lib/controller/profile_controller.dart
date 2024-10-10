@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import '../data/repo/profile_repo.dart';
 import '../data/api/api_client.dart';
 import 'package:http_parser/http_parser.dart';
-
 import '../helper/date_converter.dart';
 
 class ProfileController extends GetxController implements GetxService {
@@ -103,7 +102,6 @@ class ProfileController extends GetxController implements GetxService {
     update();
 
     Response response = await profileRepo.updateProfileRepo(firstname, lastname, dob, diabetesProblem, bpProblem, eyeProblem,gender);
-
     if(response.statusCode == 200) {
       var responseData = response.body;
       if(responseData["Msg"]  == "Data Updated Successfully") {

@@ -9,6 +9,8 @@ class AppConstants {
   static const String sendOtpUrl = "authenticate";
   static const String verifyOtpUrl = "verify-otp";
   static const String updateProfileUrl = "update/my-profile";
+  static const String myProfileUrl = "my-profile";
+  static const String planListUrl = "plan-list";
 
 
 

@@ -23,5 +23,7 @@ class Images {
   static const String icBookingSuccessful = 'assets/icons/ic_booking_successful.png';
   static const String placeholder = 'assets/images/img_placeholder.png';
   static const String icProfilePlaceholder = 'assets/images/ic_profile_placeholder.png';
+  static const String icDiabeticBanner = 'assets/images/ic_diabetic_banner.png';
+  static const String icEmptyDataHolder = 'assets/icons/ic_empty_data_holder.png';
 
 }

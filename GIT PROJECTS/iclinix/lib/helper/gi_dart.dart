@@ -4,6 +4,7 @@ import 'package:iclinix/controller/appointment_controller.dart';
 import 'package:iclinix/controller/auth_controller.dart';
 import 'package:iclinix/controller/profile_controller.dart';
 import 'package:iclinix/data/api/api_client.dart';
+import 'package:iclinix/data/repo/appointment_repo.dart';
 import 'package:iclinix/data/repo/auth_repo.dart';
 import 'package:iclinix/data/repo/profile_repo.dart';
 import 'package:iclinix/utils/app_constants.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 Future<void>   init() async {
+
   /// Repository
   final sharedPreferences = await SharedPreferences.getInstance();
   Get.lazyPut(() => sharedPreferences);
@@ -18,15 +20,15 @@ Future<void>   init() async {
 
 
 
-
   Get.lazyPut(() => AuthRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
   Get.lazyPut(() => ProfileRepo(apiClient: Get.find()));
+  Get.lazyPut(() => AppointmentRepo(apiClient: Get.find()));
 
 
 
   /// Controller
   Get.lazyPut(() => AuthController(authRepo: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(() => AppointmentController());
+  Get.lazyPut(() => AppointmentController(appointmentRepo:  Get.find(), apiClient: Get.find()));
   Get.lazyPut(() => ProfileController(profileRepo: Get.find(), apiClient: Get.find()));
 
 
